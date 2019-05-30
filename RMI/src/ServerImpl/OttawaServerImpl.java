@@ -67,7 +67,7 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     }
 
     @Override
-    public String listEventAvailability(String eventType) throws RemoteException {
+    public ArrayList listEventAvailability(String eventType) throws RemoteException {
         return null;
     }
 

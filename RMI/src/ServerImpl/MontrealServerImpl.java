@@ -15,13 +15,11 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author 
+ * @author Gursimran Singh
  */
 public class MontrealServerImpl extends UnicastRemoteObject implements ServerInterface {
 
-    /**
-     * @param args the command line arguments
-     */
+
     private static HashMap<String, HashMap< String, Object>> databaseMontreal = new HashMap<>();
     private static  HashMap<String, ArrayList<String>> customerEventsMapping = new HashMap<>();
     private static  Logger logger;
@@ -59,7 +57,14 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
 
     @Override
     public String addEvent(String eventID, String eventType, int bookingCapacity) throws RemoteException {
-        return null;
+        System.out.println("Add Event Called in Montreal");
+        if (!databaseMontreal.get(eventType).containsKey(eventID))
+        {
+            databaseMontreal.get(eventType).put(eventID,bookingCapacity);
+           // System.out.println("Event added "+eventID);
+        }
+
+        return eventID+"BALLE";
     }
 
     @Override
@@ -68,7 +73,7 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
     }
 
     @Override
-    public String listEventAvailability(String eventType) throws RemoteException {
+    public ArrayList listEventAvailability(String eventType) throws RemoteException {
         return null;
     }
 

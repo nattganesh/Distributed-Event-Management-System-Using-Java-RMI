@@ -12,7 +12,6 @@ import ServerImpl.TorontoServerImpl;
 import ServerInterface.ServerInterface;
 import java.io.IOException;
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
@@ -64,10 +63,21 @@ public class Client {
         ServerInterface server;
         try
         {
+            System.out.println("Customer Service");
             Registry registry = LocateRegistry.getRegistry(getServerPort(serverId));
+            System.out.println("HELLOq");
+
             LOGGER = Logger.getLogger(getServerClassName(serverId));
-            CommonUtils.addFileHandler(LOGGER, serverId + "C" + clientID);
+            System.out.println("HELLO2");
+
+            //CommonUtils.addFileHandler(LOGGER, serverId + "C" + clientID);
+            System.out.println("HELLO3");
+
             server = (ServerInterface) registry.lookup(getServerName(serverId));
+            System.out.println("HELLO4");
+            System.out.println(server.getClass().getName());
+            String out = server.addEvent("OTWA100519", "Conferences",3);
+            System.out.println(out);
         }
         catch (SecurityException | IOException ex)
         {
@@ -84,6 +94,7 @@ public class Client {
         ServerInterface server;
         try
         {
+            //System.out.println("Welcome Manager");
             Registry registry = LocateRegistry.getRegistry(getServerPort(serverId));
             LOGGER = Logger.getLogger(getServerClassName(serverId));
             CommonUtils.addFileHandler(LOGGER, serverId + "M" + clientID);

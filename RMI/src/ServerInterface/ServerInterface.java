@@ -6,6 +6,7 @@
 package ServerInterface;
 
 import java.rmi.Remote;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,7 +16,7 @@ public interface ServerInterface extends Remote {
     //Manager Operations
     String addEvent (String eventID, String eventType, int bookingCapacity) throws java.rmi.RemoteException;
     String removeEvent (String eventID, String eventType) throws  java.rmi.RemoteException;
-    String listEventAvailability (String eventType) throws java.rmi.RemoteException;
+    ArrayList listEventAvailability (String eventType) throws java.rmi.RemoteException;
 
     //Customer Operations
     String bookEvent (String customerID, String eventID, String eventType) throws java.rmi.RemoteException;

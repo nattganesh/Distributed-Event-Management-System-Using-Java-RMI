@@ -28,7 +28,7 @@ public class CommonUtils {
     public static final String OTTAWA_SERVER_NAME = "OTTAWA";
 
     public static final int TORONTO_SERVER_PORT = 6666;
-    public static final int MONTREAL_SERVER_PORT = 5555;
+    public static final int MONTREAL_SERVER_PORT = 1234;
     public static final int OTTAWA_SERVER_PORT = 4444;
 
     public static void addFileHandler(Logger log, String fileName) throws SecurityException, IOException

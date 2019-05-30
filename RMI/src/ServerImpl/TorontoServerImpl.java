@@ -69,7 +69,7 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
     }
 
     @Override
-    public String listEventAvailability(String eventType) throws RemoteException {
+    public ArrayList listEventAvailability(String eventType) throws RemoteException {
         return null;
     }
 
