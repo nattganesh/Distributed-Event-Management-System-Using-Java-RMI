@@ -70,7 +70,7 @@ public class Client {
             LOGGER = Logger.getLogger(getServerClassName(serverId));
             System.out.println("HELLO2");
 
-            //CommonUtils.addFileHandler(LOGGER, serverId + "C" + clientID);
+            CommonUtils.addFileHandler(LOGGER, serverId + "C" + clientID);
             System.out.println("HELLO3");
 
             server = (ServerInterface) registry.lookup(getServerName(serverId));
@@ -94,7 +94,7 @@ public class Client {
         ServerInterface server;
         try
         {
-            //System.out.println("Welcome Manager");
+            System.out.println("Welcome Manager");
             Registry registry = LocateRegistry.getRegistry(getServerPort(serverId));
             LOGGER = Logger.getLogger(getServerClassName(serverId));
             CommonUtils.addFileHandler(LOGGER, serverId + "M" + clientID);

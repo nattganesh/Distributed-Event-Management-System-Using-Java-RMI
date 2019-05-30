@@ -6,7 +6,6 @@
 package Server;
 
 import CommonUtils.CommonUtils;
-import ServerImpl.MontrealServerImpl;
 import ServerImpl.TorontoServerImpl;
 
 import java.rmi.AlreadyBoundException;
@@ -25,7 +24,7 @@ public class TorontoServer {
      */
     public static void main(String[] args) throws RemoteException {
         // TODO code application logic here
-        System.out.println("Server Started");
+        System.out.println("Toronto Server Started");
 
         TorontoServerImpl torontoServerStub = new TorontoServerImpl();
 

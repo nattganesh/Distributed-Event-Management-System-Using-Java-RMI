@@ -5,12 +5,15 @@
  */
 package ServerImpl;
 
+import CommonUtils.CommonUtils;
 import ServerInterface.ServerInterface;
+import java.io.IOException;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -55,7 +58,15 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
 
     public TorontoServerImpl() throws RemoteException {
         super();
-        logger = Logger.getLogger(OttawaServerImpl.class.getName());
+        logger = Logger.getLogger(TorontoServerImpl.class.getName());
+        try
+        {
+            CommonUtils.addFileHandler(logger, "Toronto_Server");
+        }
+        catch (SecurityException | IOException ex)
+        {
+            Logger.getLogger(MontrealServerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

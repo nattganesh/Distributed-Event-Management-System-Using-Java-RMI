@@ -6,7 +6,6 @@
 package Server;
 
 import CommonUtils.CommonUtils;
-import ServerImpl.MontrealServerImpl;
 import ServerImpl.OttawaServerImpl;
 
 import java.rmi.AlreadyBoundException;
@@ -26,7 +25,7 @@ public class OttawaServer {
 
     public static void main(String[] args) throws RemoteException {
         // TODO code application logic here
-        System.out.println("Server Started");
+        System.out.println("Ottawa Server Started");
         OttawaServerImpl ottawaServerStub = new OttawaServerImpl();
 
         Registry registry = LocateRegistry.createRegistry(CommonUtils.OTTAWA_SERVER_PORT);

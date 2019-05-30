@@ -27,13 +27,13 @@ public class CommonUtils {
     public static final String MONTREAL_SERVER_NAME = "MONTREAL";
     public static final String OTTAWA_SERVER_NAME = "OTTAWA";
 
-    public static final int TORONTO_SERVER_PORT = 6666;
-    public static final int MONTREAL_SERVER_PORT = 1234;
-    public static final int OTTAWA_SERVER_PORT = 4444;
+    public static final int TORONTO_SERVER_PORT = 1111;
+    public static final int MONTREAL_SERVER_PORT = 2222;
+    public static final int OTTAWA_SERVER_PORT = 3333;
 
     public static void addFileHandler(Logger log, String fileName) throws SecurityException, IOException
     {
-        FileHandler fileHandler = new FileHandler(System.getProperty("user.dir") + "/LoggedFiles/" + fileName + "/" + fileName + ".log", true);
+        FileHandler fileHandler = new FileHandler(System.getProperty("user.dir") + "/Records/" + fileName + ".log", true);
         log.addHandler(fileHandler);
         fileHandler.setFormatter(new SimpleFormatter());
     }

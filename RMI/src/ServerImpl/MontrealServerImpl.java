@@ -5,12 +5,15 @@
  */
 package ServerImpl;
 
+import CommonUtils.CommonUtils;
 import ServerInterface.ServerInterface;
+import java.io.IOException;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -52,7 +55,15 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
 
     public MontrealServerImpl() throws RemoteException {
         super();
-        logger = Logger.getLogger(OttawaServerImpl.class.getName());
+        logger = Logger.getLogger(MontrealServerImpl.class.getName());
+        try
+        {
+            CommonUtils.addFileHandler(logger, "Montreal_Server");
+        }
+        catch (SecurityException | IOException ex)
+        {
+            Logger.getLogger(MontrealServerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -61,9 +72,10 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         if (!databaseMontreal.get(eventType).containsKey(eventID))
         {
             databaseMontreal.get(eventType).put(eventID,bookingCapacity);
+            logger.info("Add Event Called in Montreal Server for Event ID: " + eventID + " Event Type: " + eventType + " Booking Capacity: " + bookingCapacity);
            // System.out.println("Event added "+eventID);
         }
-
+        
         return eventID+"BALLE";
     }
 

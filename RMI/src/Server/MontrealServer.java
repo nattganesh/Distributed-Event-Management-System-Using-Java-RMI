@@ -24,7 +24,7 @@ public class MontrealServer {
      */
     public static void main(String[] args) throws RemoteException {
         // TODO code application logic here
-        System.out.println("Server Started");
+        System.out.println("Montreal Server Started");
 
         MontrealServerImpl montrealServerStub = new MontrealServerImpl();
 
