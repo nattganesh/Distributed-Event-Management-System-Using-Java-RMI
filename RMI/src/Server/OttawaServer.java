@@ -5,6 +5,8 @@
  */
 package Server;
 
+import ServerImpl.OttawaServerImpl;
+
 /**
  *
  * @author 
@@ -17,6 +19,7 @@ public class OttawaServer {
     public static void main(String[] args)
     {
         // TODO code application logic here
+        OttawaServerImpl ottawaServerStub = new OttawaServerImpl();
     }
     
 }

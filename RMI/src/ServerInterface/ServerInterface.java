@@ -5,10 +5,21 @@
  */
 package ServerInterface;
 
+import java.rmi.Remote;
+
 /**
  *
- * @author 
+ * @author Gursimran Singh
  */
-public class ServerInterface {
-    
+public interface ServerInterface extends Remote {
+    //Manager Operations
+    String addEvent (String eventID, String eventType, int bookingCapacity) throws java.rmi.RemoteException;
+    String removeEvent (String eventID, String eventType) throws  java.rmi.RemoteException;
+    String listEventAvailability (String eventType) throws java.rmi.RemoteException;
+
+    //Customer Operations
+    String bookEvent (String customerID, String eventID, String eventType) throws java.rmi.RemoteException;
+    String getBookingSchedule (String customerID) throws java.rmi.RemoteException;
+    String cancelEvent (String customerID, String eventID) throws java.rmi.RemoteException;
+
 }

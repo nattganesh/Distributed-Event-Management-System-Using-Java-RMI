@@ -5,21 +5,84 @@
  */
 package ServerImpl;
 
+import ServerInterface.ServerInterface;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 /**
  *
  * @author 
  */
-public class OttawaServerImpl {
+public class OttawaServerImpl extends UnicastRemoteObject implements ServerInterface {
 
-    /**
-     * @param args the command line arguments
-     */
-    private final static Logger LOGGER = Logger.getLogger(OttawaServerImpl.class.getName());
-    public static void main(String[] args)
+
+
+    private static HashMap<String, HashMap< String, Object>> databaseOttawa = new HashMap<>();
+    private static  HashMap<String, ArrayList<String>> customerEventsMapping = new HashMap<>();
+    private static  Logger logger;
     {
-        // TODO code application logic here
+
+        //item1
+        databaseOttawa.put("Conferences", new HashMap<>());
+        databaseOttawa.get("Conferences").put("OTWA100519", "5");
+        //item2
+        databaseOttawa.put("Seminars", new HashMap<>());
+        databaseOttawa.get("Seminars").put("TORM100519", "8");
+
+        //item3
+        databaseOttawa.put("TradeShows", new HashMap<>());
+        databaseOttawa.get("TradeShows").put("MTLE100519", "9");
+
+        //item4
+        databaseOttawa.put("Conferences", new HashMap<>());
+        databaseOttawa.get("Conferences").put("MTLE100519", "3");
+
+        //item5
+        databaseOttawa.put("Seminars", new HashMap<>());
+        databaseOttawa.get("Seminars").put("TORM100519", "2");
+
+        //item6
+        databaseOttawa.put("TradeShows", new HashMap<>());
+        databaseOttawa.get("TradeShows").put("OTWA100519", "9");
+
     }
-    
+
+    public OttawaServerImpl() throws RemoteException {
+        super();
+        logger = Logger.getLogger(OttawaServerImpl.class.getName());
+    }
+
+    @Override
+    public String addEvent(String eventID, String eventType, int bookingCapacity) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public String removeEvent(String eventID, String eventType) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public String listEventAvailability(String eventType) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public String bookEvent(String customerID, String eventID, String eventType) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public String getBookingSchedule(String customerID) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public String cancelEvent(String customerID, String eventID) throws RemoteException {
+        return null;
+    }
 }
