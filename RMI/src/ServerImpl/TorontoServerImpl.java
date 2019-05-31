@@ -7,8 +7,8 @@ package ServerImpl;
 
 import CommonUtils.CommonUtils;
 import ServerInterface.ServerInterface;
-import java.io.IOException;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
     }
 
     @Override
-    public String addEvent(String eventID, String eventType, int bookingCapacity) throws RemoteException {
+    public String addEvent(String eventID, String eventType, int bookingCapacity, String managerID) throws RemoteException {
         return null;
     }
 

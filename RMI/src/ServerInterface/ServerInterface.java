@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public interface ServerInterface extends Remote {
     //Manager Operations
-    String addEvent (String eventID, String eventType, int bookingCapacity) throws java.rmi.RemoteException;
+    String addEvent(String eventID, String eventType, int bookingCapacity, String managerID) throws java.rmi.RemoteException;
     String removeEvent (String eventID, String eventType) throws  java.rmi.RemoteException;
     ArrayList listEventAvailability (String eventType) throws java.rmi.RemoteException;
 

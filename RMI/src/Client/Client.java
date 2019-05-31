@@ -10,6 +10,7 @@ import ServerImpl.MontrealServerImpl;
 import ServerImpl.OttawaServerImpl;
 import ServerImpl.TorontoServerImpl;
 import ServerInterface.ServerInterface;
+
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
@@ -65,18 +66,13 @@ public class Client {
         {
             System.out.println("Customer Service");
             Registry registry = LocateRegistry.getRegistry(getServerPort(serverId));
-            System.out.println("HELLOq");
 
             LOGGER = Logger.getLogger(getServerClassName(serverId));
-            System.out.println("HELLO2");
-
             CommonUtils.addFileHandler(LOGGER, serverId + "C" + clientID);
-            System.out.println("HELLO3");
 
             server = (ServerInterface) registry.lookup(getServerName(serverId));
-            System.out.println("HELLO4");
             System.out.println(server.getClass().getName());
-            String out = server.addEvent("OTWA100519", "Conferences",3);
+            String out = server.addEvent("OTWA100519", "Conferences", 3, clientID);
             System.out.println(out);
         }
         catch (SecurityException | IOException ex)

@@ -7,8 +7,8 @@ package ServerImpl;
 
 import CommonUtils.CommonUtils;
 import ServerInterface.ServerInterface;
-import java.io.IOException;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -67,16 +67,27 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
     }
 
     @Override
-    public String addEvent(String eventID, String eventType, int bookingCapacity) throws RemoteException {
+    public String addEvent(String eventID, String eventType, int bookingCapacity, String managerID) throws RemoteException {
         System.out.println("Add Event Called in Montreal");
+        String message = null;
+        logger.info("Received request from " + managerID + " to add an event with event id " + eventID + " , Event Type" + eventType +
+                " & Booking Capacity " + bookingCapacity);
         if (!databaseMontreal.get(eventType).containsKey(eventID))
         {
             databaseMontreal.get(eventType).put(eventID,bookingCapacity);
-            logger.info("Add Event Called in Montreal Server for Event ID: " + eventID + " Event Type: " + eventType + " Booking Capacity: " + bookingCapacity);
-           // System.out.println("Event added "+eventID);
+            message = "Operations Successful!. Event Added in Montreal Server for Event ID: " + eventID + " Event Type: " + eventType + " Booking Capacity: " + bookingCapacity;
+            logger.info(message);
+
+            return message;
+        } else {
+            message = "Operations Unsuccessful!. Event Not Added in Montreal Server for Event ID: " + eventID + " Event Type: " + eventType + " because the Event ID: " + eventID + " is already added for the" +
+                    "Event Type: " + eventType + ". But, the Booking Capacity is updated to " + bookingCapacity;
+            logger.info(message);
+
+            return message;
+
         }
-        
-        return eventID+"BALLE";
+
     }
 
     @Override

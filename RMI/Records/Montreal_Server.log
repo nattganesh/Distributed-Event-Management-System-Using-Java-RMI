@@ -1,2 +1,6 @@
 May 30, 2019 7:19:47 PM ServerImpl.MontrealServerImpl addEvent
 INFO: Add Event Called in Montreal Server for Event ID: OTWA100519 Event Type: Conferences Booking Capacity: 3
+May 31, 2019 3:22:37 PM ServerImpl.MontrealServerImpl addEvent
+INFO: Received request from 1234 to add an event with event id OTWA100519 , Event TypeConferences & Booking Capacity 3
+May 31, 2019 3:22:37 PM ServerImpl.MontrealServerImpl addEvent
+INFO: Add Event Called in Montreal Server for Event ID: OTWA100519 Event Type: Conferences Booking Capacity: 3
