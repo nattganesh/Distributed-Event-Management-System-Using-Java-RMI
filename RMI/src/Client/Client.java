@@ -71,8 +71,7 @@ public class Client {
             CommonUtils.addFileHandler(LOGGER, serverId + "C" + clientID);
 
             server = (ServerInterface) registry.lookup(getServerName(serverId));
-            System.out.println(server.getClass().getName());
-            String out = server.addEvent("OTWA100519", "Conferences", 3, clientID);
+            String out = server.addEvent("MTLE100539", "Conferences", 3, clientID);
             System.out.println(out);
         }
         catch (SecurityException | IOException ex)

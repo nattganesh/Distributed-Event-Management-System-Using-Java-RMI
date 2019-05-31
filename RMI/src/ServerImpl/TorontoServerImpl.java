@@ -75,7 +75,7 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
     }
 
     @Override
-    public String removeEvent(String eventID, String eventType) throws RemoteException {
+    public String removeEvent(String eventID, String eventType, String managerID) throws RemoteException {
         return null;
     }
 

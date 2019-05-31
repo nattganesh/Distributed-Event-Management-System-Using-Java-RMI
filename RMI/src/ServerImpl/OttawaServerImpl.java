@@ -73,7 +73,7 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     }
 
     @Override
-    public String removeEvent(String eventID, String eventType) throws RemoteException {
+    public String removeEvent(String eventID, String eventType, String managerID) throws RemoteException {
         return null;
     }
 

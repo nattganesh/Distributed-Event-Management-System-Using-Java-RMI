@@ -8,6 +8,10 @@ package Server;
 import CommonUtils.CommonUtils;
 import ServerImpl.MontrealServerImpl;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -24,9 +28,15 @@ public class MontrealServer {
      */
     public static void main(String[] args) throws RemoteException {
         // TODO code application logic here
-        System.out.println("Montreal Server Started");
-
         MontrealServerImpl montrealServerStub = new MontrealServerImpl();
+
+        Runnable runnable = () -> {
+            receiveRequestsFromOthers(montrealServerStub);
+        };
+
+        Thread thread = new Thread(runnable);
+        thread.start();
+
 
         Registry registry = LocateRegistry.createRegistry(CommonUtils.MONTREAL_SERVER_PORT);
 
@@ -38,6 +48,56 @@ public class MontrealServer {
             e.printStackTrace();
         }
 
+    }
+
+    private static void receiveRequestsFromOthers(MontrealServerImpl monStub) {
+        DatagramSocket aSocket = null;
+        try {
+            aSocket = new DatagramSocket(CommonUtils.MONTREAL_SERVER_PORT);
+            byte[] buffer = new byte[1000];
+            System.out.println("Montreal server started.....");
+            //Server waits for the request
+            while (true) {
+                DatagramPacket request = new DatagramPacket(buffer, buffer.length);
+                aSocket.receive(request);
+                String response = requestsFromOthers(new String(request.getData()), monStub);
+                DatagramPacket reply = new DatagramPacket(response.getBytes(), response.length(), request.getAddress(),
+                        request.getPort());
+                //reply sent
+                aSocket.send(reply);
+            }
+        } catch (SocketException e) {
+            System.out.println("Socket: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("IO: " + e.getMessage());
+        } finally {
+            if (aSocket != null)
+                aSocket.close();
+        }
+    }
+
+    //clientudp
+    public static String requestsFromOthers(String data, MontrealServerImpl montrealServerImpl) {
+        try {
+            String[] receivedDataString = data.split(" ");
+            String userId = receivedDataString[0];
+            String itemId = receivedDataString[1];
+            String methodNumber = receivedDataString[2].trim();
+            String itemName = receivedDataString[3].trim();
+            switch (methodNumber) {
+                case "1":
+                    return montrealServerImpl.addEvent(userId, itemName, false);
+                case "2":
+                    return montrealServerImpl.removeEvent(userId, itemId);
+                case "3":
+                    return montrealServerImpl. (userId, itemId)
+                case "4":
+                    return montrealServerImpl.waitingQueueList(userId, itemId);
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return "Incorrect";
     }
     
 }
