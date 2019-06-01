@@ -24,6 +24,7 @@ May 31, 2019 8:21:04 PM ServerImpl.MontrealServerImpl listEventAvailability
 INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: 1234
 May 31, 2019 8:23:32 PM ServerImpl.MontrealServerImpl listEventAvailability
 INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: 1234
+<<<<<<< HEAD
 Jun 01, 2019 1:46:01 AM ServerImpl.MontrealServerImpl getBookingSchedule
 INFO: Booking Schedule Requested by MTLC1234
 Jun 01, 2019 1:46:01 AM ServerImpl.MontrealServerImpl getBookingSchedule
@@ -68,3 +69,111 @@ Jun 01, 2019 2:21:30 AM ServerImpl.MontrealServerImpl getBookingSchedule
 INFO: Booking Schedule Requested by MTLC1234
 Jun 01, 2019 2:21:30 AM ServerImpl.MontrealServerImpl getBookingSchedule
 INFO: Operation Sucessful. Records for MTLC1234 have been found
+=======
+Jun 01, 2019 10:31:45 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: 1234
+Jun 01, 2019 10:32:29 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1234
+Jun 01, 2019 10:39:02 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1234
+Jun 01, 2019 10:40:30 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1234
+Jun 01, 2019 10:42:32 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 3234
+Jun 01, 2019 10:43:33 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1234
+Jun 01, 2019 10:45:51 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1234
+Jun 01, 2019 10:46:28 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1234
+Jun 01, 2019 10:51:10 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 3221
+Jun 01, 2019 10:51:33 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1234
+Jun 01, 2019 10:55:01 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1345
+Jun 01, 2019 11:32:37 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 4321in serverMONTREAL
+Jun 01, 2019 11:37:29 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: 5433in serverMONTREAL
+Jun 01, 2019 11:47:24 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: 3234in serverMONTREAL
+Jun 01, 2019 12:06:18 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:14:53 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:18:44 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:19:31 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:27:29 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:27:29 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Request send [B@6d0970de
+Jun 01, 2019 12:32:49 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:32:49 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Request send [B@7384a208
+Jun 01, 2019 12:34:57 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:34:57 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Request send [B@4cfffd64
+Jun 01, 2019 12:51:15 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:53:33 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Request send [B@3a882670
+Jun 01, 2019 12:54:01 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:54:01 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Request send [B@7e91e5ee
+Jun 01, 2019 12:54:01 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Reply receivedEventID: TORA100519| Booking Capacity 52
+EventID: TORE100519| Booking Capacity 3
+EventID: TORA12345| Booking Capacity 12
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+Jun 01, 2019 12:54:01 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:54:01 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Request send [B@14847b11
+Jun 01, 2019 12:54:01 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Reply receivedEventID: OTWE12345| Booking Capacity 12
+EventID: OTWA100519| Booking Capacity 3
+EventID: OTWM100519| Booking Capacity 5
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+Jun 01, 2019 12:54:01 PM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: MTLM1234in serverMONTREAL
+Jun 01, 2019 1:01:16 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 1:01:16 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Request send [B@188039c8
+Jun 01, 2019 1:26:58 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 1:26:58 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Request send [B@55561d14
+Jun 01, 2019 1:26:58 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Reply receivedEventID: TORA100519| Booking Capacity 52
+EventID: TORE100519| Booking Capacity 3
+EventID: TORA12345| Booking Capacity 12
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+Jun 01, 2019 1:26:58 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 1:26:58 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Request send [B@293065f5
+Jun 01, 2019 1:26:58 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Reply receivedEventID: OTWE12345| Booking Capacity 12
+EventID: OTWA100519| Booking Capacity 3
+EventID: OTWM100519| Booking Capacity 5
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+Jun 01, 2019 1:26:58 PM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: MTLM2314in server
+Jun 01, 2019 1:27:21 PM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: Defaultin server
+Jun 01, 2019 1:27:45 PM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: Defaultin server
+Jun 01, 2019 1:48:26 PM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: Defaultin server
+Jun 01, 2019 1:52:51 PM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: Defaultin server
+Jun 01, 2019 1:54:00 PM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: Defaultin server
+>>>>>>> origin/master
