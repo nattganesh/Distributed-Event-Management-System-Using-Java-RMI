@@ -33,29 +33,29 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
     {
 
         //item1
-        databaseMontreal.put("Conferences", new HashMap<>());
-        databaseMontreal.get("Conferences").put("OTWA100519", "5");
+        databaseMontreal.put(CommonUtils.CONFERENCE, new HashMap<>());
+        databaseMontreal.get(CommonUtils.CONFERENCE).put("OTWA100519", "5");
         //item2
-        databaseMontreal.put("Seminars", new HashMap<>());
-        databaseMontreal.get("Seminars").put("TORM100519", "8");
+        databaseMontreal.put(CommonUtils.SEMINAR, new HashMap<>());
+        databaseMontreal.get(CommonUtils.SEMINAR).put("TORM100519", "8");
 
         //item3
-        databaseMontreal.put("TradeShows", new HashMap<>());
-        databaseMontreal.get("TradeShows").put("MTLE100519", "9");
+        databaseMontreal.put(CommonUtils.TRADESHOW, new HashMap<>());
+        databaseMontreal.get(CommonUtils.TRADESHOW).put("MTLE100519", "9");
 
         //item4
-        databaseMontreal.put("Conferences", new HashMap<>());
-        databaseMontreal.get("Conferences").put("MTLE100519", "3");
-        databaseMontreal.put("Conferences", new HashMap<>());
-        databaseMontreal.get("Conferences").put("MTLA12345", "12");
+        databaseMontreal.put(CommonUtils.CONFERENCE, new HashMap<>());
+        databaseMontreal.get(CommonUtils.CONFERENCE).put("MTLE100519", "3");
+        databaseMontreal.put(CommonUtils.CONFERENCE, new HashMap<>());
+        databaseMontreal.get(CommonUtils.CONFERENCE).put("MTLA12345", "12");
 
         //item5
-        databaseMontreal.put("Seminars", new HashMap<>());
-        databaseMontreal.get("Seminars").put("TORM100519", "2");
+        databaseMontreal.put(CommonUtils.SEMINAR, new HashMap<>());
+        databaseMontreal.get(CommonUtils.SEMINAR).put("TORM100519", "2");
 
         //item6
-        databaseMontreal.put("TradeShows", new HashMap<>());
-        databaseMontreal.get("TradeShows").put("OTWA100519", "9");
+        databaseMontreal.put(CommonUtils.TRADESHOW, new HashMap<>());
+        databaseMontreal.get(CommonUtils.TRADESHOW).put("OTWA100519", "9");
 
     }
 

@@ -13,6 +13,7 @@ import ServerInterface.ServerInterface;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
@@ -26,14 +27,12 @@ import java.util.logging.Logger;
 public class Client {
 
     private static Logger LOGGER;
-
+    private static Scanner in = new Scanner(System.in);
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args)
     {
-        Scanner in = new Scanner(System.in);
-        // TODO code application logic here
         System.out.print("Enter Your ID Number: ");
         String id = in.next();
         System.out.println();
@@ -56,7 +55,6 @@ public class Client {
                 System.out.println("Invalid ID !!!");
             }
         }
-        in.close();
     }
 
     private static void customerService(String serverId, String clientID)
@@ -64,15 +62,14 @@ public class Client {
         ServerInterface server;
         try
         {
-            System.out.println("Customer Service");
+            String customerID = serverId + "C" + clientID;
+            System.out.println("Welcome Customer " + customerID);
             Registry registry = LocateRegistry.getRegistry(getServerPort(serverId));
-
             LOGGER = Logger.getLogger(getServerClassName(serverId));
-            CommonUtils.addFileHandler(LOGGER, serverId + "C" + clientID);
-
+            CommonUtils.addFileHandler(LOGGER, customerID);
             server = (ServerInterface) registry.lookup(getServerName(serverId));
-            String out = server.addEvent("MTLE100539", "Conferences", "3", clientID);
-            System.out.println(out);
+            
+            runCustomerMenu(server,customerID);
         }
         catch (SecurityException | IOException ex)
         {
@@ -89,10 +86,11 @@ public class Client {
         ServerInterface server;
         try
         {
-            System.out.println("Welcome Manager");
+            String customerID = serverId + "M" + clientID;
+            System.out.println("Welcome Manager " + customerID);
             Registry registry = LocateRegistry.getRegistry(getServerPort(serverId));
             LOGGER = Logger.getLogger(getServerClassName(serverId));
-            CommonUtils.addFileHandler(LOGGER, serverId + "M" + clientID);
+            CommonUtils.addFileHandler(LOGGER, customerID);
             server = (ServerInterface) registry.lookup(getServerName(serverId));
 
             String out = server.listEventAvailability("Conferences", clientID);
@@ -110,65 +108,146 @@ public class Client {
 
     private static void runClientService(String clientType, String serverId, String clientID)
     {
-        if (clientType.equals(CommonUtils.CUSTOMER_ClientType))
+        switch (clientType)
         {
-            customerService(serverId, clientID);
+            case CommonUtils.CUSTOMER_ClientType:
+                customerService(serverId, clientID);
+                break;
+            case CommonUtils.EVENT_MANAGER_ClientType:
+                eventManagerService(serverId, clientID);
+                break;
         }
-        else if (clientType.equals(CommonUtils.EVENT_MANAGER_ClientType))
-        {
-            eventManagerService(serverId, clientID);
-        }
-    }
-
-    private static String getServerName(String serverId)
-    {
-        if (serverId.equals(CommonUtils.TORONTO))
-        {
-            return CommonUtils.TORONTO_SERVER_NAME;
-        }
-        if (serverId.equals(CommonUtils.MONTREAL))
-        {
-            return CommonUtils.MONTREAL_SERVER_NAME;
-        }
-        if (serverId.equals(CommonUtils.OTTAWA))
-        {
-            return CommonUtils.OTTAWA_SERVER_NAME;
-        }
-        return "Server Does Not Exist";
-    }
-
-    private static String getServerClassName(String serverId)
-    {
-        if (serverId.equals(CommonUtils.TORONTO))
-        {
-            return TorontoServerImpl.class.getName();
-        }
-        if (serverId.equals(CommonUtils.MONTREAL))
-        {
-            return MontrealServerImpl.class.getName();
-        }
-        if (serverId.equals(CommonUtils.OTTAWA))
-        {
-            return OttawaServerImpl.class.getName();
-        }
-        return "Server Does Not Exist";
     }
 
     private static int getServerPort(String serverId)
     {
-        if (serverId.equals(CommonUtils.TORONTO))
+        switch (serverId)
         {
-            return CommonUtils.TORONTO_SERVER_PORT;
+            case CommonUtils.TORONTO:  return CommonUtils.TORONTO_SERVER_PORT;
+            case CommonUtils.MONTREAL: return CommonUtils.MONTREAL_SERVER_PORT;
+            case CommonUtils.OTTAWA:   return CommonUtils.OTTAWA_SERVER_PORT;
+            default: return -1;
         }
-        if (serverId.equals(CommonUtils.MONTREAL))
+    }
+    
+    private static String getServerName(String serverId)
+    {
+        switch (serverId)
         {
-            return CommonUtils.MONTREAL_SERVER_PORT;
+            case CommonUtils.TORONTO:  return CommonUtils.TORONTO_SERVER_NAME;
+            case CommonUtils.MONTREAL: return CommonUtils.MONTREAL_SERVER_NAME;
+            case CommonUtils.OTTAWA:   return CommonUtils.OTTAWA_SERVER_NAME;
+            default: return "Server Does Not Exist";
         }
-        if (serverId.equals(CommonUtils.OTTAWA))
+    }
+    
+    private static String getServerClassName(String serverId)
+    {
+        switch (serverId)
         {
-            return CommonUtils.OTTAWA_SERVER_PORT;
+            case CommonUtils.TORONTO:  return TorontoServerImpl.class.getName();
+            case CommonUtils.MONTREAL: return MontrealServerImpl.class.getName();
+            case CommonUtils.OTTAWA:   return OttawaServerImpl.class.getName();
+            default: return "Server Does Not Exist";
         }
-        return -1;
+    }
+    
+    private static void runCustomerMenu(ServerInterface server, String customerID) throws RemoteException
+    {
+        int itemNum = -1;       
+        while (itemNum != 0)
+        {
+            System.out.println("============================");
+            System.out.println("Customer Menu");
+            System.out.println("0: Quit");
+            System.out.println("1: Book Event");
+            System.out.println("2: Get Booking Schedule");
+            System.out.println("3: Cancel Event");
+            System.out.println("============================");
+
+            itemNum = in.nextInt();
+            switch (itemNum)
+            {
+                case 0:
+                    System.out.println("Good Bye !!!");
+                    break;
+                case 1:
+                    System.out.println("What type of event do you wish to book? (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR)");
+                    String eventType = in.next();
+                    switch (eventType.toUpperCase())
+                    {
+                        case "A":
+                            eventType = CommonUtils.CONFERENCE;
+                            break;
+                        case "B":
+                            eventType = CommonUtils.TRADESHOW;
+                            break;
+                        case "C":
+                            eventType = CommonUtils.SEMINAR;
+                            break;
+                        default:
+                            System.out.println("Invalid Choice !!!");
+                            eventType = "";
+                            break;
+                    }
+                    if (!eventType.equals(""))
+                    {
+                        System.out.println("Enter Event ID: ");
+                        String eventID = in.next();
+                        server.bookEvent(customerID, eventID, eventType);
+                    }
+                    break;
+                case 2:
+                    server.getBookingSchedule(customerID);
+                    break;
+                case 3:
+                    System.out.println("Enter Event ID to Cancel: ");
+                    String eventID = in.next();
+                    server.cancelEvent(customerID, eventID);
+                    break;
+                default:
+                    System.out.println("Invalid Choice !!!");
+                    break;
+            }
+
+        }
+        in.close();
+    }
+    
+    private static void runManagerMenu(ServerInterface server, String customerID) throws RemoteException
+    {
+        int itemNum = -1;       
+        while (itemNum != 0)
+        {
+            System.out.println("============================");
+            System.out.println("Customer Menu");
+            System.out.println("0: Quit");
+            System.out.println("1: Add Event");
+            System.out.println("2: Remove Event");
+            System.out.println("3: List Event Availability");
+            System.out.println("============================");
+
+            itemNum = in.nextInt();
+            switch (itemNum)
+            {
+                case 0:
+                    System.out.println("Good Bye !!!");
+                    break;
+                case 1:
+                    System.out.println("What event do you wish to add?");                   
+                    break;
+                case 2:
+                    System.out.println("What event do you wish to remove?");
+                    break;
+                case 3:
+                    break;
+                default:
+                    System.out.println("Invalid Choice !!!");
+                    break;
+            }
+
+        }
+        in.close();
     }
 
 }

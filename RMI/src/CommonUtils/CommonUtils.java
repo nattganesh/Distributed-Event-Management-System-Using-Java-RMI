@@ -30,6 +30,10 @@ public class CommonUtils {
     public static final int TORONTO_SERVER_PORT = 1111;
     public static final int MONTREAL_SERVER_PORT = 2222;
     public static final int OTTAWA_SERVER_PORT = 3333;
+    
+    public static final String CONFERENCE = "Conferences";
+    public static final String SEMINAR = "Seminars";
+    public static final String TRADESHOW = "TradeShows";
 
     public static void addFileHandler(Logger log, String fileName) throws SecurityException, IOException
     {
