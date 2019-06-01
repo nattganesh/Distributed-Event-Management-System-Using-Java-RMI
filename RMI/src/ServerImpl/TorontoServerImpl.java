@@ -1,7 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * CONCORDIA UNIVERSITY
+ * DEPARTMENT OF COMPUTER SCIENCE AND SOFTWARE ENGINEERING
+ * COMP 6231, Summer 2019 Instructor: Sukhjinder K. Narula
+ * ASSIGNMENT 1
+ * Issued: May 14, 2019 Due: Jun 3, 2019
  */
 package ServerImpl;
 
@@ -21,17 +23,13 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author 
+ * @author Gursimran Singh, Natheepan Ganeshamoorthy
  */
 public class TorontoServerImpl extends UnicastRemoteObject implements ServerInterface {
 
-    /**
-     * @param args the command line arguments
-     */
-
     private static HashMap<String, HashMap< String, Object>> databaseToronto = new HashMap<>();
-    private static  HashMap<String, HashMap<String,Integer>> customerEventsMapping = new HashMap<>();
-    private static  Logger logger;
+    private static HashMap<String, HashMap<String, Integer>> customerEventsMapping = new HashMap<>();
+    private static Logger logger;
     {
 
         //item1
@@ -45,8 +43,6 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
         databaseToronto.get(SEMINAR).put("TORE100519", "8");
         databaseToronto.get(SEMINAR).put("TORM100519", "2");
 
-
-
         //item6
         databaseToronto.put(TRADESHOW, new HashMap<>());
         databaseToronto.get(TRADESHOW).put("TORA100519", "9");
@@ -54,7 +50,8 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
 
     }
 
-    public TorontoServerImpl() throws RemoteException {
+    public TorontoServerImpl() throws RemoteException
+    {
         super();
         logger = Logger.getLogger(TorontoServerImpl.class.getName());
         try
@@ -68,22 +65,26 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
     }
 
     @Override
-    public String addEvent(String eventID, String eventType, String bookingCapacity, String managerID) throws RemoteException {
+    public String addEvent(String eventID, String eventType, String bookingCapacity, String managerID) throws RemoteException
+    {
         String message = null;
-        logger.info("Received request to add an event with event id " + eventID + " , Event Type" + eventType +
-                " & Booking Capacity " + bookingCapacity);
-        if (!databaseToronto.get(eventType).containsKey(eventID)) {
+        logger.info("Received request to add an event with event id " + eventID + " , Event Type" + eventType
+                + " & Booking Capacity " + bookingCapacity);
+        if (!databaseToronto.get(eventType).containsKey(eventID))
+        {
             databaseToronto.get(eventType).put(eventID, bookingCapacity);
             message = "Operations Successful!. Event Added in Montreal Server for Event ID: "
                     + eventID + " Event Type: " + eventType + " Booking Capacity: " + bookingCapacity;
             logger.info(message);
 
             return message;
-        } else {
+        }
+        else
+        {
             databaseToronto.get(eventType).replace(eventID, bookingCapacity);
-            message = "Operations Unsuccessful!. Event Not Added in Montreal Server " +
-                    "for Event ID: " + eventID + " Event Type: " + eventType + " because the Event ID: " + eventID + "" +
-                    " is already added for the Event Type: " + eventType + ". But, the Booking Capacity is updated to " + bookingCapacity;
+            message = "Operations Unsuccessful!. Event Not Added in Montreal Server "
+                    + "for Event ID: " + eventID + " Event Type: " + eventType + " because the Event ID: " + eventID + ""
+                    + " is already added for the Event Type: " + eventType + ". But, the Booking Capacity is updated to " + bookingCapacity;
             logger.info(message);
 
             return message;
@@ -91,42 +92,54 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
     }
 
     @Override
-    public String removeEvent(String eventID, String eventType, String managerID) throws RemoteException {
+    public String removeEvent(String eventID, String eventType, String managerID) throws RemoteException
+    {
         String message = null;
-        if (databaseToronto.get(eventType).containsKey(eventID)) {
+        if (databaseToronto.get(eventType).containsKey(eventID))
+        {
             databaseToronto.get(eventType).remove(eventID);
             message = "Operations Successful!. Event Removed in Montreal Server by Manager: " + managerID + " for Event ID: "
                     + eventID + " Event Type: " + eventType;
             logger.info(message);
             return message;
-        } else {
-            message = "Operations Unsuccessful!. Event Not Removed in Montreal Server by Manager: " + managerID + " f" +
-                    "or Event ID: " + eventID + " Event Type: " + eventType + " because the Event ID: " + eventID +
-                    " does not exist";
+        }
+        else
+        {
+            message = "Operations Unsuccessful!. Event Not Removed in Montreal Server by Manager: " + managerID + " f"
+                    + "or Event ID: " + eventID + " Event Type: " + eventType + " because the Event ID: " + eventID
+                    + " does not exist";
             logger.info(message);
             return message;
         }
     }
 
-    private static int serverPortSelection(String str) {
+    private static int serverPortSelection(String str)
+    {
         str = str.substring(0, 3);
-        if (str.equals(TORONTO)) {
+        if (str.equals(TORONTO))
+        {
             return TORONTO_SERVER_PORT;
-        } else if (str.equals(OTTAWA)) {
+        }
+        else if (str.equals(OTTAWA))
+        {
             return OTTAWA_SERVER_PORT;
-        } else if (str.equals(MONTREAL)) {
+        }
+        else if (str.equals(MONTREAL))
+        {
             return MONTREAL_SERVER_PORT;
         }
         return 0;
     }
 
     @Override
-    public String listEventAvailability(String eventType, String managerID) throws RemoteException {
+    public String listEventAvailability(String eventType, String managerID) throws RemoteException
+    {
         //Eg: Seminars - MTLE130519 3, OTWA060519 6, TORM180519 0, MTLE190519 2.
         String message = null;
         StringBuilder returnMessage = new StringBuilder();
 
-        if (managerID.substring(0, 3).equals(MONTREAL)) {
+        if (managerID.substring(0, 3).equals(MONTREAL))
+        {
             logger.info("Requesting other server from Server: " + TORONTO_SERVER_NAME);
             String torrontoEvents = requestToOtherServers(null, null, null, 3, eventType, TORONTO_SERVER_PORT);
             logger.info("Requesting other server from Server: " + OTTAWA_SERVER_NAME);
@@ -134,7 +147,8 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
             returnMessage.append(torrontoEvents).append("\n\n").append(ottawaEvents).append("\n\n");
 
         }
-        if (managerID.substring(0, 3).equals(TORONTO)) {
+        if (managerID.substring(0, 3).equals(TORONTO))
+        {
             logger.info("Requesting other server from Server: " + MONTREAL_SERVER_NAME);
             String montrealEvents = requestToOtherServers(null, null, null, 3, eventType, MONTREAL_SERVER_PORT);
             logger.info("Requesting other server from Server: " + OTTAWA_SERVER_NAME);
@@ -142,7 +156,8 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
 
             returnMessage.append(ottawaEvents).append("\n\n").append(montrealEvents).append("\n\n");
         }
-        if (managerID.substring(0, 3).equals(OTTAWA)) {
+        if (managerID.substring(0, 3).equals(OTTAWA))
+        {
             logger.info("Requesting other server from Server: " + MONTREAL_SERVER_NAME);
             String montrealEvents = requestToOtherServers(null, null, null, 3, eventType, MONTREAL_SERVER_PORT);
             logger.info("Requesting other server from Server: " + TORONTO_SERVER_NAME);
@@ -151,36 +166,42 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
             returnMessage.append(torrontoEvents).append("\n\n").append(montrealEvents).append("\n\n");
         }
 
-        if (!databaseToronto.get(eventType).isEmpty()) {
-            for (Map.Entry<String, Object> entry : databaseToronto.get(eventType).entrySet()) {
+        if (!databaseToronto.get(eventType).isEmpty())
+        {
+            for (Map.Entry<String, Object> entry : databaseToronto.get(eventType).entrySet())
+            {
                 returnMessage.append("EventID: " + entry.getKey() + "| Booking Capacity " + entry.getValue() + "\n");
             }
             message = "Operation Successful, List of events retrieved for Event Type: " + eventType + " by Manager: " + managerID + "in server" + TORONTO_SERVER_NAME;
             logger.info(message);
 
             return returnMessage.toString();
-        } else {
+        }
+        else
+        {
             message = "Operation UnSuccessful, List of events not retrieved for Event Type: " + eventType + " by Manager: " + managerID + " in server " + TORONTO_SERVER_NAME;
             logger.info(message);
             return message;
         }
 
-
     }
+
     @Override
-    public String bookEvent(String customerID, String eventID, String eventType) throws RemoteException {
+    public String bookEvent(String customerID, String eventID, String eventType) throws RemoteException
+    {
         return null;
     }
 
     @Override
-    public String getBookingSchedule(String customerID) throws RemoteException {
-                        String returnMsg = "";
+    public String getBookingSchedule(String customerID) throws RemoteException
+    {
+        String returnMsg = "";
         customerEventsMapping.put("MTLC1234", new HashMap<>());
-        customerEventsMapping.get("MTLC1234").put("TORdyfg1234",5);
-        customerEventsMapping.get("MTLC1234").put("TORdyfg3444",5);
-        customerEventsMapping.get("MTLC1234").put("TORdyfg1666",2);
-        customerEventsMapping.get("MTLC1234").put("TORdyfg1777",5);
-        customerEventsMapping.get("MTLC1234").put("TORdyfg1888",5);
+        customerEventsMapping.get("MTLC1234").put("TORdyfg1234", 5);
+        customerEventsMapping.get("MTLC1234").put("TORdyfg3444", 5);
+        customerEventsMapping.get("MTLC1234").put("TORdyfg1666", 2);
+        customerEventsMapping.get("MTLC1234").put("TORdyfg1777", 5);
+        customerEventsMapping.get("MTLC1234").put("TORdyfg1888", 5);
         logger.log(Level.INFO, "Booking Schedule Requested by {0}", customerID);
         HashMap< String, Integer> customerEvents = customerEventsMapping.get(customerID);
         if (customerEvents != null && !customerEvents.isEmpty())
@@ -200,18 +221,21 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
     }
 
     @Override
-    public String cancelEvent(String customerID, String eventID) throws RemoteException {
+    public String cancelEvent(String customerID, String eventID) throws RemoteException
+    {
         return null;
     }
 
-
-
-    public String requestToOtherServers(String userID, String eventID, String bookingCapacity, int serverNumber, String eventType, int serPort) {
+    public String requestToOtherServers(String userID, String eventID, String bookingCapacity, int serverNumber, String eventType, int serPort)
+    {
 
         int serverPort;
-        if (eventID != null) {
+        if (eventID != null)
+        {
             serverPort = serverPortSelection(eventID);
-        } else {
+        }
+        else
+        {
             serverPort = serPort;
         }
         String stringServer = Integer.toString(serverNumber);
@@ -222,7 +246,8 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
         String eventIDName = eventID != null ? eventID : "Default";
         String bookingCap = bookingCapacity != null ? bookingCapacity : "Default";
 
-        try {
+        try
+        {
             aSocket = new DatagramSocket();
             String message = userIDName.concat(" ").concat(eventIDName).concat(" ").concat(stringServer).concat(" ").concat(eventTypeName).concat(" ").concat(bookingCap);
             InetAddress host = InetAddress.getByName("localhost");
@@ -234,11 +259,17 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
             aSocket.receive(recievedPacket);
             response = new String(recievedPacket.getData());
             logger.info("Reply received" + response);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
             if (aSocket != null)
+            {
                 aSocket.close();
+            }
         }
         return response;
     }

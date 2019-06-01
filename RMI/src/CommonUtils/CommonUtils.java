@@ -1,3 +1,11 @@
+/**
+ * CONCORDIA UNIVERSITY
+ * DEPARTMENT OF COMPUTER SCIENCE AND SOFTWARE ENGINEERING
+ * COMP 6231, Summer 2019 Instructor: Sukhjinder K. Narula
+ * ASSIGNMENT 1
+ * Issued: May 14, 2019 Due: Jun 3, 2019
+ */
+
 package CommonUtils;
 
 import java.io.IOException;
@@ -5,11 +13,6 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
  * @author Natheepan Ganeshamoorthy

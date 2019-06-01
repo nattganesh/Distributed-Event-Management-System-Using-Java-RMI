@@ -1,7 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * CONCORDIA UNIVERSITY
+ * DEPARTMENT OF COMPUTER SCIENCE AND SOFTWARE ENGINEERING
+ * COMP 6231, Summer 2019 Instructor: Sukhjinder K. Narula
+ * ASSIGNMENT 1
+ * Issued: May 14, 2019 Due: Jun 3, 2019
  */
 package Server;
 
@@ -19,18 +21,16 @@ import java.rmi.registry.Registry;
 
 /**
  *
- * @author 
+ * @author Gursimran Singh
  */
 public class TorontoServer {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws RemoteException {
-        // TODO code application logic here
+    public static void main(String[] args) throws RemoteException
+    {
 
         TorontoServerImpl torontoServerStub = new TorontoServerImpl();
-        Runnable runnable = () -> {
+        Runnable runnable = () ->
+        {
             receiveRequestsFromOthers(torontoServerStub);
         };
 
@@ -39,24 +39,32 @@ public class TorontoServer {
 
         Registry registry = LocateRegistry.createRegistry(TORONTO_SERVER_PORT);
 
-        try {
+        try
+        {
             registry.bind(TORONTO_SERVER_NAME, torontoServerStub);
-        }catch (RemoteException e){
+        }
+        catch (RemoteException e)
+        {
             e.printStackTrace();
-        } catch (AlreadyBoundException e) {
+        }
+        catch (AlreadyBoundException e)
+        {
             e.printStackTrace();
         }
 
     }
 
-    private static void receiveRequestsFromOthers(TorontoServerImpl torontoServer) {
+    private static void receiveRequestsFromOthers(TorontoServerImpl torontoServer)
+    {
         DatagramSocket aSocket = null;
-        try {
+        try
+        {
             aSocket = new DatagramSocket(TORONTO_SERVER_PORT);
             byte[] buffer = new byte[1000];
             System.out.println("Torronto server started.....");
             //Server waits for the request
-            while (true) {
+            while (true)
+            {
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(request);
                 String response = requestsFromOthers(new String(request.getData()), torontoServer);
@@ -65,19 +73,29 @@ public class TorontoServer {
                 //reply sent
                 aSocket.send(reply);
             }
-        } catch (SocketException e) {
+        }
+        catch (SocketException e)
+        {
             System.out.println("Socket: " + e.getMessage());
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             System.out.println("IO: " + e.getMessage());
-        } finally {
+        }
+        finally
+        {
             if (aSocket != null)
+            {
                 aSocket.close();
+            }
         }
     }
 
     //clientudp
-    public static String requestsFromOthers(String data, TorontoServerImpl torontoServer) {
-        try {
+    public static String requestsFromOthers(String data, TorontoServerImpl torontoServer)
+    {
+        try
+        {
             String[] receivedDataString = data.split(" ");
             String userId = receivedDataString[0];
             String eventID = receivedDataString[1];
@@ -85,7 +103,8 @@ public class TorontoServer {
             String eventType = receivedDataString[3].trim();
             String bookingCapacity = receivedDataString[4].trim();
 
-            switch (methodNumber) {
+            switch (methodNumber)
+            {
                 case "1":
                     return torontoServer.addEvent(eventID, eventType, bookingCapacity, userId);
                 case "2":
@@ -93,7 +112,9 @@ public class TorontoServer {
                 case "3":
                     return torontoServer.listEventAvailability(eventType, userId);
             }
-        } catch (RemoteException e) {
+        }
+        catch (RemoteException e)
+        {
             e.printStackTrace();
         }
         return "Incorrect";
