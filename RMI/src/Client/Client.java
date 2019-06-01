@@ -71,7 +71,7 @@ public class Client {
             CommonUtils.addFileHandler(LOGGER, serverId + "C" + clientID);
 
             server = (ServerInterface) registry.lookup(getServerName(serverId));
-            String out = server.addEvent("MTLE100539", "Conferences", 3, clientID);
+            String out = server.addEvent("MTLE100539", "Conferences", "3", clientID);
             System.out.println(out);
         }
         catch (SecurityException | IOException ex)
@@ -94,6 +94,9 @@ public class Client {
             LOGGER = Logger.getLogger(getServerClassName(serverId));
             CommonUtils.addFileHandler(LOGGER, serverId + "M" + clientID);
             server = (ServerInterface) registry.lookup(getServerName(serverId));
+
+            String out = server.listEventAvailability("Conferences", clientID);
+            System.out.println(out);
         }
         catch (SecurityException | IOException ex)
         {

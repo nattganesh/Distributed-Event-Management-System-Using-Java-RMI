@@ -68,7 +68,7 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     }
 
     @Override
-    public String addEvent(String eventID, String eventType, int bookingCapacity, String managerID) throws RemoteException {
+    public String addEvent(String eventID, String eventType, String bookingCapacity, String managerID) throws RemoteException {
         return null;
     }
 
@@ -78,7 +78,7 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     }
 
     @Override
-    public ArrayList listEventAvailability(String eventType) throws RemoteException {
+    public String listEventAvailability(String eventType, String managerID) throws RemoteException {
         return null;
     }
 

@@ -16,6 +16,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,6 +46,8 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         //item4
         databaseMontreal.put("Conferences", new HashMap<>());
         databaseMontreal.get("Conferences").put("MTLE100519", "3");
+        databaseMontreal.put("Conferences", new HashMap<>());
+        databaseMontreal.get("Conferences").put("MTLA12345", "12");
 
         //item5
         databaseMontreal.put("Seminars", new HashMap<>());
@@ -82,7 +85,7 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
     }
 
     @Override
-    public String addEvent(String eventID, String eventType, int bookingCapacity, String managerID) throws RemoteException {
+    public String addEvent(String eventID, String eventType, String bookingCapacity, String managerID) throws RemoteException {
         String message = null;
         logger.info("Received request from " + managerID + " to add an event with event id " + eventID + " , Event Type" + eventType +
                 " & Booking Capacity " + bookingCapacity);
@@ -95,6 +98,7 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
 
             return message;
         } else {
+            databaseMontreal.get(eventType).replace(eventID, bookingCapacity);
             message = "Operations Unsuccessful!. Event Not Added in Montreal Server by Manager: " + managerID + " f" +
                     "or Event ID: " + eventID + " Event Type: " + eventType + " because the Event ID: " + eventID + "" +
                     " is already added for the Event Type: " + eventType + ". But, the Booking Capacity is updated to " + bookingCapacity;
@@ -125,6 +129,32 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
     }
 
     @Override
+    public String listEventAvailability(String eventType, String managerID) throws RemoteException {
+        //Eg: Seminars - MTLE130519 3, OTWA060519 6, TORM180519 0, MTLE190519 2.
+        String message = null;
+        String returnMessage = null;
+        ArrayList<String> events = new ArrayList<>();
+        if (!databaseMontreal.get(eventType).isEmpty()) {
+            for (Map.Entry<String, Object> entry : databaseMontreal.get(eventType).entrySet()) {
+                events.add("EventID: " + entry.getKey() + " Booking Capacity " + entry.getValue());
+            }
+            for (String str : events) {
+                returnMessage += str + ",";
+            }
+            message = "Operation Successful, List of events retrieved for Event Type: " + eventType + " by Manager: " + managerID;
+            logger.info(message);
+
+            return returnMessage;
+        } else {
+            message = "Operation UnSuccessful, List of events not retrieved for Event Type: " + eventType + " by Manager: " + managerID;
+
+        }
+
+
+        return null;
+    }
+
+    @Override
     public String bookEvent(String customerID, String eventID, String eventType) throws RemoteException {
         return null;
     }
@@ -139,28 +169,25 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         return null;
     }
 
-    @Override
-    public ArrayList listEventAvailability(String eventType) throws RemoteException {
 
-    }
-
-    public String requestToOtherServers(String userID, String itemId, int serverNumber, String itemName, int serPort) {
+    public String requestToOtherServers(String userID, String eventID, Object bookingCapacity, int serverNumber, String eventType, int serPort) {
         logger.info("Requesting other server from montreal");
         int serverPort;
-        if (itemId != null) {
-            serverPort = serverPortSelection(itemId);
+        if (eventID != null) {
+            serverPort = serverPortSelection(eventID);
         } else {
             serverPort = serPort;
         }
         String stringServer = Integer.toString(serverNumber);
         DatagramSocket aSocket = null;
         String response = null;
-        String bookName = itemName != null ? itemName : "Default";
-        String bookId = itemId != null ? itemId : "Default";
+        String eventTypeName = eventType != null ? eventType : "Default";
+        String eventIDName = eventID != null ? eventID : "Default";
+        String bookingCap = bookingCapacity.toString();
 
         try {
             aSocket = new DatagramSocket();
-            String message = userID.concat(" ").concat(bookId).concat(" ").concat(stringServer).concat(" ").concat(bookName);
+            String message = userID.concat(" ").concat(eventIDName).concat(" ").concat(stringServer).concat(" ").concat(eventTypeName).concat(bookingCap);
             InetAddress host = InetAddress.getByName("localhost");
             DatagramPacket sendPacket = new DatagramPacket(message.getBytes(), message.length(), host, serverPort);
             aSocket.send(sendPacket);

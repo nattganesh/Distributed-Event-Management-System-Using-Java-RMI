@@ -81,18 +81,18 @@ public class MontrealServer {
         try {
             String[] receivedDataString = data.split(" ");
             String userId = receivedDataString[0];
-            String itemId = receivedDataString[1];
+            String eventID = receivedDataString[1];
             String methodNumber = receivedDataString[2].trim();
-            String itemName = receivedDataString[3].trim();
+            String eventType = receivedDataString[3].trim();
+            String bookingCapacity = receivedDataString[4].trim();
+
             switch (methodNumber) {
                 case "1":
-                    return montrealServerImpl.addEvent(userId, itemName, false);
+                    return montrealServerImpl.addEvent(eventID, eventType, bookingCapacity, userId);
                 case "2":
-                    return montrealServerImpl.removeEvent(userId, itemId);
+                    return montrealServerImpl.removeEvent(eventID, eventType, userId);
                 case "3":
-                    return montrealServerImpl. (userId, itemId)
-                case "4":
-                    return montrealServerImpl.waitingQueueList(userId, itemId);
+                    return montrealServerImpl.listEventAvailability(eventType, userId);
             }
         } catch (RemoteException e) {
             e.printStackTrace();

@@ -20,3 +20,7 @@ May 31, 2019 6:25:40 PM ServerImpl.MontrealServerImpl addEvent
 INFO: Received request from 1234 to add an event with event id MTLE100539 , Event TypeConferences & Booking Capacity 3
 May 31, 2019 6:25:40 PM ServerImpl.MontrealServerImpl addEvent
 INFO: Operations Successful!. Event Added in Montreal Server for Event ID: MTLE100539 Event Type: Conferences Booking Capacity: 3
+May 31, 2019 8:21:04 PM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: 1234
+May 31, 2019 8:23:32 PM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: 1234
