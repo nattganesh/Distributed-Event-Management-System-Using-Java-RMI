@@ -195,3 +195,19 @@ Jun 01, 2019 3:29:53 PM ServerImpl.MontrealServerImpl getBookingSchedule
 INFO: Booking Schedule Requested by MTLC1234
 Jun 01, 2019 3:29:53 PM ServerImpl.MontrealServerImpl getBookingSchedule
 INFO: Operation Failure. Records for MTLC1234 do not exist.
+Jun 01, 2019 3:38:15 PM ServerImpl.MontrealServerImpl getBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 3:38:15 PM ServerImpl.MontrealServerImpl getBookingSchedule
+INFO: Operation Failure. Records for MTLC1234 do not exist.
+Jun 01, 2019 3:40:21 PM ServerImpl.MontrealServerImpl getBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 3:40:21 PM ServerImpl.MontrealServerImpl getBookingSchedule
+INFO: Operation Failure. Records for MTLC1234 do not exist.
+Jun 01, 2019 3:41:27 PM ServerImpl.MontrealServerImpl getBookingSchedule
+INFO: Booking Schedule Requested by MTLC1233
+Jun 01, 2019 3:41:27 PM ServerImpl.MontrealServerImpl getBookingSchedule
+INFO: Operation Failure. Records for MTLC1233 do not exist.
+Jun 01, 2019 3:42:12 PM ServerImpl.MontrealServerImpl getBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 3:42:12 PM ServerImpl.MontrealServerImpl getBookingSchedule
+INFO: Operation Failure. Records for MTLC1234 do not exist.

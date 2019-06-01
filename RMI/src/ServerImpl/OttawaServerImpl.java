@@ -6,6 +6,7 @@
 package ServerImpl;
 
 import CommonUtils.CommonUtils;
+import static CommonUtils.CommonUtils.*;
 import ServerInterface.ServerInterface;
 
 import java.io.IOException;
@@ -14,7 +15,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -29,7 +29,7 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
 
 
     private static HashMap<String, HashMap< String, Object>> databaseOttawa = new HashMap<>();
-    private static  HashMap<String, ArrayList<String>> customerEventsMapping = new HashMap<>();
+    private static  HashMap<String, HashMap<String,Integer>> customerEventsMapping = new HashMap<>();
     private static  Logger logger;
     {
 
@@ -173,7 +173,29 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
 
     @Override
     public String getBookingSchedule(String customerID) throws RemoteException {
-        return null;
+                String returnMsg = "";
+        customerEventsMapping.put("MTLC1234", new HashMap<>());
+        customerEventsMapping.get("MTLC1234").put("OTWdyfg1234",5);
+        customerEventsMapping.get("MTL1234").put("OTWdyfg3444",5);
+        customerEventsMapping.get("MTLC1234").put("OTWdyfg1666",2);
+        customerEventsMapping.get("MTLC1234").put("OTWdyfg1777",5);
+        customerEventsMapping.get("MTLC1234").put("OTWdyfg1888",5);
+        logger.log(Level.INFO, "Booking Schedule Requested by {0}", customerID);
+        HashMap< String, Integer> customerEvents = customerEventsMapping.get(customerID);
+        if (customerEvents != null && !customerEvents.isEmpty())
+        {
+            for (String event : customerEvents.keySet())
+            {
+                returnMsg += "\nEvent ID: " + event + "Booking for " + customerEvents.get(event);
+            }
+            logger.log(Level.INFO, "Operation Sucessful. Records for {0} have been found", customerID);
+        }
+        else
+        {
+            logger.log(Level.INFO, "Operation Failure. Records for {0} do not exist.", customerID);
+            returnMsg += OPERATIONFAILURE;
+        }
+        return returnMsg;
     }
 
     @Override
