@@ -61,7 +61,7 @@ public class TorontoServer {
         {
             aSocket = new DatagramSocket(TORONTO_SERVER_PORT);
             byte[] buffer = new byte[1000];
-            System.out.println("Torronto server started.....");
+            System.out.println("Toronto server started.....");
             //Server waits for the request
             while (true)
             {
