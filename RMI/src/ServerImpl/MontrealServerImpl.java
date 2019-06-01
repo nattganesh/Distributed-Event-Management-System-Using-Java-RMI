@@ -34,28 +34,21 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
 
         //item1
         databaseMontreal.put(CommonUtils.CONFERENCE, new HashMap<>());
-        databaseMontreal.get(CommonUtils.CONFERENCE).put("OTWA100519", "5");
-        //item2
-        databaseMontreal.put(CommonUtils.SEMINAR, new HashMap<>());
-        databaseMontreal.get(CommonUtils.SEMINAR).put("TORM100519", "8");
-
-        //item3
-        databaseMontreal.put(CommonUtils.TRADESHOW, new HashMap<>());
-        databaseMontreal.get(CommonUtils.TRADESHOW).put("MTLE100519", "9");
-
-        //item4
-        databaseMontreal.put(CommonUtils.CONFERENCE, new HashMap<>());
+        databaseMontreal.get(CommonUtils.CONFERENCE).put("MTLA100519", "5");
         databaseMontreal.get(CommonUtils.CONFERENCE).put("MTLE100519", "3");
-        databaseMontreal.put(CommonUtils.CONFERENCE, new HashMap<>());
         databaseMontreal.get(CommonUtils.CONFERENCE).put("MTLA12345", "12");
 
-        //item5
+        //item2
         databaseMontreal.put(CommonUtils.SEMINAR, new HashMap<>());
-        databaseMontreal.get(CommonUtils.SEMINAR).put("TORM100519", "2");
+        databaseMontreal.get(CommonUtils.SEMINAR).put("MTLM100519", "8");
+        databaseMontreal.get(CommonUtils.SEMINAR).put("MTLA100519", "2");
+
+
 
         //item6
         databaseMontreal.put(CommonUtils.TRADESHOW, new HashMap<>());
-        databaseMontreal.get(CommonUtils.TRADESHOW).put("OTWA100519", "9");
+        databaseMontreal.get(CommonUtils.TRADESHOW).put("MTLA100519", "9");
+        databaseMontreal.get(CommonUtils.TRADESHOW).put("MTLE100519", "9");
 
     }
 
@@ -132,26 +125,38 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
     public String listEventAvailability(String eventType, String managerID) throws RemoteException {
         //Eg: Seminars - MTLE130519 3, OTWA060519 6, TORM180519 0, MTLE190519 2.
         String message = null;
-        String returnMessage = null;
-        ArrayList<String> events = new ArrayList<>();
-        if (!databaseMontreal.get(eventType).isEmpty()) {
-            for (Map.Entry<String, Object> entry : databaseMontreal.get(eventType).entrySet()) {
-                events.add("EventID: " + entry.getKey() + " Booking Capacity " + entry.getValue());
-            }
-            for (String str : events) {
-                returnMessage += str + ",";
-            }
-            message = "Operation Successful, List of events retrieved for Event Type: " + eventType + " by Manager: " + managerID;
-            logger.info(message);
+        StringBuilder returnMessage = new StringBuilder();
+        if (managerID.substring(0, 3).equals(CommonUtils.MONTREAL)) {
+            String torrontoEvents = requestToOtherServers(managerID, null, null, 3, eventType, CommonUtils.TORONTO_SERVER_PORT);
+            String ottawaEvents = requestToOtherServers(managerID, null, null, 3, eventType, CommonUtils.OTTAWA_SERVER_PORT);
 
-            return returnMessage;
-        } else {
-            message = "Operation UnSuccessful, List of events not retrieved for Event Type: " + eventType + " by Manager: " + managerID;
+            returnMessage.append(torrontoEvents).append(ottawaEvents);
+        }
+        if (managerID.substring(0, 3).equals(CommonUtils.TORONTO)) {
+
+        }
+        if (managerID.substring(0, 3).equals(CommonUtils.OTTAWA)) {
+
 
         }
 
 
-        return null;
+        if (!databaseMontreal.get(eventType).isEmpty()) {
+            for (Map.Entry<String, Object> entry : databaseMontreal.get(eventType).entrySet()) {
+                returnMessage.append("EventID: " + entry.getKey() + "| Booking Capacity " + entry.getValue() + "\n");
+            }
+            message = "Operation Successful, List of events retrieved for Event Type: " + eventType + " by Manager: " + managerID + "in server" + CommonUtils.MONTREAL_SERVER_NAME;
+            logger.info(message);
+
+            return returnMessage.toString();
+        } else {
+            message = "Operation UnSuccessful, List of events not retrieved for Event Type: " + eventType + " by Manager: " + managerID + " in server " + CommonUtils.MONTREAL_SERVER_NAME;
+            logger.info(message);
+            return message;
+        }
+
+
+
     }
 
     @Override
@@ -170,7 +175,7 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
     }
 
 
-    public String requestToOtherServers(String userID, String eventID, Object bookingCapacity, int serverNumber, String eventType, int serPort) {
+    public String requestToOtherServers(String userID, String eventID, String bookingCapacity, int serverNumber, String eventType, int serPort) {
         logger.info("Requesting other server from montreal");
         int serverPort;
         if (eventID != null) {
@@ -183,7 +188,7 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         String response = null;
         String eventTypeName = eventType != null ? eventType : "Default";
         String eventIDName = eventID != null ? eventID : "Default";
-        String bookingCap = bookingCapacity.toString();
+        String bookingCap = bookingCapacity != null ? bookingCapacity : "Default";
 
         try {
             aSocket = new DatagramSocket();

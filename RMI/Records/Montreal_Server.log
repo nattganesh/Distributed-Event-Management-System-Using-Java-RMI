@@ -24,3 +24,43 @@ May 31, 2019 8:21:04 PM ServerImpl.MontrealServerImpl listEventAvailability
 INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: 1234
 May 31, 2019 8:23:32 PM ServerImpl.MontrealServerImpl listEventAvailability
 INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: 1234
+Jun 01, 2019 10:31:45 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: 1234
+Jun 01, 2019 10:32:29 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1234
+Jun 01, 2019 10:39:02 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1234
+Jun 01, 2019 10:40:30 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1234
+Jun 01, 2019 10:42:32 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 3234
+Jun 01, 2019 10:43:33 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1234
+Jun 01, 2019 10:45:51 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1234
+Jun 01, 2019 10:46:28 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1234
+Jun 01, 2019 10:51:10 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 3221
+Jun 01, 2019 10:51:33 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1234
+Jun 01, 2019 10:55:01 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 1345
+Jun 01, 2019 11:32:37 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: TradeShows by Manager: 4321in serverMONTREAL
+Jun 01, 2019 11:37:29 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: 5433in serverMONTREAL
+Jun 01, 2019 11:47:24 AM ServerImpl.MontrealServerImpl listEventAvailability
+INFO: Operation Successful, List of events retrieved for Event Type: Conferences by Manager: 3234in serverMONTREAL
+Jun 01, 2019 12:06:18 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:14:53 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:18:44 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:19:31 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:27:29 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Requesting other server from montreal
+Jun 01, 2019 12:27:29 PM ServerImpl.MontrealServerImpl requestToOtherServers
+INFO: Request send [B@6d0970de

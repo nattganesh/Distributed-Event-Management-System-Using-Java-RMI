@@ -44,11 +44,11 @@ public class Client {
         {
             String serverId = id.substring(0, 3).toUpperCase();
             String clientType = id.substring(3, 4).toUpperCase();
-            String clientID = id.substring(4, 8).toUpperCase();
+            //String clientID = id.substring(4, 8).toUpperCase();
             if ((clientType.equals(CommonUtils.CUSTOMER_ClientType) || clientType.equals(CommonUtils.EVENT_MANAGER_ClientType))
                     && (serverId.equals(CommonUtils.TORONTO) || serverId.equals(CommonUtils.MONTREAL) || serverId.equals(CommonUtils.OTTAWA)))
             {
-                runClientService(clientType, serverId, clientID);
+                runClientService(clientType, serverId, id);
             }
             else
             {
@@ -93,7 +93,7 @@ public class Client {
             CommonUtils.addFileHandler(LOGGER, customerID);
             server = (ServerInterface) registry.lookup(getServerName(serverId));
 
-            String out = server.listEventAvailability("Conferences", clientID);
+            String out = server.listEventAvailability(CommonUtils.CONFERENCE, clientID);
             System.out.println(out);
         }
         catch (SecurityException | IOException ex)
