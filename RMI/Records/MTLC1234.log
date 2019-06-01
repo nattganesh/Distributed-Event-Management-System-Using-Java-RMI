@@ -1,0 +1,51 @@
+Jun 01, 2019 1:46:01 AM Client.Client runCustomerMenu
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 1:46:01 AM Client.Client runCustomerMenu
+INFO: Operation Failure. Records for MTLC1234 do not exist.
+Jun 01, 2019 1:47:22 AM Client.Client runCustomerMenu
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 1:47:22 AM Client.Client runCustomerMenu
+INFO: Operation Failure. Records for MTLC1234 do not exist.
+Jun 01, 2019 1:55:55 AM Client.Client runBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 1:55:55 AM Client.Client runBookingSchedule
+INFO: Operation Failure. Records for MTLC1234 do not exist.
+Jun 01, 2019 2:07:24 AM Client.Client runBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 2:07:24 AM Client.Client runBookingSchedule
+INFO: Operation Failure. Records for MTLC1234 do not exist.
+Jun 01, 2019 2:09:15 AM Client.Client runBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 2:09:16 AM Client.Client runBookingSchedule
+INFO: Operation Failure. Records for MTLC1234 do not exist.
+Jun 01, 2019 2:12:21 AM Client.Client runBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 2:12:21 AM Client.Client runBookingSchedule
+INFO: Operation Failure. Records for MTLC1234 do not exist.
+Jun 01, 2019 2:12:48 AM Client.Client runBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 2:12:48 AM Client.Client runBookingSchedule
+INFO: Operation Failure. Records for MTLC1234 do not exist.
+Jun 01, 2019 2:12:51 AM Client.Client runBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 2:12:51 AM Client.Client runBookingSchedule
+INFO: Operation Failure. Records for MTLC1234 do not exist.
+Jun 01, 2019 2:20:09 AM Client.Client runBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 2:20:09 AM Client.Client runBookingSchedule
+INFO: Operation Failure. Records for MTLC1234 do not exist.
+Jun 01, 2019 2:20:39 AM Client.Client runBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 2:20:39 AM Client.Client runBookingSchedule
+INFO: Operation Failure. Records for MTLC1234 do not exist.
+Jun 01, 2019 2:21:30 AM Client.Client runBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 2:21:30 AM Client.Client runBookingSchedule
+INFO: Operation Sucessful. Records for MTLC1234 have been found
+Jun 01, 2019 2:21:30 AM Client.Client runBookingSchedule
+INFO: 
+Event ID: MTLdyfg1234Booking for 5
+Event ID: MTLdyfg3444Booking for 5
+Event ID: MTLdyfg1666Booking for 2
+Event ID: MTLdyfg1777Booking for 5
+Event ID: MTLdyfg1888Booking for 5

@@ -5,7 +5,7 @@
  */
 package ServerImpl;
 
-import CommonUtils.CommonUtils;
+import static CommonUtils.CommonUtils.*;
 import ServerInterface.ServerInterface;
 
 import java.io.IOException;
@@ -28,34 +28,34 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
 
 
     private static HashMap<String, HashMap< String, Object>> databaseMontreal = new HashMap<>();
-    private static  HashMap<String, ArrayList<String>> customerEventsMapping = new HashMap<>();
+    private static final  HashMap<String, HashMap< String, Integer>> customerEventsMapping = new HashMap<>();
     private static  Logger logger;
     {
 
         //item1
-        databaseMontreal.put(CommonUtils.CONFERENCE, new HashMap<>());
-        databaseMontreal.get(CommonUtils.CONFERENCE).put("OTWA100519", "5");
+        databaseMontreal.put(CONFERENCE, new HashMap<>());
+        databaseMontreal.get(CONFERENCE).put("OTWA100519", "5");
         //item2
-        databaseMontreal.put(CommonUtils.SEMINAR, new HashMap<>());
-        databaseMontreal.get(CommonUtils.SEMINAR).put("TORM100519", "8");
+        databaseMontreal.put(SEMINAR, new HashMap<>());
+        databaseMontreal.get(SEMINAR).put("TORM100519", "8");
 
         //item3
-        databaseMontreal.put(CommonUtils.TRADESHOW, new HashMap<>());
-        databaseMontreal.get(CommonUtils.TRADESHOW).put("MTLE100519", "9");
+        databaseMontreal.put(TRADESHOW, new HashMap<>());
+        databaseMontreal.get(TRADESHOW).put("MTLE100519", "9");
 
         //item4
-        databaseMontreal.put(CommonUtils.CONFERENCE, new HashMap<>());
-        databaseMontreal.get(CommonUtils.CONFERENCE).put("MTLE100519", "3");
-        databaseMontreal.put(CommonUtils.CONFERENCE, new HashMap<>());
-        databaseMontreal.get(CommonUtils.CONFERENCE).put("MTLA12345", "12");
+        databaseMontreal.put(CONFERENCE, new HashMap<>());
+        databaseMontreal.get(CONFERENCE).put("MTLE100519", "3");
+        databaseMontreal.put(CONFERENCE, new HashMap<>());
+        databaseMontreal.get(CONFERENCE).put("MTLA12345", "12");
 
         //item5
-        databaseMontreal.put(CommonUtils.SEMINAR, new HashMap<>());
-        databaseMontreal.get(CommonUtils.SEMINAR).put("TORM100519", "2");
+        databaseMontreal.put(SEMINAR, new HashMap<>());
+        databaseMontreal.get(SEMINAR).put("TORM100519", "2");
 
         //item6
-        databaseMontreal.put(CommonUtils.TRADESHOW, new HashMap<>());
-        databaseMontreal.get(CommonUtils.TRADESHOW).put("OTWA100519", "9");
+        databaseMontreal.put(TRADESHOW, new HashMap<>());
+        databaseMontreal.get(TRADESHOW).put("OTWA100519", "9");
 
     }
 
@@ -64,7 +64,7 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         logger = Logger.getLogger(MontrealServerImpl.class.getName());
         try
         {
-            CommonUtils.addFileHandler(logger, "Montreal_Server");
+            addFileHandler(logger, "Montreal_Server");
         }
         catch (SecurityException | IOException ex)
         {
@@ -74,12 +74,12 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
 
     private static int serverPortSelection(String str) {
         str = str.substring(0, 3);
-        if (str.equals(CommonUtils.TORONTO)) {
-            return CommonUtils.TORONTO_SERVER_PORT;
-        } else if (str.equals(CommonUtils.OTTAWA)) {
-            return CommonUtils.OTTAWA_SERVER_PORT;
-        } else if (str.equals(CommonUtils.MONTREAL)) {
-            return CommonUtils.MONTREAL_SERVER_PORT;
+        if (str.equals(TORONTO)) {
+            return TORONTO_SERVER_PORT;
+        } else if (str.equals(OTTAWA)) {
+            return OTTAWA_SERVER_PORT;
+        } else if (str.equals(MONTREAL)) {
+            return MONTREAL_SERVER_PORT;
         }
         return 0;
     }
@@ -160,8 +160,31 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
     }
 
     @Override
-    public String getBookingSchedule(String customerID) throws RemoteException {
-        return null;
+    public String getBookingSchedule(String customerID) throws RemoteException
+    {
+        String returnMsg = "";
+        customerEventsMapping.put("MTLC1234", new HashMap<>());
+        customerEventsMapping.get("MTLC1234").put("MTLdyfg1234",5);
+        customerEventsMapping.get("MTLC1234").put("MTLdyfg3444",5);
+        customerEventsMapping.get("MTLC1234").put("MTLdyfg1666",2);
+        customerEventsMapping.get("MTLC1234").put("MTLdyfg1777",5);
+        customerEventsMapping.get("MTLC1234").put("MTLdyfg1888",5);
+        logger.info("Booking Schedule Requested by " + customerID);
+        HashMap< String, Integer> customerEvents = customerEventsMapping.get(customerID);
+        if (customerEvents != null && !customerEvents.isEmpty())
+        {
+            for (String event : customerEvents.keySet())
+            {
+                returnMsg += "\nEvent ID: " + event + "Booking for " + customerEvents.get(event);
+            }
+            logger.info("Operation Sucessful. Records for " + customerID + " have been found");
+        }
+        else
+        {
+            logger.info("Operation Failure. Records for " + customerID + " do not exist.");
+            returnMsg += OPERATIONFAILURE;
+        }
+        return returnMsg;
     }
 
     @Override

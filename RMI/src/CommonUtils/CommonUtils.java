@@ -34,6 +34,8 @@ public class CommonUtils {
     public static final String CONFERENCE = "Conferences";
     public static final String SEMINAR = "Seminars";
     public static final String TRADESHOW = "TradeShows";
+    
+    public static final String OPERATIONFAILURE = "Operation Failure";
 
     public static void addFileHandler(Logger log, String fileName) throws SecurityException, IOException
     {
