@@ -87,7 +87,7 @@ public class Client {
         try
         {
             String customerID = serverId + "M" + clientID;
-            System.out.println("Welcome Manager " + customerID);
+            System.out.println("Welcome Manager " + clientID);
             Registry registry = LocateRegistry.getRegistry(getServerPort(serverId));
             LOGGER = Logger.getLogger(getServerClassName(serverId));
             CommonUtils.addFileHandler(LOGGER, customerID);

@@ -127,17 +127,22 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         String message = null;
         StringBuilder returnMessage = new StringBuilder();
         if (managerID.substring(0, 3).equals(CommonUtils.MONTREAL)) {
-            String torrontoEvents = requestToOtherServers(managerID, null, null, 3, eventType, CommonUtils.TORONTO_SERVER_PORT);
-            String ottawaEvents = requestToOtherServers(managerID, null, null, 3, eventType, CommonUtils.OTTAWA_SERVER_PORT);
+            String torrontoEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.TORONTO_SERVER_PORT);
+            String ottawaEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.OTTAWA_SERVER_PORT);
+            returnMessage.append(torrontoEvents).append("\n\n").append(ottawaEvents).append("\n\n");
 
-            returnMessage.append(torrontoEvents).append(ottawaEvents);
         }
         if (managerID.substring(0, 3).equals(CommonUtils.TORONTO)) {
+            String montrealEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.MONTREAL_SERVER_PORT);
+            String ottawaEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.OTTAWA_SERVER_PORT);
 
+            returnMessage.append(ottawaEvents).append("\n\n").append(montrealEvents).append("\n\n");
         }
         if (managerID.substring(0, 3).equals(CommonUtils.OTTAWA)) {
+            String montrealEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.MONTREAL_SERVER_PORT);
+            String torrontoEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.TORONTO_SERVER_PORT);
 
-
+            returnMessage.append(torrontoEvents).append("\n\n").append(montrealEvents).append("\n\n");
         }
 
 
@@ -145,12 +150,12 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
             for (Map.Entry<String, Object> entry : databaseMontreal.get(eventType).entrySet()) {
                 returnMessage.append("EventID: " + entry.getKey() + "| Booking Capacity " + entry.getValue() + "\n");
             }
-            message = "Operation Successful, List of events retrieved for Event Type: " + eventType + " by Manager: " + managerID + "in server" + CommonUtils.MONTREAL_SERVER_NAME;
+            message = "Operation Successful, List of events retrieved for Event Type: " + eventType + " by Manager: " + managerID + "in server";
             logger.info(message);
 
             return returnMessage.toString();
         } else {
-            message = "Operation UnSuccessful, List of events not retrieved for Event Type: " + eventType + " by Manager: " + managerID + " in server " + CommonUtils.MONTREAL_SERVER_NAME;
+            message = "Operation UnSuccessful, List of events not retrieved for Event Type: " + eventType + " by Manager: " + managerID + " in server ";
             logger.info(message);
             return message;
         }
@@ -186,13 +191,14 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         String stringServer = Integer.toString(serverNumber);
         DatagramSocket aSocket = null;
         String response = null;
+        String userIDName = userID != null ? userID : "Default";
         String eventTypeName = eventType != null ? eventType : "Default";
         String eventIDName = eventID != null ? eventID : "Default";
         String bookingCap = bookingCapacity != null ? bookingCapacity : "Default";
 
         try {
             aSocket = new DatagramSocket();
-            String message = userID.concat(" ").concat(eventIDName).concat(" ").concat(stringServer).concat(" ").concat(eventTypeName).concat(bookingCap);
+            String message = userIDName.concat(" ").concat(eventIDName).concat(" ").concat(stringServer).concat(" ").concat(eventTypeName).concat(" ").concat(bookingCap);
             InetAddress host = InetAddress.getByName("localhost");
             DatagramPacket sendPacket = new DatagramPacket(message.getBytes(), message.length(), host, serverPort);
             aSocket.send(sendPacket);
