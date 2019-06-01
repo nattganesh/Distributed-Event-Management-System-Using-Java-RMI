@@ -5,7 +5,7 @@
  */
 package Server;
 
-import CommonUtils.CommonUtils;
+import static CommonUtils.CommonUtils.*;
 import ServerImpl.TorontoServerImpl;
 
 import java.io.IOException;
@@ -37,10 +37,10 @@ public class TorontoServer {
         Thread thread = new Thread(runnable);
         thread.start();
 
-        Registry registry = LocateRegistry.createRegistry(CommonUtils.TORONTO_SERVER_PORT);
+        Registry registry = LocateRegistry.createRegistry(TORONTO_SERVER_PORT);
 
         try {
-            registry.bind(CommonUtils.TORONTO_SERVER_NAME, torontoServerStub);
+            registry.bind(TORONTO_SERVER_NAME, torontoServerStub);
         }catch (RemoteException e){
             e.printStackTrace();
         } catch (AlreadyBoundException e) {
@@ -52,7 +52,7 @@ public class TorontoServer {
     private static void receiveRequestsFromOthers(TorontoServerImpl torontoServer) {
         DatagramSocket aSocket = null;
         try {
-            aSocket = new DatagramSocket(CommonUtils.TORONTO_SERVER_PORT);
+            aSocket = new DatagramSocket(TORONTO_SERVER_PORT);
             byte[] buffer = new byte[1000];
             System.out.println("Torronto server started.....");
             //Server waits for the request

@@ -92,7 +92,7 @@ public class Client {
             addFileHandler(LOGGER, customerID);
             server = (ServerInterface) registry.lookup(getServerName(serverId));
 
-//            String out = server.listEventAvailability(CommonUtils.CONFERENCE, clientID);
+//            String out = server.listEventAvailability(CONFERENCE, clientID);
 //            System.out.println(out);
             runManagerMenu(server, clientID);
         }

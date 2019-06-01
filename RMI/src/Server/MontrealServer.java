@@ -5,7 +5,7 @@
  */
 package Server;
 
-import CommonUtils.CommonUtils;
+import static CommonUtils.CommonUtils.*;
 import ServerImpl.MontrealServerImpl;
 
 import java.io.IOException;
@@ -38,10 +38,10 @@ public class MontrealServer {
         thread.start();
 
 
-        Registry registry = LocateRegistry.createRegistry(CommonUtils.MONTREAL_SERVER_PORT);
+        Registry registry = LocateRegistry.createRegistry(MONTREAL_SERVER_PORT);
 
         try {
-            registry.bind(CommonUtils.MONTREAL_SERVER_NAME, montrealServerStub);
+            registry.bind(MONTREAL_SERVER_NAME, montrealServerStub);
         }catch (RemoteException e){
             e.printStackTrace();
         } catch (AlreadyBoundException e) {
@@ -53,7 +53,7 @@ public class MontrealServer {
     private static void receiveRequestsFromOthers(MontrealServerImpl monStub) {
         DatagramSocket aSocket = null;
         try {
-            aSocket = new DatagramSocket(CommonUtils.MONTREAL_SERVER_PORT);
+            aSocket = new DatagramSocket(MONTREAL_SERVER_PORT);
             byte[] buffer = new byte[1000];
             System.out.println("Montreal server started.....");
             //Server waits for the request

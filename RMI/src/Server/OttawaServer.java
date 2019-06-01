@@ -5,7 +5,7 @@
  */
 package Server;
 
-import CommonUtils.CommonUtils;
+import static CommonUtils.CommonUtils.*;
 import ServerImpl.OttawaServerImpl;
 
 import java.io.IOException;
@@ -37,10 +37,10 @@ public class OttawaServer {
         Thread thread = new Thread(runnable);
         thread.start();
 
-        Registry registry = LocateRegistry.createRegistry(CommonUtils.OTTAWA_SERVER_PORT);
+        Registry registry = LocateRegistry.createRegistry(OTTAWA_SERVER_PORT);
 
         try {
-            registry.bind(CommonUtils.OTTAWA_SERVER_NAME, ottawaServerStub);
+            registry.bind(OTTAWA_SERVER_NAME, ottawaServerStub);
         }catch (RemoteException e){
             e.printStackTrace();
         } catch (AlreadyBoundException e) {
@@ -52,7 +52,7 @@ public class OttawaServer {
     private static void receiveRequestsFromOthers(OttawaServerImpl ottawaServer) {
         DatagramSocket aSocket = null;
         try {
-            aSocket = new DatagramSocket(CommonUtils.OTTAWA_SERVER_PORT);
+            aSocket = new DatagramSocket(OTTAWA_SERVER_PORT);
             byte[] buffer = new byte[1000];
             System.out.println("Ottawa server started.....");
             //Server waits for the request

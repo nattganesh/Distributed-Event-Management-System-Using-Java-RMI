@@ -5,7 +5,6 @@
  */
 package ServerImpl;
 
-import CommonUtils.CommonUtils;
 import static CommonUtils.CommonUtils.*;
 import ServerInterface.ServerInterface;
 
@@ -36,22 +35,22 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
     {
 
         //item1
-        databaseToronto.put(CommonUtils.CONFERENCE, new HashMap<>());
-        databaseToronto.get(CommonUtils.CONFERENCE).put("TORA100519", "52");
-        databaseToronto.get(CommonUtils.CONFERENCE).put("TORE100519", "3");
-        databaseToronto.get(CommonUtils.CONFERENCE).put("TORA12345", "12");
+        databaseToronto.put(CONFERENCE, new HashMap<>());
+        databaseToronto.get(CONFERENCE).put("TORA100519", "52");
+        databaseToronto.get(CONFERENCE).put("TORE100519", "3");
+        databaseToronto.get(CONFERENCE).put("TORA12345", "12");
 
         //item2
-        databaseToronto.put(CommonUtils.SEMINAR, new HashMap<>());
-        databaseToronto.get(CommonUtils.SEMINAR).put("TORE100519", "8");
-        databaseToronto.get(CommonUtils.SEMINAR).put("TORM100519", "2");
+        databaseToronto.put(SEMINAR, new HashMap<>());
+        databaseToronto.get(SEMINAR).put("TORE100519", "8");
+        databaseToronto.get(SEMINAR).put("TORM100519", "2");
 
 
 
         //item6
-        databaseToronto.put(CommonUtils.TRADESHOW, new HashMap<>());
-        databaseToronto.get(CommonUtils.TRADESHOW).put("TORA100519", "9");
-        databaseToronto.get(CommonUtils.TRADESHOW).put("TORE100519", "9");
+        databaseToronto.put(TRADESHOW, new HashMap<>());
+        databaseToronto.get(TRADESHOW).put("TORA100519", "9");
+        databaseToronto.get(TRADESHOW).put("TORE100519", "9");
 
     }
 
@@ -60,7 +59,7 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
         logger = Logger.getLogger(TorontoServerImpl.class.getName());
         try
         {
-            CommonUtils.addFileHandler(logger, "Toronto_Server");
+            addFileHandler(logger, "Toronto_Server");
         }
         catch (SecurityException | IOException ex)
         {
@@ -111,12 +110,12 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
 
     private static int serverPortSelection(String str) {
         str = str.substring(0, 3);
-        if (str.equals(CommonUtils.TORONTO)) {
-            return CommonUtils.TORONTO_SERVER_PORT;
-        } else if (str.equals(CommonUtils.OTTAWA)) {
-            return CommonUtils.OTTAWA_SERVER_PORT;
-        } else if (str.equals(CommonUtils.MONTREAL)) {
-            return CommonUtils.MONTREAL_SERVER_PORT;
+        if (str.equals(TORONTO)) {
+            return TORONTO_SERVER_PORT;
+        } else if (str.equals(OTTAWA)) {
+            return OTTAWA_SERVER_PORT;
+        } else if (str.equals(MONTREAL)) {
+            return MONTREAL_SERVER_PORT;
         }
         return 0;
     }
@@ -127,27 +126,27 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
         String message = null;
         StringBuilder returnMessage = new StringBuilder();
 
-        if (managerID.substring(0, 3).equals(CommonUtils.MONTREAL)) {
-            logger.info("Requesting other server from Server: " + CommonUtils.TORONTO_SERVER_NAME);
-            String torrontoEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.TORONTO_SERVER_PORT);
-            logger.info("Requesting other server from Server: " + CommonUtils.OTTAWA_SERVER_NAME);
-            String ottawaEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.OTTAWA_SERVER_PORT);
+        if (managerID.substring(0, 3).equals(MONTREAL)) {
+            logger.info("Requesting other server from Server: " + TORONTO_SERVER_NAME);
+            String torrontoEvents = requestToOtherServers(null, null, null, 3, eventType, TORONTO_SERVER_PORT);
+            logger.info("Requesting other server from Server: " + OTTAWA_SERVER_NAME);
+            String ottawaEvents = requestToOtherServers(null, null, null, 3, eventType, OTTAWA_SERVER_PORT);
             returnMessage.append(torrontoEvents).append("\n\n").append(ottawaEvents).append("\n\n");
 
         }
-        if (managerID.substring(0, 3).equals(CommonUtils.TORONTO)) {
-            logger.info("Requesting other server from Server: " + CommonUtils.MONTREAL_SERVER_NAME);
-            String montrealEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.MONTREAL_SERVER_PORT);
-            logger.info("Requesting other server from Server: " + CommonUtils.OTTAWA_SERVER_NAME);
-            String ottawaEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.OTTAWA_SERVER_PORT);
+        if (managerID.substring(0, 3).equals(TORONTO)) {
+            logger.info("Requesting other server from Server: " + MONTREAL_SERVER_NAME);
+            String montrealEvents = requestToOtherServers(null, null, null, 3, eventType, MONTREAL_SERVER_PORT);
+            logger.info("Requesting other server from Server: " + OTTAWA_SERVER_NAME);
+            String ottawaEvents = requestToOtherServers(null, null, null, 3, eventType, OTTAWA_SERVER_PORT);
 
             returnMessage.append(ottawaEvents).append("\n\n").append(montrealEvents).append("\n\n");
         }
-        if (managerID.substring(0, 3).equals(CommonUtils.OTTAWA)) {
-            logger.info("Requesting other server from Server: " + CommonUtils.MONTREAL_SERVER_NAME);
-            String montrealEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.MONTREAL_SERVER_PORT);
-            logger.info("Requesting other server from Server: " + CommonUtils.TORONTO_SERVER_NAME);
-            String torrontoEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.TORONTO_SERVER_PORT);
+        if (managerID.substring(0, 3).equals(OTTAWA)) {
+            logger.info("Requesting other server from Server: " + MONTREAL_SERVER_NAME);
+            String montrealEvents = requestToOtherServers(null, null, null, 3, eventType, MONTREAL_SERVER_PORT);
+            logger.info("Requesting other server from Server: " + TORONTO_SERVER_NAME);
+            String torrontoEvents = requestToOtherServers(null, null, null, 3, eventType, TORONTO_SERVER_PORT);
 
             returnMessage.append(torrontoEvents).append("\n\n").append(montrealEvents).append("\n\n");
         }
@@ -156,12 +155,12 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
             for (Map.Entry<String, Object> entry : databaseToronto.get(eventType).entrySet()) {
                 returnMessage.append("EventID: " + entry.getKey() + "| Booking Capacity " + entry.getValue() + "\n");
             }
-            message = "Operation Successful, List of events retrieved for Event Type: " + eventType + " by Manager: " + managerID + "in server" + CommonUtils.TORONTO_SERVER_NAME;
+            message = "Operation Successful, List of events retrieved for Event Type: " + eventType + " by Manager: " + managerID + "in server" + TORONTO_SERVER_NAME;
             logger.info(message);
 
             return returnMessage.toString();
         } else {
-            message = "Operation UnSuccessful, List of events not retrieved for Event Type: " + eventType + " by Manager: " + managerID + " in server " + CommonUtils.TORONTO_SERVER_NAME;
+            message = "Operation UnSuccessful, List of events not retrieved for Event Type: " + eventType + " by Manager: " + managerID + " in server " + TORONTO_SERVER_NAME;
             logger.info(message);
             return message;
         }
