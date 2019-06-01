@@ -235,6 +235,7 @@ public class Client {
         }
         else
         {
+            System.out.printf("===> Records for %s do not exist.%n", customerID);
             LOGGER.log(Level.INFO, "Operation Failure. Records for {0} do not exist.", customerID);
         }
     }
