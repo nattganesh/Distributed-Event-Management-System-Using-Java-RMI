@@ -177,13 +177,13 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
     public String getBookingSchedule(String customerID) throws RemoteException
     {
         String returnMsg = "";
-        customerEventsMapping.put("MTLC1234", new HashMap<>());
-        customerEventsMapping.get("MTLC1234").put("MTLdyfg1234",5);
-        customerEventsMapping.get("MTLC1234").put("MTLdyfg3444",5);
-        customerEventsMapping.get("MTLC1234").put("MTLdyfg1666",2);
-        customerEventsMapping.get("MTLC1234").put("MTLdyfg1777",5);
-        customerEventsMapping.get("MTLC1234").put("MTLdyfg1888",5);
-        logger.info("Booking Schedule Requested by " + customerID);
+//        customerEventsMapping.put("MTLC1234", new HashMap<>());
+//        customerEventsMapping.get("MTLC1234").put("MTLdyfg1234",5);
+//        customerEventsMapping.get("MTLC1234").put("MTLdyfg3444",5);
+//        customerEventsMapping.get("MTLC1234").put("MTLdyfg1666",2);
+//        customerEventsMapping.get("MTLC1234").put("MTLdyfg1777",5);
+//        customerEventsMapping.get("MTLC1234").put("MTLdyfg1888",5);
+        logger.log(Level.INFO, "Booking Schedule Requested by {0}", customerID);
         HashMap< String, Integer> customerEvents = customerEventsMapping.get(customerID);
         if (customerEvents != null && !customerEvents.isEmpty())
         {
@@ -191,11 +191,11 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
             {
                 returnMsg += "\nEvent ID: " + event + "Booking for " + customerEvents.get(event);
             }
-            logger.info("Operation Sucessful. Records for " + customerID + " have been found");
+            logger.log(Level.INFO, "Operation Sucessful. Records for {0} have been found", customerID);
         }
         else
         {
-            logger.info("Operation Failure. Records for " + customerID + " do not exist.");
+            logger.log(Level.INFO, "Operation Failure. Records for {0} do not exist.", customerID);
             returnMsg += OPERATIONFAILURE;
         }
         return returnMsg;

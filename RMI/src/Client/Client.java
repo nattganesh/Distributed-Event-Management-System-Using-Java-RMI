@@ -73,13 +73,9 @@ public class Client {
 
             runCustomerMenu(server, customerID);
         }
-        catch (SecurityException | IOException ex)
+        catch (SecurityException | IOException | NotBoundException ex)
         {
             //Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (NotBoundException ex)
-        {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -98,13 +94,9 @@ public class Client {
             String out = server.listEventAvailability("Conferences", clientID);
             System.out.println(out);
         }
-        catch (SecurityException | IOException ex)
+        catch (SecurityException | IOException | NotBoundException ex)
         {
             //Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (NotBoundException ex)
-        {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -125,14 +117,10 @@ public class Client {
     {
         switch (serverId)
         {
-            case TORONTO:
-                return TORONTO_SERVER_PORT;
-            case MONTREAL:
-                return MONTREAL_SERVER_PORT;
-            case OTTAWA:
-                return OTTAWA_SERVER_PORT;
-            default:
-                return -1;
+            case TORONTO: return TORONTO_SERVER_PORT;
+            case MONTREAL: return MONTREAL_SERVER_PORT;
+            case OTTAWA: return OTTAWA_SERVER_PORT;
+            default: return -1;
         }
     }
 
@@ -140,14 +128,10 @@ public class Client {
     {
         switch (serverId)
         {
-            case TORONTO:
-                return TORONTO_SERVER_NAME;
-            case MONTREAL:
-                return MONTREAL_SERVER_NAME;
-            case OTTAWA:
-                return OTTAWA_SERVER_NAME;
-            default:
-                return "Server Does Not Exist";
+            case TORONTO: return TORONTO_SERVER_NAME;
+            case MONTREAL: return MONTREAL_SERVER_NAME;
+            case OTTAWA: return OTTAWA_SERVER_NAME;
+            default: return "Server Does Not Exist";
         }
     }
 
@@ -155,14 +139,10 @@ public class Client {
     {
         switch (serverId)
         {
-            case TORONTO:
-                return TorontoServerImpl.class.getName();
-            case MONTREAL:
-                return MontrealServerImpl.class.getName();
-            case OTTAWA:
-                return OttawaServerImpl.class.getName();
-            default:
-                return "Server Does Not Exist";
+            case TORONTO: return TorontoServerImpl.class.getName();
+            case MONTREAL: return MontrealServerImpl.class.getName();
+            case OTTAWA: return OttawaServerImpl.class.getName();
+            default: return "Server Does Not Exist";
         }
     }
 
@@ -243,24 +223,20 @@ public class Client {
 
     private static void runBookingSchedule(ServerInterface server, String customerID) throws RemoteException
     {
-        LOGGER.info("Booking Schedule Requested by " + customerID);
+        LOGGER.log(Level.INFO, "Booking Schedule Requested by {0}", customerID);
         System.out.println(customerID + "'s Bookings Schedule");
         String booking = server.getBookingSchedule(customerID);
         System.out.println(booking);
-
-        setTimer();
-
+        
         if (!booking.equalsIgnoreCase(OPERATIONFAILURE))
         {
-            LOGGER.info("Operation Sucessful. Records for " + customerID + " have been found");
+            LOGGER.log(Level.INFO, "Operation Sucessful. Records for {0} have been found", customerID);
             LOGGER.info(booking);
         }
         else
         {
-            LOGGER.info("Operation Failure. Records for " + customerID + " do not exist.");
+            LOGGER.log(Level.INFO, "Operation Failure. Records for {0} do not exist.", customerID);
         }
-
-        setTimer();
     }
 
     private static void runBookEvent(ServerInterface server, String customerID) throws RemoteException
@@ -288,16 +264,6 @@ public class Client {
             System.out.println("Enter Event ID: ");
             String eventID = in.next();
             server.bookEvent(customerID, eventID, eventType);
-        }
-    }
-
-    private static void setTimer()
-    {
-        long startTime = System.currentTimeMillis();
-        long elapsedTime = 0;
-        while (elapsedTime < 100)
-        {
-            elapsedTime = (new Date()).getTime() - startTime;
         }
     }
 }

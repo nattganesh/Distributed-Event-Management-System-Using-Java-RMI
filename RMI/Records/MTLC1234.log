@@ -49,3 +49,22 @@ Event ID: MTLdyfg3444Booking for 5
 Event ID: MTLdyfg1666Booking for 2
 Event ID: MTLdyfg1777Booking for 5
 Event ID: MTLdyfg1888Booking for 5
+Jun 01, 2019 3:16:30 PM Client.Client runBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 3:16:30 PM Client.Client runBookingSchedule
+INFO: Operation Sucessful. Records for MTLC1234 have been found
+Jun 01, 2019 3:16:30 PM Client.Client runBookingSchedule
+INFO: 
+Event ID: MTLdyfg1234Booking for 5
+Event ID: MTLdyfg3444Booking for 5
+Event ID: MTLdyfg1666Booking for 2
+Event ID: MTLdyfg1777Booking for 5
+Event ID: MTLdyfg1888Booking for 5
+Jun 01, 2019 3:27:51 PM Client.Client runBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 3:27:52 PM Client.Client runBookingSchedule
+INFO: Operation Failure. Records for MTLC1234 do not exist.
+Jun 01, 2019 3:29:53 PM Client.Client runBookingSchedule
+INFO: Booking Schedule Requested by MTLC1234
+Jun 01, 2019 3:29:53 PM Client.Client runBookingSchedule
+INFO: Operation Failure. Records for MTLC1234 do not exist.
