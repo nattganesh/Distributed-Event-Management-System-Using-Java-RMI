@@ -80,20 +80,20 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
     @Override
     public String addEvent(String eventID, String eventType, String bookingCapacity, String managerID) throws RemoteException {
         String message = null;
-        logger.info("Received request from " + managerID + " to add an event with event id " + eventID + " , Event Type" + eventType +
+        logger.info("Received request to add an event with event id " + eventID + " , Event Type" + eventType +
                 " & Booking Capacity " + bookingCapacity);
         if (!databaseMontreal.get(eventType).containsKey(eventID))
         {
             databaseMontreal.get(eventType).put(eventID,bookingCapacity);
-            message = "Operations Successful!. Event Added in Montreal Server by Manager: " + managerID + " for Event ID: "
+            message = "Operations Successful!. Event Added in Montreal Server for Event ID: "
                     + eventID + " Event Type: " + eventType + " Booking Capacity: " + bookingCapacity;
             logger.info(message);
 
             return message;
         } else {
             databaseMontreal.get(eventType).replace(eventID, bookingCapacity);
-            message = "Operations Unsuccessful!. Event Not Added in Montreal Server by Manager: " + managerID + " f" +
-                    "or Event ID: " + eventID + " Event Type: " + eventType + " because the Event ID: " + eventID + "" +
+            message = "Operations Unsuccessful!. Event Not Added in Montreal Server " +
+                    "for Event ID: " + eventID + " Event Type: " + eventType + " because the Event ID: " + eventID + "" +
                     " is already added for the Event Type: " + eventType + ". But, the Booking Capacity is updated to " + bookingCapacity;
             logger.info(message);
 
@@ -127,19 +127,25 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         String message = null;
         StringBuilder returnMessage = new StringBuilder();
         if (managerID.substring(0, 3).equals(CommonUtils.MONTREAL)) {
+            logger.info("Requesting other server from Server: " + CommonUtils.TORONTO_SERVER_NAME);
             String torrontoEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.TORONTO_SERVER_PORT);
+            logger.info("Requesting other server from Server: " + CommonUtils.OTTAWA_SERVER_NAME);
             String ottawaEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.OTTAWA_SERVER_PORT);
             returnMessage.append(torrontoEvents).append("\n\n").append(ottawaEvents).append("\n\n");
 
         }
         if (managerID.substring(0, 3).equals(CommonUtils.TORONTO)) {
+            logger.info("Requesting other server from Server: " + CommonUtils.MONTREAL_SERVER_NAME);
             String montrealEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.MONTREAL_SERVER_PORT);
+            logger.info("Requesting other server from Server: " + CommonUtils.OTTAWA_SERVER_NAME);
             String ottawaEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.OTTAWA_SERVER_PORT);
 
             returnMessage.append(ottawaEvents).append("\n\n").append(montrealEvents).append("\n\n");
         }
         if (managerID.substring(0, 3).equals(CommonUtils.OTTAWA)) {
+            logger.info("Requesting other server from Server: " + CommonUtils.MONTREAL_SERVER_NAME);
             String montrealEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.MONTREAL_SERVER_PORT);
+            logger.info("Requesting other server from Server: " + CommonUtils.TORONTO_SERVER_NAME);
             String torrontoEvents = requestToOtherServers(null, null, null, 3, eventType, CommonUtils.TORONTO_SERVER_PORT);
 
             returnMessage.append(torrontoEvents).append("\n\n").append(montrealEvents).append("\n\n");
@@ -181,7 +187,6 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
 
 
     public String requestToOtherServers(String userID, String eventID, String bookingCapacity, int serverNumber, String eventType, int serPort) {
-        logger.info("Requesting other server from montreal");
         int serverPort;
         if (eventID != null) {
             serverPort = serverPortSelection(eventID);
