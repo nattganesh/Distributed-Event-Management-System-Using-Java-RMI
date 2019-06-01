@@ -19,6 +19,10 @@ public class CommonUtils {
     public static final String CUSTOMER_ClientType = "C";
     public static final String EVENT_MANAGER_ClientType = "M";
 
+    public static final String MORNING = "M";
+    public static final String EVENING = "E";
+    public static final String AFTERNOON = "A";
+
     public static final String TORONTO = "TOR";
     public static final String MONTREAL = "MTL";
     public static final String OTTAWA = "OTW";
@@ -34,12 +38,9 @@ public class CommonUtils {
     public static final String CONFERENCE = "Conferences";
     public static final String SEMINAR = "Seminars";
     public static final String TRADESHOW = "TradeShows";
-    
-    public static final String OPERATIONFAILURE = "Operation Failure";
 
     public static void addFileHandler(Logger log, String fileName) throws SecurityException, IOException
     {
-        log.setUseParentHandlers(false);
         FileHandler fileHandler = new FileHandler(System.getProperty("user.dir") + "/RMI/Records/" + fileName + ".log", true);
         log.addHandler(fileHandler);
         fileHandler.setFormatter(new SimpleFormatter());
