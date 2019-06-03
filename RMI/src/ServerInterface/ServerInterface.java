@@ -28,7 +28,7 @@ public interface ServerInterface extends Remote {
     String getBookingSchedule(String customerID) throws java.rmi.RemoteException;
 
     String cancelEvent(String customerID, String eventID) throws java.rmi.RemoteException;
-    
+
     String nonOriginCustomerBooking(String customerID) throws java.rmi.RemoteException;
 
 }

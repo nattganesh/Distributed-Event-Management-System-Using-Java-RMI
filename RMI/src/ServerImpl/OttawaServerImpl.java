@@ -29,35 +29,25 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
 
     private static HashMap<String, HashMap< String, String>> databaseOttawa = new HashMap<>();
     private static HashMap<String, HashMap<String, Integer>> customerEventsMapping = new HashMap<>();
-    private static Logger logger;    
+    private static Logger logger;
     {
-
         //item1
         databaseOttawa.put(CONFERENCE, new HashMap<>());
-        databaseOttawa.get(CONFERENCE).put("OTWM100519", "5");
-        databaseOttawa.get(CONFERENCE).put("OTWA100519", "3");
-        databaseOttawa.get(CONFERENCE).put("OTWE12345", "12");
+        databaseOttawa.get(CONFERENCE).put("OTWM030619", "50");
+        databaseOttawa.get(CONFERENCE).put("OTWE030619", "50");
+        databaseOttawa.get(CONFERENCE).put("OTWA030619", "50");
 
         //item2
         databaseOttawa.put(SEMINAR, new HashMap<>());
-        databaseOttawa.get(SEMINAR).put("OTWA100519", "8");
-        databaseOttawa.get(SEMINAR).put("OTWM100519", "2");
+        databaseOttawa.get(CONFERENCE).put("OTWM050619", "50");
+        databaseOttawa.get(CONFERENCE).put("OTWE050619", "50");
+        databaseOttawa.get(CONFERENCE).put("OTWA050619", "50");
 
         //item6
         databaseOttawa.put(TRADESHOW, new HashMap<>());
-        databaseOttawa.get(TRADESHOW).put("OTWA100519", "9");
-        databaseOttawa.get(TRADESHOW).put("OTWE100519", "9");
-        
-        
-        
-        //To Test
-//        customerEventsMapping.put("MTLC1234", new HashMap<>());
-//        customerEventsMapping.get("MTLC1234").put("MTLdyfg1234",5);
-//        customerEventsMapping.get("MTLC1234").put("MTLdyfg3444",5);
-//        customerEventsMapping.get("MTLC1234").put("MTLdyfg1666",2);
-//        customerEventsMapping.get("MTLC1234").put("MTLdyfg1777",5);
-//        customerEventsMapping.get("MTLC1234").put("MTLdyfg1888",5);
-
+        databaseOttawa.get(CONFERENCE).put("OTWM090619", "50");
+        databaseOttawa.get(CONFERENCE).put("OTWE090619", "50");
+        databaseOttawa.get(CONFERENCE).put("OTWA090619", "50");
     }
 
     public OttawaServerImpl() throws RemoteException
@@ -200,24 +190,30 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     public String bookEvent(String customerID, String eventID, String eventType, String bookingAmount) throws RemoteException
     {
 //        if(customerID.substring(0, 3).equals(OTTAWA)){}
-        if(eventID.substring(0, 3).equals(OTTAWA))
+        if (eventID.substring(0, 3).equals(OTTAWA))
         {
-            logger.log(Level.INFO, "Book Event Requested by {0} for Event Type {1} with Event ID {2}", new Object[]{customerID, eventType ,eventID});
+            logger.log(Level.INFO, "Book Event Requested by {0} for Event Type {1} with Event ID {2}", new Object[]
+            {
+                customerID, eventType, eventID
+            });
             HashMap< String, String> event = databaseOttawa.get(eventType);
-            if(event.containsKey(eventID))
+            if (event.containsKey(eventID))
             {
                 if (customerEventsMapping.containsKey(customerID))
                 {
                     if (customerEventsMapping.get(customerID).containsKey(eventID))
                     {
-                        logger.log(Level.INFO, "Operation Unsuccessful, Book Event Requested by {0} for Event Type {1} with Event ID {2} cannot be booked. Customer already booked for this event.", new Object[]{customerID, eventType ,eventID});
-                        return "Operation Unsuccessful, Book Event Requested by "+ customerID + " for Event Type "+ eventType + " with Event ID "+ eventID + " cannot be booked. Customer already booked for this event.";
+                        logger.log(Level.INFO, "Operation Unsuccessful, Book Event Requested by {0} for Event Type {1} with Event ID {2} cannot be booked. Customer already booked for this event.", new Object[]
+                        {
+                            customerID, eventType, eventID
+                        });
+                        return "Operation Unsuccessful, Book Event Requested by " + customerID + " for Event Type " + eventType + " with Event ID " + eventID + " cannot be booked. Customer already booked for this event.";
                     }
                     else if (!customerID.substring(0, 3).equals(OTTAWA))
                     {
                         int customerBookingsCurrent = Integer.parseInt(this.nonOriginCustomerBooking(customerID));
-                        int customerBookingsOther = customerID.substring(0, 3).equals(MONTREAL) ? Integer.parseInt(requestToOtherServers(customerID, null, null, 7, null, TORONTO_SERVER_PORT).trim()) 
-                                                                                                : Integer.parseInt(requestToOtherServers(customerID, null, null, 7, null, MONTREAL_SERVER_PORT).trim());
+                        int customerBookingsOther = customerID.substring(0, 3).equals(MONTREAL) ? Integer.parseInt(requestToOtherServers(customerID, null, null, 7, null, TORONTO_SERVER_PORT).trim())
+                                : Integer.parseInt(requestToOtherServers(customerID, null, null, 7, null, MONTREAL_SERVER_PORT).trim());
 
                         if (customerBookingsCurrent + customerBookingsOther >= 3)
                         {
@@ -236,8 +232,8 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
                 {
                     bookingLeft -= bookingRequested;
                     event.put(eventID, "" + bookingLeft);
-                    
-                    if(customerEventsMapping.containsKey(customerID)) 
+
+                    if (customerEventsMapping.containsKey(customerID))
                     {
                         customerEventsMapping.get(customerID).put(eventID, bookingRequested);
                     }
@@ -271,8 +267,14 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
                 return "Operation Unsuccessful, Book Event Requested by " + customerID + " for Event Type " + eventType + " with Event ID " + eventID + " cannot be booked. Evant Does Not Exist.";
             }
         }
-        if(eventID.substring(0, 3).equals(TORONTO)){return requestToOtherServers(customerID, eventID, bookingAmount, 4, eventType, TORONTO_SERVER_PORT);}
-        if(eventID.substring(0, 3).equals(MONTREAL)){return requestToOtherServers(customerID, eventID, bookingAmount, 4, eventType, MONTREAL_SERVER_PORT);}
+        if (eventID.substring(0, 3).equals(TORONTO))
+        {
+            return requestToOtherServers(customerID, eventID, bookingAmount, 4, eventType, TORONTO_SERVER_PORT);
+        }
+        if (eventID.substring(0, 3).equals(MONTREAL))
+        {
+            return requestToOtherServers(customerID, eventID, bookingAmount, 4, eventType, MONTREAL_SERVER_PORT);
+        }
         return "";
     }
 
@@ -285,18 +287,18 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
         }
         return "" + 0;
     }
-    
+
     @Override
     public String getBookingSchedule(String customerID) throws RemoteException
     {
         String returnMsg = "";
         logger.log(Level.INFO, "Booking Schedule Requested by {0}", customerID);
         HashMap< String, Integer> customerEvents = customerEventsMapping.get(customerID);
-        
-        if(customerID.substring(0, 3).equals(OTTAWA))
+
+        if (customerID.substring(0, 3).equals(OTTAWA))
         {
             returnMsg += requestToOtherServers(customerID, null, null, 5, null, TORONTO_SERVER_PORT);
-            returnMsg += requestToOtherServers(customerID, null, null, 5, null, MONTREAL_SERVER_PORT);           
+            returnMsg += requestToOtherServers(customerID, null, null, 5, null, MONTREAL_SERVER_PORT);
         }
         if (customerEvents != null && !customerEvents.isEmpty())
         {
@@ -309,7 +311,10 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
         if (returnMsg.trim().equals(""))
         {
             logger.log(Level.INFO, "Records for {0} do not exist.", customerID);
-            if(customerID.substring(0, 3).equals(OTTAWA)) returnMsg += OPERATIONFAILURE;
+            if (customerID.substring(0, 3).equals(OTTAWA))
+            {
+                returnMsg += OPERATIONFAILURE;
+            }
         }
         return returnMsg;
     }
@@ -317,29 +322,29 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     @Override
     public String cancelEvent(String customerID, String eventID) throws RemoteException
     {
-        if(eventID.substring(0, 3).equals(OTTAWA))
+        if (eventID.substring(0, 3).equals(OTTAWA))
         {
-            if(customerEventsMapping.containsKey(customerID))
+            if (customerEventsMapping.containsKey(customerID))
             {
-                if(customerEventsMapping.get(customerID).containsKey(eventID))
+                if (customerEventsMapping.get(customerID).containsKey(eventID))
                 {
                     Integer bookValue = customerEventsMapping.get(customerID).remove(eventID);
                     Integer currentValue = 0;
                     Integer sum = 0;
-                    
-                    if(databaseOttawa.get(CONFERENCE).containsKey(eventID))
+
+                    if (databaseOttawa.get(CONFERENCE).containsKey(eventID))
                     {
                         currentValue = Integer.parseInt(databaseOttawa.get(CONFERENCE).get(eventID));
                         sum = currentValue + bookValue;
                         databaseOttawa.get(CONFERENCE).put(eventID, sum.toString());
                     }
-                    else if(databaseOttawa.get(SEMINAR).containsKey(eventID))
+                    else if (databaseOttawa.get(SEMINAR).containsKey(eventID))
                     {
                         currentValue = Integer.parseInt(databaseOttawa.get(SEMINAR).get(eventID));
                         sum = currentValue + bookValue;
                         databaseOttawa.get(SEMINAR).put(eventID, sum.toString());
                     }
-                    else if(databaseOttawa.get(TRADESHOW).containsKey(eventID))
+                    else if (databaseOttawa.get(TRADESHOW).containsKey(eventID))
                     {
                         currentValue = Integer.parseInt(databaseOttawa.get(TRADESHOW).get(eventID));
                         sum = currentValue + bookValue;
@@ -352,11 +357,11 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
             logger.log(Level.INFO, "This event does not exist in customer record.");
             return "This event does not exist in customer record.";
         }
-        else if(eventID.substring(0, 3).equals(TORONTO))
+        else if (eventID.substring(0, 3).equals(TORONTO))
         {
             return requestToOtherServers(customerID, eventID, null, 6, null, TORONTO_SERVER_PORT);
         }
-        else if(eventID.substring(0, 3).equals(MONTREAL))
+        else if (eventID.substring(0, 3).equals(MONTREAL))
         {
             return requestToOtherServers(customerID, eventID, null, 6, null, MONTREAL_SERVER_PORT);
         }

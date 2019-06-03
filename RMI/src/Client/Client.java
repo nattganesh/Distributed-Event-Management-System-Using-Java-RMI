@@ -115,10 +115,14 @@ public class Client {
     {
         switch (serverId)
         {
-            case TORONTO: return TORONTO_SERVER_PORT;
-            case MONTREAL: return MONTREAL_SERVER_PORT;
-            case OTTAWA: return OTTAWA_SERVER_PORT;
-            default: return -1;
+            case TORONTO:
+                return TORONTO_SERVER_PORT;
+            case MONTREAL:
+                return MONTREAL_SERVER_PORT;
+            case OTTAWA:
+                return OTTAWA_SERVER_PORT;
+            default:
+                return -1;
         }
     }
 
@@ -126,10 +130,14 @@ public class Client {
     {
         switch (serverId)
         {
-            case TORONTO: return TORONTO_SERVER_NAME;
-            case MONTREAL: return MONTREAL_SERVER_NAME;
-            case OTTAWA: return OTTAWA_SERVER_NAME;
-            default: return "Server Does Not Exist";
+            case TORONTO:
+                return TORONTO_SERVER_NAME;
+            case MONTREAL:
+                return MONTREAL_SERVER_NAME;
+            case OTTAWA:
+                return OTTAWA_SERVER_NAME;
+            default:
+                return "Server Does Not Exist";
         }
     }
 
@@ -137,10 +145,14 @@ public class Client {
     {
         switch (serverId)
         {
-            case TORONTO: return TorontoServerImpl.class.getName();
-            case MONTREAL: return MontrealServerImpl.class.getName();
-            case OTTAWA: return OttawaServerImpl.class.getName();
-            default: return "Server Does Not Exist";
+            case TORONTO:
+                return TorontoServerImpl.class.getName();
+            case MONTREAL:
+                return MontrealServerImpl.class.getName();
+            case OTTAWA:
+                return OttawaServerImpl.class.getName();
+            default:
+                return "Server Does Not Exist";
         }
     }
 
@@ -284,7 +296,10 @@ public class Client {
             System.out.println();
             System.out.print("Please enter Booking Capacity: ");
             bookingCapacity = scanner.nextLine();
-            LOGGER.log(Level.INFO, "Manager: {0} adding a new Event with Event id: {1} ,Event Type: {2} and Booking Capacity: {3}", new Object[]{managerID, eventID, eventType, bookingCapacity});
+            LOGGER.log(Level.INFO, "Manager: {0} adding a new Event with Event id: {1} ,Event Type: {2} and Booking Capacity: {3}", new Object[]
+            {
+                managerID, eventID, eventType, bookingCapacity
+            });
             String string = server.addEvent(eventID, eventType, bookingCapacity, managerID);
             LOGGER.log(Level.INFO, "Response of server: {0}", string);
             System.out.println("Response of server: " + string);
@@ -349,7 +364,10 @@ public class Client {
                     eventType = "";
                     break;
             }
-            LOGGER.log(Level.INFO, "Manager {0} removing Event with Event ID {1} of type: {2}", new Object[]{managerID, eventID, eventType});
+            LOGGER.log(Level.INFO, "Manager {0} removing Event with Event ID {1} of type: {2}", new Object[]
+            {
+                managerID, eventID, eventType
+            });
             String string = server.removeEvent(eventID, eventType, managerID);
             LOGGER.log(Level.INFO, "Response of server: {0}", string);
         }
