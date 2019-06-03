@@ -93,7 +93,7 @@ public class MontrealServer {
     }
 
     //clientudp
-    public static String requestsFromOthers(String data, MontrealServerImpl montrealServerImpl)
+    public static String requestsFromOthers(String data, MontrealServerImpl montrealServer)
     {
         try
         {
@@ -107,11 +107,19 @@ public class MontrealServer {
             switch (methodNumber)
             {
                 case "1":
-                    return montrealServerImpl.addEvent(eventID, eventType, bookingCapacity, userId);
+                    return montrealServer.addEvent(eventID, eventType, bookingCapacity, userId);
                 case "2":
-                    return montrealServerImpl.removeEvent(eventID, eventType, userId);
+                    return montrealServer.removeEvent(eventID, eventType, userId);
                 case "3":
-                    return montrealServerImpl.listEventAvailability(eventType, userId);
+                    return montrealServer.listEventAvailability(eventType, userId);
+                case "4":
+                    return montrealServer.bookEvent(userId, eventID, eventType, bookingCapacity);
+                case "5":
+                    return montrealServer.getBookingSchedule(userId);
+                case "6":
+                    return montrealServer.cancelEvent(userId, eventID);
+                case "7":
+                    return montrealServer.nonOriginCustomerBooking(userId);
             }
         }
         catch (RemoteException e)

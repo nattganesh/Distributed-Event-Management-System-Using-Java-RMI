@@ -111,6 +111,14 @@ public class OttawaServer {
                     return ottawaServer.removeEvent(eventID, eventType, userId);
                 case "3":
                     return ottawaServer.listEventAvailability(eventType, userId);
+                case "4":
+                    return ottawaServer.bookEvent(userId, eventID, eventType, bookingCapacity);
+                case "5":
+                    return ottawaServer.getBookingSchedule(userId);
+                case "6":
+                    return ottawaServer.cancelEvent(userId, eventID);
+                case "7":
+                    return ottawaServer.nonOriginCustomerBooking(userId);
             }
         }
         catch (RemoteException e)

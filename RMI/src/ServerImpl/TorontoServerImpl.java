@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  */
 public class TorontoServerImpl extends UnicastRemoteObject implements ServerInterface {
 
-    private static HashMap<String, HashMap< String, Object>> databaseToronto = new HashMap<>();
+    private static HashMap<String, HashMap< String, String>> databaseToronto = new HashMap<>();
     private static HashMap<String, HashMap<String, Integer>> customerEventsMapping = new HashMap<>();
     private static Logger logger;
     {
@@ -36,7 +36,7 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
         databaseToronto.put(CONFERENCE, new HashMap<>());
         databaseToronto.get(CONFERENCE).put("TORA100519", "52");
         databaseToronto.get(CONFERENCE).put("TORE100519", "3");
-        databaseToronto.get(CONFERENCE).put("TORA12345", "12");
+        databaseToronto.get(CONFERENCE).put("TORA123452", "12");
 
         //item2
         databaseToronto.put(SEMINAR, new HashMap<>());
@@ -48,6 +48,14 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
         databaseToronto.get(TRADESHOW).put("TORA100519", "9");
         databaseToronto.get(TRADESHOW).put("TORE100519", "9");
 
+        
+        //to test
+//                customerEventsMapping.put("MTLC1234", new HashMap<>());
+//        customerEventsMapping.get("MTLC1234").put("TORdyfg1234", 5);
+//        customerEventsMapping.get("MTLC1234").put("TORdyfg3444", 5);
+//        customerEventsMapping.get("MTLC1234").put("TORdyfg1666", 2);
+//        customerEventsMapping.get("MTLC1234").put("TORdyfg1777", 5);
+//        customerEventsMapping.get("MTLC1234").put("TORdyfg1888", 5);
     }
 
     public TorontoServerImpl() throws RemoteException
@@ -68,12 +76,11 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
     public String addEvent(String eventID, String eventType, String bookingCapacity, String managerID) throws RemoteException
     {
         String message = null;
-        logger.info("Received request to add an event with event id " + eventID + " , Event Type" + eventType
-                + " & Booking Capacity " + bookingCapacity);
+        logger.log(Level.INFO, "Received request to add an event with event id {0} , Event Type{1} & Booking Capacity {2}", new Object[]{eventID, eventType, bookingCapacity});
         if (!databaseToronto.get(eventType).containsKey(eventID))
         {
             databaseToronto.get(eventType).put(eventID, bookingCapacity);
-            message = "Operations Successful!. Event Added in Montreal Server for Event ID: "
+            message = "Operations Successful!. Event Added in Toronto Server for Event ID: "
                     + eventID + " Event Type: " + eventType + " Booking Capacity: " + bookingCapacity;
             logger.info(message);
 
@@ -82,7 +89,7 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
         else
         {
             databaseToronto.get(eventType).replace(eventID, bookingCapacity);
-            message = "Operations Unsuccessful!. Event Not Added in Montreal Server "
+            message = "Operations Unsuccessful!. Event Not Added in Toronto Server "
                     + "for Event ID: " + eventID + " Event Type: " + eventType + " because the Event ID: " + eventID + ""
                     + " is already added for the Event Type: " + eventType + ". But, the Booking Capacity is updated to " + bookingCapacity;
             logger.info(message);
@@ -98,14 +105,14 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
         if (databaseToronto.get(eventType).containsKey(eventID))
         {
             databaseToronto.get(eventType).remove(eventID);
-            message = "Operations Successful!. Event Removed in Montreal Server by Manager: " + managerID + " for Event ID: "
+            message = "Operations Successful!. Event Removed in Toronto Server by Manager: " + managerID + " for Event ID: "
                     + eventID + " Event Type: " + eventType;
             logger.info(message);
             return message;
         }
         else
         {
-            message = "Operations Unsuccessful!. Event Not Removed in Montreal Server by Manager: " + managerID + " f"
+            message = "Operations Unsuccessful!. Event Not Removed in Toronto Server by Manager: " + managerID + " f"
                     + "or Event ID: " + eventID + " Event Type: " + eventType + " because the Event ID: " + eventID
                     + " does not exist";
             logger.info(message);
@@ -168,7 +175,7 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
 
         if (!databaseToronto.get(eventType).isEmpty())
         {
-            for (Map.Entry<String, Object> entry : databaseToronto.get(eventType).entrySet())
+            for (Map.Entry<String, String> entry : databaseToronto.get(eventType).entrySet())
             {
                 returnMessage.append("EventID: " + entry.getKey() + "| Booking Capacity " + entry.getValue() + "\n");
             }
@@ -187,23 +194,107 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
     }
 
     @Override
-    public String bookEvent(String customerID, String eventID, String eventType) throws RemoteException
+    public String bookEvent(String customerID, String eventID, String eventType, String bookingAmount) throws RemoteException
     {
-        return null;
-    }
+//        if(customerID.substring(0, 3).equals(TORONTO)){}
+        if(eventID.substring(0, 3).equals(TORONTO))
+        {
+            logger.log(Level.INFO, "Book Event Requested by {0} for Event Type {1} with Event ID {2}", new Object[]{customerID, eventType ,eventID});
+            HashMap< String, String> event = databaseToronto.get(eventType);
+            if(event.containsKey(eventID))
+            {
+                if (customerEventsMapping.containsKey(customerID))
+                {
+                    if (customerEventsMapping.get(customerID).containsKey(eventID))
+                    {
+                        logger.log(Level.INFO, "Operation Unsuccessful, Book Event Requested by {0} for Event Type {1} with Event ID {2} cannot be booked. Customer already booked for this event.", new Object[]{customerID, eventType ,eventID});
+                        return "Operation Unsuccessful, Book Event Requested by "+ customerID + " for Event Type "+ eventType + " with Event ID "+ eventID + " cannot be booked. Customer already booked for this event.";
+                    }
+                    else if (!customerID.substring(0, 3).equals(TORONTO))
+                    {
+                        int customerBookingsCurrent = Integer.parseInt(this.nonOriginCustomerBooking(customerID));
+                        int customerBookingsOther = customerID.substring(0, 3).equals(OTTAWA) ? Integer.parseInt(requestToOtherServers(customerID, null, null, 7, null, MONTREAL_SERVER_PORT).trim()) 
+                                                                                                : Integer.parseInt(requestToOtherServers(customerID, null, null, 7, null, OTTAWA_SERVER_PORT).trim());
 
+                        if (customerBookingsCurrent + customerBookingsOther >= 3)
+                        {
+                            logger.log(Level.INFO, "Operation Unsuccessful, Book Event Requested by {0} for Event Type {1} with Event ID {2} cannot be booked. Customer can book as many events in his/her own city, but only at most 3 events from other cities overall in a month", new Object[]
+                            {
+                                customerID, eventType, eventID
+                            });
+                            return "Operation Unsuccessful, Book Event Requested by " + customerID + " for Event Type " + eventType + " with Event ID " + eventID + " cannot be booked. Customer can book as many events in his/her own\n"
+                                    + "city, but only at most 3 events from other cities overall in a month";
+                        }
+                    }
+                }
+                int bookingLeft = Integer.parseInt(event.get(eventID).trim());
+                int bookingRequested = Integer.parseInt(bookingAmount);
+                if (bookingLeft >= bookingRequested)
+                {
+                    bookingLeft -= bookingRequested;
+                    event.put(eventID, "" + bookingLeft);
+                    
+                    if(customerEventsMapping.containsKey(customerID)) 
+                    {
+                        customerEventsMapping.get(customerID).put(eventID, bookingRequested);
+                    }
+                    else
+                    {
+                        customerEventsMapping.put(customerID, new HashMap<>());
+                        customerEventsMapping.get(customerID).put(eventID, bookingRequested);
+                    }
+
+                    logger.log(Level.INFO, "Operation Successful, Book Event Requested by {0} for Event Type {1} with Event ID {2} has been booked.", new Object[]
+                    {
+                        customerID, eventType, eventID
+                    });
+                    return "Operation Successful, Book Event Requested by " + customerID + " for Event Type " + eventType + " with Event ID " + eventID + " has been booked.";
+                }
+                else
+                {
+                    logger.log(Level.INFO, "Operation Unsuccessful, Book Event Requested by {0} for Event Type {1} with Event ID {2} cannot be booked. Event Capacity < Booking Capacity Requested", new Object[]
+                    {
+                        customerID, eventType, eventID
+                    });
+                    return "Operation Unsuccessful, Book Event Requested by " + customerID + " for Event Type " + eventType + " with Event ID " + eventID + " cannot be booked. Event Capacity < Booking Capacity Requested";
+                }
+            }
+            else
+            {
+                logger.log(Level.INFO, "Operation Unsuccessful, Book Event Requested by {0} for Event Type {1} with Event ID {2} cannot be booked. Evant Does Not Exist.", new Object[]
+                {
+                    customerID, eventType, eventID
+                });
+                return "Operation Unsuccessful, Book Event Requested by " + customerID + " for Event Type " + eventType + " with Event ID " + eventID + " cannot be booked. Evant Does Not Exist.";
+            }
+        }
+        if(eventID.substring(0, 3).equals(MONTREAL)){return requestToOtherServers(customerID, eventID, bookingAmount, 4, eventType, MONTREAL_SERVER_PORT);}
+        if(eventID.substring(0, 3).equals(OTTAWA)){return requestToOtherServers(customerID, eventID, bookingAmount, 4, eventType, OTTAWA_SERVER_PORT);}
+        return "";
+    }
+    
+    @Override
+    public String nonOriginCustomerBooking(String customerID)
+    {
+        if (customerEventsMapping.containsKey(customerID))
+        {
+            return "" + customerEventsMapping.get(customerID).keySet().size();
+        }
+        return "" + 0;
+    }
+    
     @Override
     public String getBookingSchedule(String customerID) throws RemoteException
     {
         String returnMsg = "";
-        customerEventsMapping.put("MTLC1234", new HashMap<>());
-        customerEventsMapping.get("MTLC1234").put("TORdyfg1234", 5);
-        customerEventsMapping.get("MTLC1234").put("TORdyfg3444", 5);
-        customerEventsMapping.get("MTLC1234").put("TORdyfg1666", 2);
-        customerEventsMapping.get("MTLC1234").put("TORdyfg1777", 5);
-        customerEventsMapping.get("MTLC1234").put("TORdyfg1888", 5);
         logger.log(Level.INFO, "Booking Schedule Requested by {0}", customerID);
         HashMap< String, Integer> customerEvents = customerEventsMapping.get(customerID);
+        
+        if(customerID.substring(0, 3).equals(TORONTO))
+        {
+            returnMsg += requestToOtherServers(customerID, null, null, 5, null, OTTAWA_SERVER_PORT);
+            returnMsg += requestToOtherServers(customerID, null, null, 5, null, MONTREAL_SERVER_PORT);           
+        }
         if (customerEvents != null && !customerEvents.isEmpty())
         {
             for (String event : customerEvents.keySet())
@@ -212,10 +303,10 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
             }
             logger.log(Level.INFO, "Operation Sucessful. Records for {0} have been found", customerID);
         }
-        else
+        if (returnMsg.trim().equals(""))
         {
-            logger.log(Level.INFO, "Operation Failure. Records for {0} do not exist.", customerID);
-            returnMsg += OPERATIONFAILURE;
+            logger.log(Level.INFO, "Records for {0} do not exist.", customerID);
+            if(customerID.substring(0, 3).equals(TORONTO)) returnMsg += OPERATIONFAILURE;
         }
         return returnMsg;
     }
@@ -223,6 +314,49 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
     @Override
     public String cancelEvent(String customerID, String eventID) throws RemoteException
     {
+        if(eventID.substring(0, 3).equals(TORONTO))
+        {
+            if(customerEventsMapping.containsKey(customerID))
+            {
+                if(customerEventsMapping.get(customerID).containsKey(eventID))
+                {
+                    Integer bookValue = customerEventsMapping.get(customerID).remove(eventID);
+                    Integer currentValue = 0;
+                    Integer sum = 0;
+                    
+                    if(databaseToronto.get(CONFERENCE).containsKey(eventID))
+                    {
+                        currentValue = Integer.parseInt(databaseToronto.get(CONFERENCE).get(eventID));
+                        sum = currentValue + bookValue;
+                        databaseToronto.get(CONFERENCE).put(eventID, sum.toString());
+                    }
+                    else if(databaseToronto.get(SEMINAR).containsKey(eventID))
+                    {
+                        currentValue = Integer.parseInt(databaseToronto.get(SEMINAR).get(eventID));
+                        sum = currentValue + bookValue;
+                        databaseToronto.get(SEMINAR).put(eventID, sum.toString());
+                    }
+                    else if(databaseToronto.get(TRADESHOW).containsKey(eventID))
+                    {
+                        currentValue = Integer.parseInt(databaseToronto.get(TRADESHOW).get(eventID));
+                        sum = currentValue + bookValue;
+                        databaseToronto.get(TRADESHOW).put(eventID, sum.toString());
+                    }
+                    logger.log(Level.INFO, "This event has been removed from customer record.");
+                    return "This event has been removed from customer record.";
+                }
+            }
+            logger.log(Level.INFO, "This event does not exist in customer record.");
+            return "This event does not exist in customer record.";
+        }
+        else if(eventID.substring(0, 3).equals(MONTREAL))
+        {
+            return requestToOtherServers(customerID, eventID, null, 6, null, MONTREAL_SERVER_PORT);
+        }
+        else if(eventID.substring(0, 3).equals(OTTAWA))
+        {
+            return requestToOtherServers(customerID, eventID, null, 6, null, OTTAWA_SERVER_PORT);
+        }
         return null;
     }
 
@@ -273,5 +407,4 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
         }
         return response;
     }
-
 }

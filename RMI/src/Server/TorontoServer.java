@@ -111,6 +111,14 @@ public class TorontoServer {
                     return torontoServer.removeEvent(eventID, eventType, userId);
                 case "3":
                     return torontoServer.listEventAvailability(eventType, userId);
+                case "4":
+                    return torontoServer.bookEvent(userId, eventID, eventType, bookingCapacity);
+                case "5":
+                    return torontoServer.getBookingSchedule(userId);
+                case "6":
+                    return torontoServer.cancelEvent(userId, eventID);
+                case "7":
+                    return torontoServer.nonOriginCustomerBooking(userId);
             }
         }
         catch (RemoteException e)

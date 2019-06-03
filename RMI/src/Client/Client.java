@@ -12,10 +12,7 @@ import ServerImpl.MontrealServerImpl;
 import ServerImpl.OttawaServerImpl;
 import ServerImpl.TorontoServerImpl;
 import ServerInterface.ServerInterface;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -31,7 +28,7 @@ import java.util.logging.Logger;
 public class Client {
 
     private static Logger LOGGER;
-    private static Scanner in = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     /**
      * @param args the command line arguments
@@ -39,7 +36,7 @@ public class Client {
     public static void main(String[] args)
     {
         System.out.print("Enter Your ID Number: ");
-        String id = in.next();
+        String id = scanner.next();
         System.out.println();
         if (id.length() != 8)
         {
@@ -78,7 +75,7 @@ public class Client {
         }
         catch (SecurityException | IOException | NotBoundException ex)
         {
-            //Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -93,14 +90,11 @@ public class Client {
             LOGGER = Logger.getLogger(getServerClassName(serverId));
             addFileHandler(LOGGER, customerID);
             server = (ServerInterface) registry.lookup(getServerName(serverId));
-
-//            String out = server.listEventAvailability(CONFERENCE, clientID);
-//            System.out.println(out);
-            runManagerMenu(server, clientID);
+            runManagerMenu(server, customerID);
         }
         catch (SecurityException | IOException | NotBoundException ex)
         {
-            //Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -121,14 +115,10 @@ public class Client {
     {
         switch (serverId)
         {
-            case TORONTO:
-                return TORONTO_SERVER_PORT;
-            case MONTREAL:
-                return MONTREAL_SERVER_PORT;
-            case OTTAWA:
-                return OTTAWA_SERVER_PORT;
-            default:
-                return -1;
+            case TORONTO: return TORONTO_SERVER_PORT;
+            case MONTREAL: return MONTREAL_SERVER_PORT;
+            case OTTAWA: return OTTAWA_SERVER_PORT;
+            default: return -1;
         }
     }
 
@@ -136,14 +126,10 @@ public class Client {
     {
         switch (serverId)
         {
-            case TORONTO:
-                return TORONTO_SERVER_NAME;
-            case MONTREAL:
-                return MONTREAL_SERVER_NAME;
-            case OTTAWA:
-                return OTTAWA_SERVER_NAME;
-            default:
-                return "Server Does Not Exist";
+            case TORONTO: return TORONTO_SERVER_NAME;
+            case MONTREAL: return MONTREAL_SERVER_NAME;
+            case OTTAWA: return OTTAWA_SERVER_NAME;
+            default: return "Server Does Not Exist";
         }
     }
 
@@ -151,14 +137,10 @@ public class Client {
     {
         switch (serverId)
         {
-            case TORONTO:
-                return TorontoServerImpl.class.getName();
-            case MONTREAL:
-                return MontrealServerImpl.class.getName();
-            case OTTAWA:
-                return OttawaServerImpl.class.getName();
-            default:
-                return "Server Does Not Exist";
+            case TORONTO: return TorontoServerImpl.class.getName();
+            case MONTREAL: return MontrealServerImpl.class.getName();
+            case OTTAWA: return OttawaServerImpl.class.getName();
+            default: return "Server Does Not Exist";
         }
     }
 
@@ -175,7 +157,7 @@ public class Client {
             System.out.println("3: Cancel Event");
             System.out.println("============================");
 
-            itemNum = in.next();
+            itemNum = scanner.next();
             switch (itemNum.trim())
             {
                 case "0":
@@ -189,16 +171,15 @@ public class Client {
                     break;
                 case "3":
                     System.out.println("Enter Event ID to Cancel: ");
-                    String eventID = in.next();
+                    String eventID = scanner.next();
                     server.cancelEvent(customerID, eventID);
                     break;
                 default:
                     System.out.println("Invalid Choice !!!");
                     break;
             }
-
         }
-        in.close();
+        scanner.close();
     }
 
     private static void runManagerMenu(ServerInterface server, String customerID) throws RemoteException
@@ -214,7 +195,7 @@ public class Client {
             System.out.println("3: List Event Availability");
             System.out.println("============================");
 
-            itemNum = in.nextInt();
+            itemNum = scanner.nextInt();
             switch (itemNum)
             {
                 case 0:
@@ -236,16 +217,15 @@ public class Client {
                     System.out.println("Invalid Choice !!!");
                     break;
             }
-
         }
-        in.close();
+        scanner.close();
     }
 
     private static void managerListEvents(ServerInterface server, String customerID)
     {
         try
         {
-            String eventType = in.next();
+            String eventType = scanner.next();
             switch (eventType.toUpperCase())
             {
                 case "A":
@@ -264,28 +244,27 @@ public class Client {
             }
 
             String str = server.listEventAvailability(eventType, customerID);
-            LOGGER.info("Response of Server: " + str);
+            System.out.println(str);
+            LOGGER.log(Level.INFO, "Response of Server: {0}", str);
         }
-        catch (Exception e)
+        catch (RemoteException ex)
         {
-            e.printStackTrace();
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
-    private static void managerAddEvent(ServerInterface obj, String managerID)
+    private static void managerAddEvent(ServerInterface server, String managerID)
     {
         String eventID;
         String eventType;
         String bookingCapacity;
-        BufferedReader bfr = new BufferedReader(new InputStreamReader(System.in));
         try
         {
             System.out.print("Please enter Event id: ");
-            eventID = enterEventID(bfr);
+            eventID = enterEventID();
             System.out.println();
             System.out.print("Please enter Event Type: (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR) ");
-            eventType = bfr.readLine();
+            eventType = scanner.nextLine();
             switch (eventType.toUpperCase())
             {
                 case "A":
@@ -304,65 +283,56 @@ public class Client {
             }
             System.out.println();
             System.out.print("Please enter Booking Capacity: ");
-            bookingCapacity = bfr.readLine();
-            LOGGER.info("Manager: " + managerID + " adding a new Event with Event id: " + eventID + " ,Event Type: " + eventType + " and Booking Capacity: " + bookingCapacity);
-            String string = obj.addEvent(eventID, eventType, bookingCapacity, managerID);
-            LOGGER.info("Response of server: " + string);
+            bookingCapacity = scanner.nextLine();
+            LOGGER.log(Level.INFO, "Manager: {0} adding a new Event with Event id: {1} ,Event Type: {2} and Booking Capacity: {3}", new Object[]{managerID, eventID, eventType, bookingCapacity});
+            String string = server.addEvent(eventID, eventType, bookingCapacity, managerID);
+            LOGGER.log(Level.INFO, "Response of server: {0}", string);
+            System.out.println("Response of server: " + string);
         }
-        catch (IOException e)
+        catch (RemoteException ex)
         {
-            e.printStackTrace();
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private static String enterEventID(BufferedReader bfr)
+    private static String enterEventID()
     {
         String s;
-        try
+        s = scanner.nextLine();
+        if (s.length() != 10)
         {
-            s = bfr.readLine();
-            if (s.length() != 10)
+            return "Invalid Event ID";
+        }
+        else
+        {
+            String serverId = s.substring(0, 3).toUpperCase();
+            String time = s.substring(3, 4).toUpperCase();
+            String eventID = s.substring(4, 10).toUpperCase();
+            if ((time.equals(MORNING) || time.equals(EVENING) || time.equals(AFTERNOON))
+                    && (serverId.equals(TORONTO) || serverId.equals(MONTREAL) || serverId.equals(OTTAWA)))
             {
-                return "Invalid Event ID";
+                return s;
             }
             else
             {
-                String serverId = s.substring(0, 3).toUpperCase();
-                String time = s.substring(3, 4).toUpperCase();
-                String eventID = s.substring(4, 10).toUpperCase();
-                if ((time.equals(MORNING) || time.equals(EVENING) || time.equals(AFTERNOON))
-                        && (serverId.equals(TORONTO) || serverId.equals(MONTREAL) || serverId.equals(OTTAWA)))
-                {
-                    return s;
-                }
-                else
-                {
-                    System.out.println("Please enter valid Event id: ");
-                    return enterEventID(bfr);
-                }
+                System.out.println("Please enter valid Event id: ");
+                return enterEventID();
             }
         }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return "Invalid Event id";
     }
 
-    private static void managerRemoveEvent(ServerInterface conObj, String managerID)
+    private static void managerRemoveEvent(ServerInterface server, String managerID)
     {
         //We need to check if the event is booked by a client before
         String eventID;
         String eventType;
-        BufferedReader bfr = new BufferedReader(new InputStreamReader(System.in));
-
         try
         {
             System.out.print("Please enter Event id: ");
-            eventID = enterEventID(bfr);
+            eventID = enterEventID();
             System.out.println();
             System.out.print("Please enter Event Type: ");
-            eventType = bfr.readLine();
+            eventType = scanner.nextLine();
             switch (eventType.toUpperCase())
             {
                 case "A":
@@ -379,13 +349,13 @@ public class Client {
                     eventType = "";
                     break;
             }
-            LOGGER.info("Manager " + managerID + " removing Event with Event ID " + eventID + " of type: " + eventType);
-            String string = conObj.removeEvent(eventID, eventType, managerID);
-            LOGGER.info("Response of server: " + string);
+            LOGGER.log(Level.INFO, "Manager {0} removing Event with Event ID {1} of type: {2}", new Object[]{managerID, eventID, eventType});
+            String string = server.removeEvent(eventID, eventType, managerID);
+            LOGGER.log(Level.INFO, "Response of server: {0}", string);
         }
-        catch (IOException e)
+        catch (RemoteException ex)
         {
-            e.printStackTrace();
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -410,7 +380,7 @@ public class Client {
     private static void runBookEvent(ServerInterface server, String customerID) throws RemoteException
     {
         System.out.println("What type of event do you wish to book? (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR)");
-        String eventType = in.next();
+        String eventType = scanner.next();
         switch (eventType.toUpperCase())
         {
             case "A":
@@ -430,8 +400,20 @@ public class Client {
         if (!eventType.equals(""))
         {
             System.out.println("Enter Event ID: ");
-            String eventID = in.next();
-            server.bookEvent(customerID, eventID, eventType);
+            String eventID = scanner.next();
+            System.out.println("Enter the number of people attending: ");
+            Integer booking = scanner.nextInt();
+            if (booking > 0)
+            {
+                String book = booking.toString();
+                String msg = server.bookEvent(customerID, eventID, eventType, book);
+                LOGGER.info(msg);
+                System.out.println(msg);
+            }
+            else
+            {
+                System.out.println("Invalid Number !!! number of people attending > 0");
+            }
         }
     }
 }
