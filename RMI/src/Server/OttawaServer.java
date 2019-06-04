@@ -7,17 +7,20 @@
  */
 package Server;
 
-import static CommonUtils.CommonUtils.*;
 import ServerImpl.OttawaServerImpl;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+
+import static CommonUtils.CommonUtils.OTTAWA_SERVER_NAME;
+import static CommonUtils.CommonUtils.OTTAWA_SERVER_PORT;
 
 /**
  *
@@ -68,7 +71,7 @@ public class OttawaServer {
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(request);
                 String response = requestsFromOthers(new String(request.getData()), ottawaServer);
-                DatagramPacket reply = new DatagramPacket(response.getBytes(), response.length(), request.getAddress(),
+                DatagramPacket reply = new DatagramPacket(response.getBytes(StandardCharsets.UTF_8), response.length(), request.getAddress(),
                         request.getPort());
                 //reply sent
                 aSocket.send(reply);

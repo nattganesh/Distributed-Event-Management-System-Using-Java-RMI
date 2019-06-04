@@ -7,7 +7,6 @@
  */
 package ServerImpl;
 
-import static CommonUtils.CommonUtils.*;
 import ServerInterface.ServerInterface;
 
 import java.io.IOException;
@@ -20,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static CommonUtils.CommonUtils.*;
 
 /**
  *
@@ -39,15 +40,15 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
 
         //item2
         databaseMontreal.put(SEMINAR, new HashMap<>());
-        databaseMontreal.get(CONFERENCE).put("MTLM050619", "50");
-        databaseMontreal.get(CONFERENCE).put("MTLE050619", "50");
-        databaseMontreal.get(CONFERENCE).put("MTLA050619", "50");
+        databaseMontreal.get(SEMINAR).put("MTLM050619", "50");
+        databaseMontreal.get(SEMINAR).put("MTLE050619", "50");
+        databaseMontreal.get(SEMINAR).put("MTLA050619", "50");
 
         //item6
         databaseMontreal.put(TRADESHOW, new HashMap<>());
-        databaseMontreal.get(CONFERENCE).put("MTLM090619", "50");
-        databaseMontreal.get(CONFERENCE).put("MTLE090619", "50");
-        databaseMontreal.get(CONFERENCE).put("MTLA090619", "50");
+        databaseMontreal.get(TRADESHOW).put("MTLM090619", "50");
+        databaseMontreal.get(TRADESHOW).put("MTLE090619", "50");
+        databaseMontreal.get(TRADESHOW).put("MTLA090619", "50");
     }
 
     public MontrealServerImpl() throws RemoteException

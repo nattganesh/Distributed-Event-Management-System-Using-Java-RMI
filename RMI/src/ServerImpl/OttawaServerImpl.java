@@ -7,7 +7,6 @@
  */
 package ServerImpl;
 
-import static CommonUtils.CommonUtils.*;
 import ServerInterface.ServerInterface;
 
 import java.io.IOException;
@@ -20,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static CommonUtils.CommonUtils.*;
 
 /**
  *
@@ -39,15 +40,15 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
 
         //item2
         databaseOttawa.put(SEMINAR, new HashMap<>());
-        databaseOttawa.get(CONFERENCE).put("OTWM050619", "50");
-        databaseOttawa.get(CONFERENCE).put("OTWE050619", "50");
-        databaseOttawa.get(CONFERENCE).put("OTWA050619", "50");
+        databaseOttawa.get(SEMINAR).put("OTWM050619", "50");
+        databaseOttawa.get(SEMINAR).put("OTWE050619", "50");
+        databaseOttawa.get(SEMINAR).put("OTWA050619", "50");
 
         //item6
         databaseOttawa.put(TRADESHOW, new HashMap<>());
-        databaseOttawa.get(CONFERENCE).put("OTWM090619", "50");
-        databaseOttawa.get(CONFERENCE).put("OTWE090619", "50");
-        databaseOttawa.get(CONFERENCE).put("OTWA090619", "50");
+        databaseOttawa.get(TRADESHOW).put("OTWM090619", "50");
+        databaseOttawa.get(TRADESHOW).put("OTWE090619", "50");
+        databaseOttawa.get(TRADESHOW).put("OTWA090619", "50");
     }
 
     public OttawaServerImpl() throws RemoteException

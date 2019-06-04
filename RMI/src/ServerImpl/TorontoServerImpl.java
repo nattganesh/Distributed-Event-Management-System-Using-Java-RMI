@@ -7,7 +7,6 @@
  */
 package ServerImpl;
 
-import static CommonUtils.CommonUtils.*;
 import ServerInterface.ServerInterface;
 
 import java.io.IOException;
@@ -20,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static CommonUtils.CommonUtils.*;
 
 /**
  *
@@ -39,15 +40,15 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
 
         //item2
         databaseToronto.put(SEMINAR, new HashMap<>());
-        databaseToronto.get(CONFERENCE).put("TORM050619", "50");
-        databaseToronto.get(CONFERENCE).put("TORE050619", "50");
-        databaseToronto.get(CONFERENCE).put("TORA050619", "50");
+        databaseToronto.get(SEMINAR).put("TORM050619", "50");
+        databaseToronto.get(SEMINAR).put("TORE050619", "50");
+        databaseToronto.get(SEMINAR).put("TORA050619", "50");
 
         //item6
         databaseToronto.put(TRADESHOW, new HashMap<>());
-        databaseToronto.get(CONFERENCE).put("TORM090619", "50");
-        databaseToronto.get(CONFERENCE).put("TORE090619", "50");
-        databaseToronto.get(CONFERENCE).put("TORA090619", "50");
+        databaseToronto.get(TRADESHOW).put("TORM090619", "50");
+        databaseToronto.get(TRADESHOW).put("TORE090619", "50");
+        databaseToronto.get(TRADESHOW).put("TORA090619", "50");
     }
 
     public TorontoServerImpl() throws RemoteException
@@ -229,7 +230,8 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
                     }
                 }
                 int bookingLeft = Integer.parseInt(event.get(eventID).trim());
-                int bookingRequested = Integer.parseInt(bookingAmount);
+                String tempBookingAmount = bookingAmount.replaceAll("[^\\d.]", "");
+                int bookingRequested = Integer.parseInt(tempBookingAmount);
                 if (bookingLeft >= bookingRequested)
                 {
                     bookingLeft -= bookingRequested;
