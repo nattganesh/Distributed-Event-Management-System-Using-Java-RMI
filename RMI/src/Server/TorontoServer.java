@@ -119,14 +119,14 @@ public class TorontoServer {
                 case "5":
                     return torontoServer.getBookingSchedule(userId);
                 case "6":
-                    return torontoServer.cancelEvent(userId, eventID);
+                    return torontoServer.cancelEvent(userId, eventID, eventType);
                 case "7":
                     return torontoServer.nonOriginCustomerBooking(userId);
             }
         }
         catch (RemoteException e)
         {
-            e.printStackTrace();
+            
         }
         return "Incorrect";
     }

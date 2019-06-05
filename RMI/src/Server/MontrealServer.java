@@ -120,14 +120,14 @@ public class MontrealServer {
                 case "5":
                     return montrealServer.getBookingSchedule(userId);
                 case "6":
-                    return montrealServer.cancelEvent(userId, eventID);
+                    return montrealServer.cancelEvent(userId, eventID, eventType);
                 case "7":
                     return montrealServer.nonOriginCustomerBooking(userId);
             }
         }
         catch (RemoteException e)
         {
-            e.printStackTrace();
+            
         }
         return "Incorrect";
     }

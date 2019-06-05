@@ -29,9 +29,10 @@ import static CommonUtils.CommonUtils.*;
 public class MontrealServerImpl extends UnicastRemoteObject implements ServerInterface {
 
     private static HashMap<String, HashMap< String, String>> databaseMontreal = new HashMap<>();
-    private static final HashMap<String, HashMap< String, Integer>> customerEventsMapping = new HashMap<>();
-    private static final HashMap<String, HashMap<String, HashMap<String, Integer>>> customerEventsMapping1 = new HashMap<>();
+    private static HashMap<String, HashMap<String, HashMap< String, Integer>>> customerEventsMapping = new HashMap<>();
     private static Logger logger;
+
+    
     {
         //item1
         databaseMontreal.put(CONFERENCE, new HashMap<>());
@@ -238,15 +239,9 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
                     bookingLeft -= bookingRequested;
                     event.put(eventID, "" + bookingLeft);
 
-                    if (customerEventsMapping.containsKey(customerID))
-                    {
-                        customerEventsMapping.get(customerID).put(eventID, bookingRequested);
-                    }
-                    else
-                    {
-                        customerEventsMapping.put(customerID, new HashMap<>());
-                        customerEventsMapping.get(customerID).put(eventID, bookingRequested);
-                    }
+                    customerEventsMapping.putIfAbsent(customerID, new HashMap<>());
+                    customerEventsMapping.get(customerID).putIfAbsent(eventType, new HashMap<>());
+                    customerEventsMapping.get(customerID).get(eventType).put(eventID, bookingRequested);
 
                     logger.log(Level.INFO, "Operation Successful, Book Event Requested by {0} for Event Type {1} with Event ID {2} has been booked.", new Object[]
                     {
@@ -289,7 +284,8 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
     {
         String returnMsg = "";
         logger.log(Level.INFO, "Booking Schedule Requested by {0}", customerID);
-        HashMap< String, Integer> customerEvents = customerEventsMapping.get(customerID);
+
+        HashMap<String, HashMap< String, Integer>> customerEvents = customerEventsMapping.get(customerID);
 
         if (customerID.substring(0, 3).equals(MONTREAL))
         {
@@ -298,11 +294,38 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         }
         if (customerEvents != null && !customerEvents.isEmpty())
         {
-            for (String event : customerEvents.keySet())
+            HashMap< String, Integer> customerConferenceEventID = customerEvents.get(CONFERENCE);
+            HashMap< String, Integer> customerSeminarEventID = customerEvents.get(SEMINAR);
+            HashMap< String, Integer> customerTradeshowEventID = customerEvents.get(TRADESHOW);
+
+            if (customerConferenceEventID != null && !customerConferenceEventID.isEmpty())
             {
-                returnMsg += "\nEvent ID: " + event + "Booking for " + customerEvents.get(event);
+                returnMsg += "\nFor Conference Events: ";
+                for (String event : customerConferenceEventID.keySet())
+                {
+                    returnMsg += "\nEvent ID: " + event + "Booking for " + customerConferenceEventID.get(event);
+                }
             }
-            logger.log(Level.INFO, "Operation Sucessful. Records for {0} have been found", customerID);
+            if (customerSeminarEventID != null && !customerSeminarEventID.isEmpty())
+            {
+                returnMsg += "\nFor Seminar Events: ";
+                for (String event : customerSeminarEventID.keySet())
+                {
+                    returnMsg += "\nEvent ID: " + event + "Booking for " + customerSeminarEventID.get(event);
+                }
+            }
+            if (customerTradeshowEventID != null && !customerTradeshowEventID.isEmpty())
+            {
+                returnMsg += "\nFor Tradeshow Events: ";
+                for (String event : customerTradeshowEventID.keySet())
+                {
+                    returnMsg += "\nEvent ID: " + event + "Booking for " + customerTradeshowEventID.get(event);
+                }
+            }
+            if (!returnMsg.trim().equals(""))
+            {
+                logger.log(Level.INFO, "Operation Sucessful. Records for {0} have been found", customerID);
+            }
         }
         if (returnMsg.trim().equals(""))
         {
@@ -317,15 +340,15 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
     }
 
     @Override
-    public String cancelEvent(String customerID, String eventID) throws RemoteException
+    public String cancelEvent(String customerID, String eventID, String eventType) throws RemoteException
     {
         if (eventID.substring(0, 3).equals(MONTREAL))
         {
             if (customerEventsMapping.containsKey(customerID))
             {
-                if (customerEventsMapping.get(customerID).containsKey(eventID))
+                if (customerEventsMapping.get(customerID).containsKey(eventType) && customerEventsMapping.get(customerID).get(eventType).containsKey(eventID))
                 {
-                    Integer bookValue = customerEventsMapping.get(customerID).remove(eventID);
+                    Integer bookValue = customerEventsMapping.get(customerID).get(eventType).remove(eventID);
                     Integer currentValue = 0;
                     Integer sum = 0;
 
@@ -410,7 +433,7 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            
         }
         finally
         {

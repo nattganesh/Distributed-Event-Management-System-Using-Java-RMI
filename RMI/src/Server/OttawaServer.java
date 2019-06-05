@@ -119,14 +119,14 @@ public class OttawaServer {
                 case "5":
                     return ottawaServer.getBookingSchedule(userId);
                 case "6":
-                    return ottawaServer.cancelEvent(userId, eventID);
+                    return ottawaServer.cancelEvent(userId, eventID, eventType);
                 case "7":
                     return ottawaServer.nonOriginCustomerBooking(userId);
             }
         }
         catch (RemoteException e)
         {
-            e.printStackTrace();
+            
         }
         return "Incorrect";
     }
