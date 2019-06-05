@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static CommonUtils.CommonUtils.*;
+import java.util.Iterator;
 
 /**
  *
@@ -119,10 +120,23 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         String message = null;
         if (databaseMontreal.get(eventType).containsKey(eventID))
         {
-
+            if (customerEventsMapping != null)
+            {
+                for (String customer : customerEventsMapping.keySet())
+                {
+                    if (customerEventsMapping.get(customer).containsKey(eventType))
+                    {
+                        if (customerEventsMapping.get(customer).get(eventType).containsKey(eventID))
+                        {
+                            message += "\nCustomer ID: " + customer + " for event id " + eventID + " event Type " + eventType + " with customer booking of " + customerEventsMapping.get(customer).get(eventType).get(eventID) + " who was booked in this event has been removed from record.";
+                            customerEventsMapping.get(customer).get(eventType).remove(eventID);
+                        }
+                    }
+                }
+            }
             databaseMontreal.get(eventType).remove(eventID);
 
-            message = "Operations Successful!. Event Removed in Montreal Server by Manager: " + managerID + " for Event ID: "
+            message = "\nOperations Successful!. Event Removed in Montreal Server by Manager: " + managerID + " for Event ID: "
                     + eventID + " Event Type: " + eventType;
             logger.info(message);
             return message;

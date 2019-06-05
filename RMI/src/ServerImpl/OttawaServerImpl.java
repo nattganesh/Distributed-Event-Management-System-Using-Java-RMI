@@ -100,6 +100,21 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
         String message = null;
         if (databaseOttawa.get(eventType).containsKey(eventID))
         {
+            if (customerEventsMapping != null)
+            {
+                for (String customer : customerEventsMapping.keySet())
+                {
+                    if (customerEventsMapping.get(customer).containsKey(eventType))
+                    {
+                        if (customerEventsMapping.get(customer).get(eventType).containsKey(eventID))
+                        {
+                            message += "\nCustomer ID: " + customer + " for event id " + eventID + " event Type " + eventType + " with customer booking of " + customerEventsMapping.get(customer).get(eventType).get(eventID) + " who was booked in this event has been removed from record.";
+                            customerEventsMapping.get(customer).get(eventType).remove(eventID);
+                        }
+                    }
+                }
+            }
+            
             databaseOttawa.get(eventType).remove(eventID);
             message = "Operations Successful!. Event Removed in Ottawa Server by Manager: " + managerID + " for Event ID: "
                     + eventID + " Event Type: " + eventType;
