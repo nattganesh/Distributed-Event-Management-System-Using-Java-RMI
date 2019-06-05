@@ -30,7 +30,8 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
 
     private static HashMap<String, HashMap< String, String>> databaseMontreal = new HashMap<>();
     private static final HashMap<String, HashMap< String, Integer>> customerEventsMapping = new HashMap<>();
-    private static Logger logger;    
+    private static final HashMap<String, HashMap<String, HashMap<String, Integer>>> customerEventsMapping1 = new HashMap<>();
+    private static Logger logger;
     {
         //item1
         databaseMontreal.put(CONFERENCE, new HashMap<>());
@@ -117,7 +118,9 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         String message = null;
         if (databaseMontreal.get(eventType).containsKey(eventID))
         {
+
             databaseMontreal.get(eventType).remove(eventID);
+
             message = "Operations Successful!. Event Removed in Montreal Server by Manager: " + managerID + " for Event ID: "
                     + eventID + " Event Type: " + eventType;
             logger.info(message);

@@ -241,29 +241,31 @@ public class Client {
         scanner.close();
     }
 
+    private static String getEventType() {
+        String eventType;
+
+        while (true) {
+            eventType = scanner.nextLine().trim().toUpperCase();
+            if (eventType.equals("A")) {
+                eventType = CONFERENCE;
+                break;
+            } else if (eventType.equals("B")) {
+                eventType = TRADESHOW;
+                break;
+            } else if (eventType.equals("C")) {
+                eventType = SEMINAR;
+                break;
+            } else {
+                System.out.println("Select an appropriate option!");
+            }
+        }
+        return eventType;
+    }
     private static void managerListEvents(ServerInterface server, String customerID)
     {
         try
         {
-            String eventType;
-
-            while (true) {
-                eventType = scanner.nextLine().trim().toUpperCase();
-                if (eventType.equals("A")) {
-                    eventType = CONFERENCE;
-                    break;
-                } else if (eventType.equals("B")) {
-                    eventType = TRADESHOW;
-                    break;
-                } else if (eventType.equals("C")) {
-                    eventType = SEMINAR;
-                    break;
-                } else {
-                    System.out.println("Select an appropriate option!");
-                }
-            }
-
-
+            String eventType = getEventType();
             String str = server.listEventAvailability(eventType, customerID);
             System.out.println(str);
             LOGGER.log(Level.INFO, "Response of Server: {0}", str);
@@ -274,51 +276,43 @@ public class Client {
         }
     }
 
-    private static void managerAddEvent(ServerInterface server, String managerID)
-    {
-        String eventID;
-        String eventType;
-        String bookingCapacity;
-        System.out.print("Please enter Event id: ");
-        eventID = enterEventID();
-
-        System.out.println();
-        System.out.println("Please enter Event Type: (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR) ");
-        eventType = scanner.nextLine();
-        try
-        {
-
-            switch (eventType.toUpperCase())
-            {
-                case "A":
-                    eventType = CONFERENCE;
-                    break;
-                case "B":
-                    eventType = TRADESHOW;
-                    break;
-                case "C":
-                    eventType = SEMINAR;
-                    break;
-                default:
-                    System.out.println("Invalid Choice !!!");
-                    eventType = "";
-                    break;
-            }
+    private static void managerAddEvent(ServerInterface server, String managerID) {
+        try {
+            String eventID;
+            String eventType;
+            String bookingCapacity;
+            System.out.print("Please enter Event id: ");
+            eventID = enterEventID();
+            System.out.println();
+            System.out.println("Please enter Event Type: (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR) ");
+            eventType = getEventType();
             System.out.println();
             System.out.print("Please enter Booking Capacity: ");
-            bookingCapacity = scanner.nextLine();
+            bookingCapacity = validateBookingCapacity();
             LOGGER.log(Level.INFO, "Manager: {0} adding a new Event with Event id: {1} ,Event Type: {2} and Booking Capacity: {3}", new Object[]
-            {
-                managerID, eventID, eventType, bookingCapacity
-            });
+                    {
+                            managerID, eventID, eventType, bookingCapacity
+                    });
             String string = server.addEvent(eventID, eventType, bookingCapacity, managerID);
             LOGGER.log(Level.INFO, "Response of server: {0}", string);
             System.out.println("Response of server: " + string);
-        }
-        catch (RemoteException ex)
-        {
+        } catch (RemoteException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private static String validateBookingCapacity() {
+        String returnBC;
+        while (true) {
+            String bc = scanner.nextLine().trim();
+            if (isNumeric(bc)) {
+                returnBC = bc;
+                break;
+            } else {
+                System.out.println("Please enter Valid Booking Capacity");
+            }
+        }
+        return returnBC;
     }
 
     private static String enterEventID() {
@@ -338,6 +332,14 @@ public class Client {
         return eventID;
     }
 
+    private static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
     private static boolean validateEventID(String s)
     {
 
@@ -357,42 +359,28 @@ public class Client {
     private static void managerRemoveEvent(ServerInterface server, String managerID)
     {
         // We need to check if the event is booked by a client before
-       /* String eventID;
+        String eventID;
         String eventType;
         try
         {
             System.out.print("Please enter Event id: ");
-            //eventID = validateEventID();
+            eventID = enterEventID();
             System.out.println();
-            System.out.print("Please enter Event Type: ");
-            eventType = scanner.nextLine();
-            switch (eventType.toUpperCase())
-            {
-                case "A":
-                    eventType = CONFERENCE;
-                    break;
-                case "B":
-                    eventType = TRADESHOW;
-                    break;
-                case "C":
-                    eventType = SEMINAR;
-                    break;
-                default:
-                    System.out.println("Invalid Choice !!!");
-                    eventType = "";
-                    break;
-            }
+            System.out.println("Please enter Event Type: (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR) ");
+            eventType = getEventType();
+
             LOGGER.log(Level.INFO, "Manager {0} removing Event with Event ID {1} of type: {2}", new Object[]
             {
                 managerID, eventID, eventType
             });
             String string = server.removeEvent(eventID, eventType, managerID);
+            System.out.println("Response of the server: " + string);
             LOGGER.log(Level.INFO, "Response of server: {0}", string);
         }
         catch (RemoteException ex)
         {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
     }
 
     private static void runBookingSchedule(ServerInterface server, String customerID) throws RemoteException
