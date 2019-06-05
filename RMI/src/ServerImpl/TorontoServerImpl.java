@@ -34,21 +34,21 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
     {
         //item1
         databaseToronto.put(CONFERENCE, new HashMap<>());
-        databaseToronto.get(CONFERENCE).put("TORM030619", "50");
-        databaseToronto.get(CONFERENCE).put("TORE030619", "50");
-        databaseToronto.get(CONFERENCE).put("TORA030619", "50");
+        databaseToronto.get(CONFERENCE).put("TORM030619", "30");
+        databaseToronto.get(CONFERENCE).put("TORE030619", "20");
+        databaseToronto.get(CONFERENCE).put("TORA030619", "60");
 
         //item2
         databaseToronto.put(SEMINAR, new HashMap<>());
-        databaseToronto.get(SEMINAR).put("TORM050619", "50");
-        databaseToronto.get(SEMINAR).put("TORE050619", "50");
-        databaseToronto.get(SEMINAR).put("TORA050619", "50");
+        databaseToronto.get(SEMINAR).put("TORM050619", "70");
+        databaseToronto.get(SEMINAR).put("TORE050619", "90");
+        databaseToronto.get(SEMINAR).put("TORA050619", "80");
 
         //item6
         databaseToronto.put(TRADESHOW, new HashMap<>());
-        databaseToronto.get(TRADESHOW).put("TORM090619", "50");
-        databaseToronto.get(TRADESHOW).put("TORE090619", "50");
-        databaseToronto.get(TRADESHOW).put("TORA090619", "50");
+        databaseToronto.get(TRADESHOW).put("TORM090619", "60");
+        databaseToronto.get(TRADESHOW).put("TORE090619", "90");
+        databaseToronto.get(TRADESHOW).put("TORA090619", "30");
     }
 
     public TorontoServerImpl() throws RemoteException

@@ -7,11 +7,11 @@
  */
 package Client;
 
-import static CommonUtils.CommonUtils.*;
 import ServerImpl.MontrealServerImpl;
 import ServerImpl.OttawaServerImpl;
 import ServerImpl.TorontoServerImpl;
 import ServerInterface.ServerInterface;
+
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -20,6 +20,8 @@ import java.rmi.registry.Registry;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static CommonUtils.CommonUtils.*;
 
 /**
  *
@@ -35,26 +37,23 @@ public class Client {
      */
     public static void main(String[] args)
     {
-        System.out.print("Enter Your ID Number: ");
-        String id = scanner.next();
-        System.out.println();
-        if (id.length() != 8)
-        {
-            System.out.println("Invalid ID !!!");
-        }
-        else
-        {
-            String serverId = id.substring(0, 3).toUpperCase();
-            String clientType = id.substring(3, 4).toUpperCase();
-            String clientID = id.substring(4, 8).toUpperCase();
-            if ((clientType.equals(CUSTOMER_ClientType) || clientType.equals(EVENT_MANAGER_ClientType))
-                    && (serverId.equals(TORONTO) || serverId.equals(MONTREAL) || serverId.equals(OTTAWA)))
-            {
-                runClientService(clientType, serverId, clientID);
-            }
-            else
-            {
+        while (true) {
+            System.out.print("Enter Your ID Number: ");
+            String id = scanner.next();
+            System.out.println();
+            if (id.length() != 8) {
                 System.out.println("Invalid ID !!!");
+            } else {
+                String serverId = id.substring(0, 3).toUpperCase();
+                String clientType = id.substring(3, 4).toUpperCase();
+                String clientID = id.substring(4, 8).toUpperCase();
+                if ((clientType.equals(CUSTOMER_ClientType) || clientType.equals(EVENT_MANAGER_ClientType))
+                        && (serverId.equals(TORONTO) || serverId.equals(MONTREAL) || serverId.equals(OTTAWA))
+                        && (clientID.matches("[0-9]+"))) {
+                    runClientService(clientType, serverId, clientID);
+                } else {
+                    System.out.println("Invalid ID !!!");
+                }
             }
         }
     }
@@ -169,26 +168,30 @@ public class Client {
             System.out.println("3: Cancel Event");
             System.out.println("============================");
 
-            itemNum = scanner.next();
-            switch (itemNum.trim())
-            {
-                case "0":
-                    System.out.println("Good Bye !!!");
-                    break;
-                case "1":
-                    runBookEvent(server, customerID);
-                    break;
-                case "2":
-                    runBookingSchedule(server, customerID);
-                    break;
-                case "3":
-                    System.out.println("Enter Event ID to Cancel: ");
-                    String eventID = scanner.next();
-                    server.cancelEvent(customerID, eventID);
-                    break;
-                default:
-                    System.out.println("Invalid Choice !!!");
-                    break;
+            if (scanner.hasNextInt()) {
+                itemNum = scanner.next();
+                switch (itemNum.trim()) {
+                    case "0":
+                        System.out.println("Good Bye !!!");
+                        break;
+                    case "1":
+                        runBookEvent(server, customerID);
+                        break;
+                    case "2":
+                        runBookingSchedule(server, customerID);
+                        break;
+                    case "3":
+                        System.out.println("Enter Event ID to Cancel: ");
+                        String eventID = scanner.next();
+                        server.cancelEvent(customerID, eventID);
+                        break;
+                    default:
+                        System.out.println("Invalid Choice !!!");
+                        break;
+                }
+            } else {
+                System.out.println("Please select a valid choice!");
+                scanner.nextLine();
             }
         }
         scanner.close();
@@ -207,27 +210,32 @@ public class Client {
             System.out.println("3: List Event Availability");
             System.out.println("============================");
 
-            itemNum = scanner.nextInt();
-            switch (itemNum)
-            {
-                case 0:
-                    System.out.println("Good Bye !!!");
-                    break;
-                case 1:
-                    System.out.println("What event do you wish to add?");
-                    managerAddEvent(server, customerID);
-                    break;
-                case 2:
-                    System.out.println("What event do you wish to remove?");
-                    managerRemoveEvent(server, customerID);
-                    break;
-                case 3:
-                    System.out.println("Which type of event you wish to list? (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR)");
-                    managerListEvents(server, customerID);
-                    break;
-                default:
-                    System.out.println("Invalid Choice !!!");
-                    break;
+
+            if (scanner.hasNextInt()) {
+                itemNum = scanner.nextInt();
+                switch (itemNum) {
+                    case 0:
+                        System.out.println("Good Bye !!!");
+                        break;
+                    case 1:
+                        System.out.println("What event do you wish to add?");
+                        managerAddEvent(server, customerID);
+                        break;
+                    case 2:
+                        System.out.println("What event do you wish to remove?");
+                        managerRemoveEvent(server, customerID);
+                        break;
+                    case 3:
+                        System.out.println("Which type of event you wish to list? (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR)");
+                        managerListEvents(server, customerID);
+                        break;
+                    default:
+                        System.out.println("Invalid Choice !!!");
+                        break;
+                }
+            } else {
+                System.out.println("Please select a valid choice!");
+                scanner.nextLine();
             }
         }
         scanner.close();
@@ -237,23 +245,24 @@ public class Client {
     {
         try
         {
-            String eventType = scanner.next();
-            switch (eventType.toUpperCase())
-            {
-                case "A":
+            String eventType;
+
+            while (true) {
+                eventType = scanner.nextLine().trim().toUpperCase();
+                if (eventType.equals("A")) {
                     eventType = CONFERENCE;
                     break;
-                case "B":
+                } else if (eventType.equals("B")) {
                     eventType = TRADESHOW;
                     break;
-                case "C":
+                } else if (eventType.equals("C")) {
                     eventType = SEMINAR;
                     break;
-                default:
-                    System.out.println("Invalid Choice !!!");
-                    eventType = "";
-                    break;
+                } else {
+                    System.out.println("Select an appropriate option!");
+                }
             }
+
 
             String str = server.listEventAvailability(eventType, customerID);
             System.out.println(str);
@@ -270,13 +279,15 @@ public class Client {
         String eventID;
         String eventType;
         String bookingCapacity;
+        System.out.print("Please enter Event id: ");
+        eventID = enterEventID();
+
+        System.out.println();
+        System.out.println("Please enter Event Type: (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR) ");
+        eventType = scanner.nextLine();
         try
         {
-            System.out.print("Please enter Event id: ");
-            eventID = enterEventID();
-            System.out.println();
-            System.out.print("Please enter Event Type: (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR) ");
-            eventType = scanner.nextLine();
+
             switch (eventType.toUpperCase())
             {
                 case "A":
@@ -310,41 +321,48 @@ public class Client {
         }
     }
 
-    private static String enterEventID()
-    {
-        String s;
-        s = scanner.nextLine();
-        if (s.length() != 10)
-        {
-            return "Invalid Event ID";
+    private static String enterEventID() {
+        String eventID = "";
+        scanner.nextLine();
+        while (true) {
+            String input = scanner.nextLine().trim();
+            if (validateEventID(input)) {
+                System.out.println("Valid event ID");
+                eventID = input;
+                break;
+            } else {
+                System.out.println("Enter a valid event ID!. E.g OTWA100519");
+                //scanner.nextLine();
+            }
         }
-        else
-        {
+        return eventID;
+    }
+
+    private static boolean validateEventID(String s)
+    {
+
+        if (s.length() == 10) {
             String serverId = s.substring(0, 3).toUpperCase();
             String time = s.substring(3, 4).toUpperCase();
             String eventID = s.substring(4, 10).toUpperCase();
-            if ((time.equals(MORNING) || time.equals(EVENING) || time.equals(AFTERNOON))
-                    && (serverId.equals(TORONTO) || serverId.equals(MONTREAL) || serverId.equals(OTTAWA)))
-            {
-                return s;
-            }
-            else
-            {
-                System.out.println("Please enter valid Event id: ");
-                return enterEventID();
-            }
-        }
+
+            return (time.equals(MORNING) || time.equals(EVENING) || time.equals(AFTERNOON))
+                    && (serverId.equals(TORONTO) || serverId.equals(MONTREAL) || serverId.equals(OTTAWA))
+                    && (eventID.matches("[0-9]+"));
+        } else return false;
+
+
     }
 
     private static void managerRemoveEvent(ServerInterface server, String managerID)
     {
-        //We need to check if the event is booked by a client before
-        String eventID;
+        // We need to check if the event is booked by a client before
+       /* String eventID;
         String eventType;
         try
         {
             System.out.print("Please enter Event id: ");
-            eventID = enterEventID();
+            //eventID = validateEventID();
             System.out.println();
             System.out.print("Please enter Event Type: ");
             eventType = scanner.nextLine();
@@ -374,7 +392,7 @@ public class Client {
         catch (RemoteException ex)
         {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }
 
     private static void runBookingSchedule(ServerInterface server, String customerID) throws RemoteException

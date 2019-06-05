@@ -35,20 +35,20 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
         //item1
         databaseOttawa.put(CONFERENCE, new HashMap<>());
         databaseOttawa.get(CONFERENCE).put("OTWM030619", "50");
-        databaseOttawa.get(CONFERENCE).put("OTWE030619", "50");
-        databaseOttawa.get(CONFERENCE).put("OTWA030619", "50");
+        databaseOttawa.get(CONFERENCE).put("OTWE030619", "40");
+        databaseOttawa.get(CONFERENCE).put("OTWA030619", "90");
 
         //item2
         databaseOttawa.put(SEMINAR, new HashMap<>());
         databaseOttawa.get(SEMINAR).put("OTWM050619", "50");
-        databaseOttawa.get(SEMINAR).put("OTWE050619", "50");
-        databaseOttawa.get(SEMINAR).put("OTWA050619", "50");
+        databaseOttawa.get(SEMINAR).put("OTWE050619", "40");
+        databaseOttawa.get(SEMINAR).put("OTWA050619", "90");
 
         //item6
         databaseOttawa.put(TRADESHOW, new HashMap<>());
         databaseOttawa.get(TRADESHOW).put("OTWM090619", "50");
-        databaseOttawa.get(TRADESHOW).put("OTWE090619", "50");
-        databaseOttawa.get(TRADESHOW).put("OTWA090619", "50");
+        databaseOttawa.get(TRADESHOW).put("OTWE090619", "40");
+        databaseOttawa.get(TRADESHOW).put("OTWA090619", "90");
     }
 
     public OttawaServerImpl() throws RemoteException
