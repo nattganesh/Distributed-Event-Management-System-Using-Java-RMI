@@ -182,6 +182,8 @@ public class Client {
                 {
                     case "0":
                         System.out.println("Good Bye !!!");
+                        System.exit(0);
+
                         break;
                     case "1":
                         runBookEvent(server, customerID);
@@ -191,26 +193,11 @@ public class Client {
                         break;
                     case "3":
                         System.out.println("Enter Event Type of The Event to Cancel? (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR)");
-                        String eventType = scanner.next();
-                        switch (eventType.toUpperCase())
-                        {
-                            case "A":
-                                eventType = CONFERENCE;
-                                break;
-                            case "B":
-                                eventType = TRADESHOW;
-                                break;
-                            case "C":
-                                eventType = SEMINAR;
-                                break;
-                            default:
-                                System.out.println("Invalid Choice !!!");
-                                eventType = "";
-                                break;
-                        }
+                        String eventType = getEventType();
                         System.out.println("Enter Event ID to Cancel: ");
-                        String eventID = scanner.next();
-                        server.cancelEvent(customerID, eventID, eventType);
+                        String eventID = enterEventID();
+                        String response = server.cancelEvent(customerID, eventID, eventType);
+                        System.out.println("Response from server: " + response);
                         break;
                     default:
                         System.out.println("Invalid Choice !!!");
@@ -246,6 +233,7 @@ public class Client {
                 {
                     case 0:
                         System.out.println("Good Bye !!!");
+                        System.exit(0);
                         break;
                     case 1:
                         System.out.println("What event do you wish to add?");
@@ -366,10 +354,24 @@ public class Client {
         return returnBC;
     }
 
+    private static Integer validateIntBookingCapacity() {
+        Integer returnBC;
+        while (true) {
+            String bc = scanner.nextLine().trim();
+            if (isNumeric(bc)) {
+                returnBC = Integer.parseInt(bc);
+                break;
+            } else {
+                System.out.println("Please enter Valid Number");
+            }
+        }
+        return returnBC;
+    }
+
     private static String enterEventID()
     {
         String eventID = "";
-        scanner.nextLine();
+        //scanner.nextLine();
         while (true)
         {
             String input = scanner.nextLine().trim();
@@ -469,40 +471,21 @@ public class Client {
     private static void runBookEvent(ServerInterface server, String customerID) throws RemoteException
     {
         System.out.println("What type of event do you wish to book? (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR)");
-        String eventType = scanner.next();
-        switch (eventType.toUpperCase())
-        {
-            case "A":
-                eventType = CONFERENCE;
-                break;
-            case "B":
-                eventType = TRADESHOW;
-                break;
-            case "C":
-                eventType = SEMINAR;
-                break;
-            default:
-                System.out.println("Invalid Choice !!!");
-                eventType = "";
-                break;
-        }
-        if (!eventType.equals(""))
-        {
-            System.out.println("Enter Event ID: ");
-            String eventID = scanner.next();
-            System.out.println("Enter the number of people attending: ");
-            Integer booking = scanner.nextInt();
-            if (booking > 0)
+        String eventType = getEventType();
+
+        System.out.println("Enter Event ID: ");
+        String eventID = enterEventID();
+        System.out.println("Enter the number of people attending: ");
+        Integer booking = validateIntBookingCapacity();
+        if (booking > 0)
             {
                 String book = booking.toString();
                 String msg = server.bookEvent(customerID, eventID, eventType, book);
                 LOGGER.info(msg);
                 System.out.println(msg);
-            }
-            else
+            } else
             {
                 System.out.println("Invalid Number !!! number of people attending > 0");
             }
-        }
     }
 }

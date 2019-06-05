@@ -21,7 +21,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static CommonUtils.CommonUtils.*;
-import java.util.Iterator;
 
 /**
  *
@@ -247,7 +246,8 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
                     }
                 }
                 int bookingLeft = Integer.parseInt(event.get(eventID).trim());
-                int bookingRequested = Integer.parseInt(bookingAmount);
+                String tempBookingAmount = bookingAmount.replaceAll("[^\\d.]", "");
+                int bookingRequested = Integer.parseInt(tempBookingAmount);
                 if (bookingLeft >= bookingRequested)
                 {
                     bookingLeft -= bookingRequested;
@@ -275,11 +275,11 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
             }
             else
             {
-                logger.log(Level.INFO, "Operation Unsuccessful, Book Event Requested by {0} for Event Type {1} with Event ID {2} cannot be booked. Evant Does Not Exist.", new Object[]
+                logger.log(Level.INFO, "Operation Unsuccessful, Book Event Requested by {0} for Event Type {1} with Event ID {2} cannot be booked. Event Does Not Exist.", new Object[]
                 {
                     customerID, eventType, eventID
                 });
-                return "Operation Unsuccessful, Book Event Requested by " + customerID + " for Event Type " + eventType + " with Event ID " + eventID + " cannot be booked. Evant Does Not Exist.";
+                return "Operation Unsuccessful, Book Event Requested by " + customerID + " for Event Type " + eventType + " with Event ID " + eventID + " cannot be booked. Event Does Not Exist.";
             }
         }
         if (eventID.substring(0, 3).equals(TORONTO))
