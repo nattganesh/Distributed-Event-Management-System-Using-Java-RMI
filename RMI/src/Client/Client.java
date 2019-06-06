@@ -208,7 +208,7 @@ public class Client {
             else
             {
                 System.out.println("Please select a valid choice!");
-                scanner.nextLine();
+                scanner.next();
             }
         }
         scanner.close();
@@ -265,7 +265,8 @@ public class Client {
                         String eventType = getEventType();
                         System.out.println("Enter Event ID to Cancel: ");
                         String eventID = enterEventID();
-                        String response = server.cancelEvent(getCustomerID(), eventID, eventType);
+                        String customerID = getCustomerID();
+                        String response = server.cancelEvent(customerID, eventID, eventType);
                         System.out.println("Response from server: " + response);
                         break;
                     default:
@@ -276,7 +277,7 @@ public class Client {
             else
             {
                 System.out.println("Please select a valid choice!");
-                scanner.nextLine();
+                scanner.next();
             }
         }
         scanner.close();
@@ -297,9 +298,8 @@ public class Client {
     private static String getCustomerID() {
         System.out.println("Enter Customer ID: ");
         String customerID;
-        scanner.nextLine();
         while (true) {
-            customerID = scanner.nextLine().trim().toUpperCase();
+            customerID = scanner.next().trim().toUpperCase();
             if (validateCustomerID(customerID)) {
                 break;
             } else {
@@ -315,7 +315,7 @@ public class Client {
 
         while (true)
         {
-            eventType = scanner.nextLine().trim().toUpperCase();
+            eventType = scanner.next().trim().toUpperCase();
             if (eventType.equals("A"))
             {
                 eventType = CONFERENCE;
