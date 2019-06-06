@@ -36,21 +36,21 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
     {
         //item1
         databaseToronto.put(CONFERENCE, new HashMap<>());
-        databaseToronto.get(CONFERENCE).put("TORM030619", "30");
-        databaseToronto.get(CONFERENCE).put("TORE030619", "20");
-        databaseToronto.get(CONFERENCE).put("TORA030619", "60");
+        databaseToronto.get(CONFERENCE).put("TORM090220", "30");
+        databaseToronto.get(CONFERENCE).put("TORE130921", "20");
+        databaseToronto.get(CONFERENCE).put("TORA091819", "60");
 
         //item2
         databaseToronto.put(SEMINAR, new HashMap<>());
-        databaseToronto.get(SEMINAR).put("TORM050619", "70");
-        databaseToronto.get(SEMINAR).put("TORE050619", "90");
-        databaseToronto.get(SEMINAR).put("TORA050619", "80");
+        databaseToronto.get(SEMINAR).put("TORM051020", "70");
+        databaseToronto.get(SEMINAR).put("TORE101022", "90");
+        databaseToronto.get(SEMINAR).put("TORA070724", "80");
 
         //item6
         databaseToronto.put(TRADESHOW, new HashMap<>());
-        databaseToronto.get(TRADESHOW).put("TORM090619", "60");
-        databaseToronto.get(TRADESHOW).put("TORE090619", "90");
-        databaseToronto.get(TRADESHOW).put("TORA090619", "30");
+        databaseToronto.get(TRADESHOW).put("TORM241026", "60");
+        databaseToronto.get(TRADESHOW).put("TORE061123", "90");
+        databaseToronto.get(TRADESHOW).put("TORA151123", "30");
     }
 
     public TorontoServerImpl() throws RemoteException
@@ -368,7 +368,7 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
             logger.log(Level.INFO, "Records for {0} do not exist.", customerID);
             if (customerID.substring(0, 3).equals(TORONTO))
             {
-                returnMsg += "Records for " + customerID + " do not exist.";;
+                returnMsg += "Records for " + customerID + " do not exist.";
             }
         }
         return returnMsg;

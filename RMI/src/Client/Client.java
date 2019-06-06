@@ -198,6 +198,7 @@ public class Client {
                         String eventID = enterEventID();
                         String response = server.cancelEvent(customerID, eventID, eventType);
                         System.out.println("Response from server: " + response);
+                        LOGGER.log(Level.INFO, "Response of server: {0}", response);
                         break;
                     default:
                         System.out.println("Invalid Choice !!!");

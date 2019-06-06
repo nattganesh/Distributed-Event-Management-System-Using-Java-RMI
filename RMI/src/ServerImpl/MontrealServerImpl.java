@@ -36,21 +36,21 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
     {
         //item1
         databaseMontreal.put(CONFERENCE, new HashMap<>());
-        databaseMontreal.get(CONFERENCE).put("MTLM030619", "50");
-        databaseMontreal.get(CONFERENCE).put("MTLE030619", "60");
-        databaseMontreal.get(CONFERENCE).put("MTLA030619", "90");
+        databaseMontreal.get(CONFERENCE).put("MTLM130720", "50");
+        databaseMontreal.get(CONFERENCE).put("MTLE031219", "60");
+        databaseMontreal.get(CONFERENCE).put("MTLA230721", "90");
 
         //item2
         databaseMontreal.put(SEMINAR, new HashMap<>());
-        databaseMontreal.get(SEMINAR).put("MTLM050619", "20");
-        databaseMontreal.get(SEMINAR).put("MTLE050619", "40");
-        databaseMontreal.get(SEMINAR).put("MTLA050619", "50");
+        databaseMontreal.get(SEMINAR).put("MTLM310522", "20");
+        databaseMontreal.get(SEMINAR).put("MTLE050620", "40");
+        databaseMontreal.get(SEMINAR).put("MTLA201121", "50");
 
         //item6
         databaseMontreal.put(TRADESHOW, new HashMap<>());
-        databaseMontreal.get(TRADESHOW).put("MTLM090619", "50");
-        databaseMontreal.get(TRADESHOW).put("MTLE090619", "40");
-        databaseMontreal.get(TRADESHOW).put("MTLA090619", "90");
+        databaseMontreal.get(TRADESHOW).put("MTLM190124", "50");
+        databaseMontreal.get(TRADESHOW).put("MTLE201123", "40");
+        databaseMontreal.get(TRADESHOW).put("MTLA180925", "90");
     }
 
     public MontrealServerImpl() throws RemoteException

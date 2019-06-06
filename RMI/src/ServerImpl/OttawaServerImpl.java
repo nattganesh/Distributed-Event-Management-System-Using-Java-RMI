@@ -36,20 +36,20 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     {
         //item1
         databaseOttawa.put(CONFERENCE, new HashMap<>());
-        databaseOttawa.get(CONFERENCE).put("OTWM030619", "50");
-        databaseOttawa.get(CONFERENCE).put("OTWE030619", "40");
-        databaseOttawa.get(CONFERENCE).put("OTWA030619", "90");
+        databaseOttawa.get(CONFERENCE).put("OTWM120819", "80");
+        databaseOttawa.get(CONFERENCE).put("OTWE251023", "40");
+        databaseOttawa.get(CONFERENCE).put("OTWA030326", "90");
 
         //item2
         databaseOttawa.put(SEMINAR, new HashMap<>());
-        databaseOttawa.get(SEMINAR).put("OTWM050619", "50");
-        databaseOttawa.get(SEMINAR).put("OTWE050619", "40");
-        databaseOttawa.get(SEMINAR).put("OTWA050619", "90");
+        databaseOttawa.get(SEMINAR).put("OTWM140147", "50");
+        databaseOttawa.get(SEMINAR).put("OTWE020135", "40");
+        databaseOttawa.get(SEMINAR).put("OTWA260939", "90");
 
         //item6
         databaseOttawa.put(TRADESHOW, new HashMap<>());
-        databaseOttawa.get(TRADESHOW).put("OTWM090619", "50");
-        databaseOttawa.get(TRADESHOW).put("OTWE090619", "40");
+        databaseOttawa.get(TRADESHOW).put("OTWM070728", "50");
+        databaseOttawa.get(TRADESHOW).put("OTWE210322", "40");
         databaseOttawa.get(TRADESHOW).put("OTWA090619", "90");
     }
 
@@ -366,7 +366,7 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
             logger.log(Level.INFO, "Records for {0} do not exist.", customerID);
             if (customerID.substring(0, 3).equals(OTTAWA))
             {
-                returnMsg += "Records for " + customerID + " do not exist.";;
+                returnMsg += "Records for " + customerID + " do not exist.";
             }
         }
         return returnMsg;
