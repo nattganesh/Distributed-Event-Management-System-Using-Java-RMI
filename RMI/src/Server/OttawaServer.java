@@ -105,6 +105,7 @@ public class OttawaServer {
             String methodNumber = receivedDataString[2].trim();
             String eventType = receivedDataString[3].trim();
             String bookingCapacity = receivedDataString[4].trim();
+            String managerID = receivedDataString[5].trim();
 
             switch (methodNumber)
             {
@@ -117,7 +118,7 @@ public class OttawaServer {
                 case "4":
                     return ottawaServer.bookEvent(userId, eventID, eventType, bookingCapacity);
                 case "5":
-                    return ottawaServer.getBookingSchedule(userId);
+                    return ottawaServer.getBookingSchedule(userId,managerID);
                 case "6":
                     return ottawaServer.cancelEvent(userId, eventID, eventType);
                 case "7":

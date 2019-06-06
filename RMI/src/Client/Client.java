@@ -189,7 +189,7 @@ public class Client {
                         runBookEvent(server, customerID);
                         break;
                     case "2":
-                        runBookingSchedule(server, customerID);
+                        runBookingSchedule(server, customerID,null);
                         break;
                     case "3":
                         System.out.println("Enter Event Type of The Event to Cancel? (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR)");
@@ -214,7 +214,7 @@ public class Client {
         scanner.close();
     }
 
-    private static void runManagerMenu(ServerInterface server, String customerID) throws RemoteException
+    private static void runManagerMenu(ServerInterface server, String managerID) throws RemoteException
     {
         int itemNum = -1;
         while (itemNum != 0)
@@ -241,15 +241,15 @@ public class Client {
                         break;
                     case 1:
                         System.out.println("What event do you wish to add?");
-                        managerAddEvent(server, customerID);
+                        managerAddEvent(server, managerID);
                         break;
                     case 2:
                         System.out.println("What event do you wish to remove?");
-                        managerRemoveEvent(server, customerID);
+                        managerRemoveEvent(server, managerID);
                         break;
                     case 3:
                         System.out.println("Which type of event you wish to list? (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR)");
-                        managerListEvents(server, customerID);
+                        managerListEvents(server, managerID);
                         break;
                     case 4:
                         System.out.println("What event do you wish to Book?");
@@ -257,7 +257,7 @@ public class Client {
                         break;
                     case 5:
                         System.out.println("What event do you wish to get Booking Schedule for?");
-                        runBookingSchedule(server, getCustomerID());
+                        runBookingSchedule(server, getCustomerID(), managerID);
                         break;
                     case 6:
                         System.out.println("What event do you wish to cancel?");
@@ -497,11 +497,11 @@ public class Client {
         }
     }
 
-    private static void runBookingSchedule(ServerInterface server, String customerID) throws RemoteException
+    private static void runBookingSchedule(ServerInterface server, String customerID, String managerId) throws RemoteException
     {
         LOGGER.log(Level.INFO, "Booking Schedule Requested by {0}", customerID);
         System.out.println(customerID + "'s Bookings Schedule");
-        String booking = server.getBookingSchedule(customerID);
+        String booking = server.getBookingSchedule(customerID, managerId);
         System.out.println(booking);
 
         if (!booking.equalsIgnoreCase(OPERATIONFAILURE))

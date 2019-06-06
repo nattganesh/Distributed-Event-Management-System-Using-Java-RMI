@@ -159,27 +159,27 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
         if (managerID.substring(0, 3).equals(MONTREAL))
         {
             logger.info("Requesting other server from Server: " + TORONTO_SERVER_NAME);
-            String torrontoEvents = requestToOtherServers(null, null, null, 3, eventType, TORONTO_SERVER_PORT);
+            String torrontoEvents = requestToOtherServers(null, null, null, 3, eventType, TORONTO_SERVER_PORT,null);
             logger.info("Requesting other server from Server: " + OTTAWA_SERVER_NAME);
-            String ottawaEvents = requestToOtherServers(null, null, null, 3, eventType, OTTAWA_SERVER_PORT);
+            String ottawaEvents = requestToOtherServers(null, null, null, 3, eventType, OTTAWA_SERVER_PORT,null);
             returnMessage.append(torrontoEvents).append("\n\n").append(ottawaEvents).append("\n\n");
 
         }
         if (managerID.substring(0, 3).equals(TORONTO))
         {
             logger.info("Requesting other server from Server: " + MONTREAL_SERVER_NAME);
-            String montrealEvents = requestToOtherServers(null, null, null, 3, eventType, MONTREAL_SERVER_PORT);
+            String montrealEvents = requestToOtherServers(null, null, null, 3, eventType, MONTREAL_SERVER_PORT,null);
             logger.info("Requesting other server from Server: " + OTTAWA_SERVER_NAME);
-            String ottawaEvents = requestToOtherServers(null, null, null, 3, eventType, OTTAWA_SERVER_PORT);
+            String ottawaEvents = requestToOtherServers(null, null, null, 3, eventType, OTTAWA_SERVER_PORT,null);
 
             returnMessage.append(ottawaEvents).append("\n\n").append(montrealEvents).append("\n\n");
         }
         if (managerID.substring(0, 3).equals(OTTAWA))
         {
             logger.info("Requesting other server from Server: " + MONTREAL_SERVER_NAME);
-            String montrealEvents = requestToOtherServers(null, null, null, 3, eventType, MONTREAL_SERVER_PORT);
+            String montrealEvents = requestToOtherServers(null, null, null, 3, eventType, MONTREAL_SERVER_PORT,null);
             logger.info("Requesting other server from Server: " + TORONTO_SERVER_NAME);
-            String torrontoEvents = requestToOtherServers(null, null, null, 3, eventType, TORONTO_SERVER_PORT);
+            String torrontoEvents = requestToOtherServers(null, null, null, 3, eventType, TORONTO_SERVER_PORT,null);
 
             returnMessage.append(torrontoEvents).append("\n\n").append(montrealEvents).append("\n\n");
         }
@@ -230,8 +230,8 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
                     else if (!customerID.substring(0, 3).equals(OTTAWA))
                     {
                         int customerBookingsCurrent = Integer.parseInt(this.nonOriginCustomerBooking(customerID));
-                        int customerBookingsOther = customerID.substring(0, 3).equals(MONTREAL) ? Integer.parseInt(requestToOtherServers(customerID, null, null, 7, null, TORONTO_SERVER_PORT).trim())
-                                : Integer.parseInt(requestToOtherServers(customerID, null, null, 7, null, MONTREAL_SERVER_PORT).trim());
+                        int customerBookingsOther = customerID.substring(0, 3).equals(MONTREAL) ? Integer.parseInt(requestToOtherServers(customerID, null, null, 7, null, TORONTO_SERVER_PORT,null).trim())
+                                : Integer.parseInt(requestToOtherServers(customerID, null, null, 7, null, MONTREAL_SERVER_PORT,null).trim());
 
                         if (customerBookingsCurrent + customerBookingsOther >= 3)
                         {
@@ -282,11 +282,11 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
         }
         if (eventID.substring(0, 3).equals(TORONTO))
         {
-            return requestToOtherServers(customerID, eventID, bookingAmount, 4, eventType, TORONTO_SERVER_PORT);
+            return requestToOtherServers(customerID, eventID, bookingAmount, 4, eventType, TORONTO_SERVER_PORT,null);
         }
         if (eventID.substring(0, 3).equals(MONTREAL))
         {
-            return requestToOtherServers(customerID, eventID, bookingAmount, 4, eventType, MONTREAL_SERVER_PORT);
+            return requestToOtherServers(customerID, eventID, bookingAmount, 4, eventType, MONTREAL_SERVER_PORT,null);
         }
         return "";
     }
@@ -314,17 +314,20 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     }
 
     @Override
-    public synchronized String getBookingSchedule(String customerID) throws RemoteException
+    public synchronized String getBookingSchedule(String customerID, String managerID) throws RemoteException
     {
         String returnMsg = "";
-        logger.log(Level.INFO, "Booking Schedule Requested by {0}", customerID);
-
+        if(managerID != null && managerID.equalsIgnoreCase("Default")) managerID = null;
+        if(managerID == null)
+            logger.log(Level.INFO, "Booking Schedule Requested by {0}", customerID);
+        else
+            logger.log(Level.INFO, "Booking Schedule Requested by {0} for customer {1}", new Object[] {managerID, customerID});
         HashMap<String, HashMap< String, Integer>> customerEvents = customerEventsMapping.get(customerID);
 
-        if (customerID.substring(0, 3).equals(OTTAWA))
+        if ((customerID.substring(0, 3).equals(OTTAWA) && managerID == null)||(managerID != null && managerID.substring(0, 3).equals(OTTAWA)))
         {
-            returnMsg += requestToOtherServers(customerID, null, null, 5, null, TORONTO_SERVER_PORT);
-            returnMsg += requestToOtherServers(customerID, null, null, 5, null, MONTREAL_SERVER_PORT);
+            returnMsg += requestToOtherServers(customerID, null, null, 5, null, TORONTO_SERVER_PORT,null);
+            returnMsg += requestToOtherServers(customerID, null, null, 5, null, MONTREAL_SERVER_PORT,null);
         }
         if (customerEvents != null && !customerEvents.isEmpty())
         {
@@ -412,16 +415,16 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
         }
         else if (eventID.substring(0, 3).equals(TORONTO))
         {
-            return requestToOtherServers(customerID, eventID, null, 6, eventType, TORONTO_SERVER_PORT);
+            return requestToOtherServers(customerID, eventID, null, 6, eventType, TORONTO_SERVER_PORT,null);
         }
         else if (eventID.substring(0, 3).equals(MONTREAL))
         {
-            return requestToOtherServers(customerID, eventID, null, 6, eventType, MONTREAL_SERVER_PORT);
+            return requestToOtherServers(customerID, eventID, null, 6, eventType, MONTREAL_SERVER_PORT,null);
         }
         return null;
     }
 
-    public String requestToOtherServers(String userID, String eventID, String bookingCapacity, int serverNumber, String eventType, int serPort)
+    public String requestToOtherServers(String userID, String eventID, String bookingCapacity, int serverNumber, String eventType, int serPort, String managerId)
     {
         int serverPort;
         if (eventID != null)
@@ -439,11 +442,12 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
         String eventTypeName = eventType != null ? eventType : "Default";
         String eventIDName = eventID != null ? eventID : "Default";
         String bookingCap = bookingCapacity != null ? bookingCapacity : "Default";
+        String managerID = managerId != null ? managerId : "Default";
 
         try
         {
             aSocket = new DatagramSocket();
-            String message = userIDName.concat(" ").concat(eventIDName).concat(" ").concat(stringServer).concat(" ").concat(eventTypeName).concat(" ").concat(bookingCap);
+            String message = userIDName.concat(" ").concat(eventIDName).concat(" ").concat(stringServer).concat(" ").concat(eventTypeName).concat(" ").concat(bookingCap).concat(" ").concat(managerID);
             InetAddress host = InetAddress.getByName("localhost");
             DatagramPacket sendPacket = new DatagramPacket(message.getBytes(), message.length(), host, serverPort);
             aSocket.send(sendPacket);
