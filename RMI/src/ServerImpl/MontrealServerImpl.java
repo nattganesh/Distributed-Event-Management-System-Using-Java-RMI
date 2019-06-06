@@ -314,26 +314,26 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
 
             if (customerConferenceEventID != null && !customerConferenceEventID.isEmpty())
             {
-                returnMsg += "\nFor Conference Events: ";
+                returnMsg += "\nFor Conference Events in Montreal: ";
                 for (String event : customerConferenceEventID.keySet())
                 {
-                    returnMsg += "\nEvent ID: " + event + "Booking for " + customerConferenceEventID.get(event);
+                    returnMsg += "\nEvent ID: " + event + " Booking for " + customerConferenceEventID.get(event);
                 }
             }
             if (customerSeminarEventID != null && !customerSeminarEventID.isEmpty())
             {
-                returnMsg += "\nFor Seminar Events: ";
+                returnMsg += "\nFor Seminar Events in Montreal: ";
                 for (String event : customerSeminarEventID.keySet())
                 {
-                    returnMsg += "\nEvent ID: " + event + "Booking for " + customerSeminarEventID.get(event);
+                    returnMsg += "\nEvent ID: " + event + " Booking for " + customerSeminarEventID.get(event);
                 }
             }
             if (customerTradeshowEventID != null && !customerTradeshowEventID.isEmpty())
             {
-                returnMsg += "\nFor Tradeshow Events: ";
+                returnMsg += "\nFor Tradeshow Events in Montreal: ";
                 for (String event : customerTradeshowEventID.keySet())
                 {
-                    returnMsg += "\nEvent ID: " + event + "Booking for " + customerTradeshowEventID.get(event);
+                    returnMsg += "\nEvent ID: " + event + " Booking for " + customerTradeshowEventID.get(event);
                 }
             }
             if (!returnMsg.trim().equals(""))
@@ -346,7 +346,7 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
             logger.log(Level.INFO, "Records for {0} do not exist.", customerID);
             if (customerID.substring(0, 3).equals(MONTREAL))
             {
-                returnMsg += OPERATIONFAILURE;
+                returnMsg += "Records for " + customerID + " do not exist.";
             }
         }
 
@@ -393,11 +393,11 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         }
         else if (eventID.substring(0, 3).equals(TORONTO))
         {
-            return requestToOtherServers(customerID, eventID, null, 6, null, TORONTO_SERVER_PORT);
+            return requestToOtherServers(customerID, eventID, null, 6, eventType, TORONTO_SERVER_PORT);
         }
         else if (eventID.substring(0, 3).equals(OTTAWA))
         {
-            return requestToOtherServers(customerID, eventID, null, 6, null, OTTAWA_SERVER_PORT);
+            return requestToOtherServers(customerID, eventID, null, 6, eventType, OTTAWA_SERVER_PORT);
         }
         return null;
     }
@@ -405,11 +405,23 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
     @Override
     public String nonOriginCustomerBooking(String customerID)
     {
+        int numberOfCustomerEvents = 0;
         if (customerEventsMapping.containsKey(customerID))
         {
-            return "" + customerEventsMapping.get(customerID).keySet().size();
+            if (customerEventsMapping.get(customerID).containsKey(CONFERENCE))
+            {
+                numberOfCustomerEvents += customerEventsMapping.get(customerID).get(CONFERENCE).keySet().size();
+            }
+            if (customerEventsMapping.get(customerID).containsKey(SEMINAR))
+            {
+                numberOfCustomerEvents += customerEventsMapping.get(customerID).get(SEMINAR).keySet().size();
+            }
+            if (customerEventsMapping.get(customerID).containsKey(TRADESHOW))
+            {
+                numberOfCustomerEvents += customerEventsMapping.get(customerID).get(TRADESHOW).keySet().size();
+            }
         }
-        return "" + 0;
+        return "" + numberOfCustomerEvents;
     }
 
     public String requestToOtherServers(String userID, String eventID, String bookingCapacity, int serverNumber, String eventType, int serPort)
