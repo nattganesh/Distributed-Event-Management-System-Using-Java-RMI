@@ -424,7 +424,6 @@ public class Client {
             String input = scanner.nextLine().trim();
             if (validateEventID(input))
             {
-                System.out.println("Valid event ID");
                 eventID = input;
                 break;
             }
