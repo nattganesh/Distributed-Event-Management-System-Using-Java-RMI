@@ -205,7 +205,7 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     }
 
     @Override
-    public String bookEvent(String customerID, String eventID, String eventType, String bookingAmount) throws RemoteException
+    public synchronized String bookEvent(String customerID, String eventID, String eventType, String bookingAmount) throws RemoteException
     {
 //        if(customerID.substring(0, 3).equals(OTTAWA)){}
         if (eventID.substring(0, 3).equals(OTTAWA))
