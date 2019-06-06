@@ -119,10 +119,10 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         String message = null;
         if (databaseMontreal.get(eventType).containsKey(eventID))
         {
-            if (customerEventsMapping.containsKey(customerID) && customerEventsMapping.get(customerID).containsKey(eventType))
+            if (customerEventsMapping != null)
+            {
+                for (String customer : customerEventsMapping.keySet())
                 {
-                    if (customerEventsMapping.get(customerID).get(eventType).containsKey(eventID))
-                    {
                     if (customerEventsMapping.get(customer).containsKey(eventType))
                     {
                         if (customerEventsMapping.get(customer).get(eventType).containsKey(eventID))
