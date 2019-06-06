@@ -10,6 +10,7 @@ import java.rmi.registry.Registry;
 
 /**
  * @author gursimransingh
+ * This class contains a few threads to check the multithreading aspect of the assignment.
  */
 public class MultiClient {
     public static void main(String[] args) throws RemoteException, NotBoundException {
@@ -59,7 +60,7 @@ public class MultiClient {
         Runnable runnable4 = () ->
         {
             try {
-                String response = serverInterfaceOttawa.bookEvent("OTWC3456", "OTWA090619", CommonUtils.TRADESHOW, "33");
+                String response = serverInterfaceOttawa.bookEvent("OTWC3456", "OTWA090619", CommonUtils.CONFERENCE, "33");
                 System.out.println("Thread 4: " + Thread.currentThread().getName() + "Respnse from server: " + response);
             } catch (RemoteException e) {
                 e.printStackTrace();
