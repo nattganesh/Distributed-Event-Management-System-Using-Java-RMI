@@ -25,7 +25,7 @@ import static CommonUtils.CommonUtils.*;
 
 /**
  *
- * @author Natheepan Ganeshamoorthy
+ * @author Natheepan Ganeshamoorthy, Gursimran Singh
  */
 public class Client {
 
@@ -219,7 +219,7 @@ public class Client {
         while (itemNum != 0)
         {
             System.out.println("============================");
-            System.out.println("Customer Menu");
+            System.out.println("Manager Menu");
             System.out.println("0: Quit");
             System.out.println("1: Add Event");
             System.out.println("2: Remove Event");

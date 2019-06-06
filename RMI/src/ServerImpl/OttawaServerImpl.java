@@ -68,7 +68,7 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     }
 
     @Override
-    public String addEvent(String eventID, String eventType, String bookingCapacity, String managerID) throws RemoteException
+    public synchronized String addEvent(String eventID, String eventType, String bookingCapacity, String managerID) throws RemoteException
     {
         String message = null;
         logger.info("Received request to add an event with event id " + eventID + " , Event Type" + eventType
@@ -95,7 +95,7 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     }
 
     @Override
-    public String removeEvent(String eventID, String eventType, String managerID) throws RemoteException
+    public synchronized String removeEvent(String eventID, String eventType, String managerID) throws RemoteException
     {
         String message = null;
         if (databaseOttawa.get(eventType).containsKey(eventID))
@@ -150,7 +150,7 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     }
 
     @Override
-    public String listEventAvailability(String eventType, String managerID) throws RemoteException
+    public synchronized String listEventAvailability(String eventType, String managerID) throws RemoteException
     {
         //Eg: Seminars - MTLE130519 3, OTWA060519 6, TORM180519 0, MTLE190519 2.
         String message = null;
@@ -292,7 +292,7 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     }
 
     @Override
-    public String nonOriginCustomerBooking(String customerID)
+    public synchronized String nonOriginCustomerBooking(String customerID)
     {
         if (customerEventsMapping.containsKey(customerID))
         {
@@ -302,7 +302,7 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     }
 
     @Override
-    public String getBookingSchedule(String customerID) throws RemoteException
+    public synchronized String getBookingSchedule(String customerID) throws RemoteException
     {
         String returnMsg = "";
         logger.log(Level.INFO, "Booking Schedule Requested by {0}", customerID);
@@ -361,7 +361,7 @@ public class OttawaServerImpl extends UnicastRemoteObject implements ServerInter
     }
 
     @Override
-    public String cancelEvent(String customerID, String eventID, String eventType) throws RemoteException
+    public synchronized String cancelEvent(String customerID, String eventID, String eventType) throws RemoteException
     {
         if (eventID.substring(0, 3).equals(OTTAWA))
         {
