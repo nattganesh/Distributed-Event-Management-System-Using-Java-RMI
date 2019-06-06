@@ -224,6 +224,9 @@ public class Client {
             System.out.println("1: Add Event");
             System.out.println("2: Remove Event");
             System.out.println("3: List Event Availability");
+            System.out.println("4: Book Event");
+            System.out.println("5: Get Booking Schedule");
+            System.out.println("6: Cancel Event");
             System.out.println("============================");
 
             if (scanner.hasNextInt())
@@ -247,6 +250,23 @@ public class Client {
                         System.out.println("Which type of event you wish to list? (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR)");
                         managerListEvents(server, customerID);
                         break;
+                    case 4:
+                        System.out.println("What event do you wish to Book?");
+                        runBookEvent(server, getCustomerID());
+                        break;
+                    case 5:
+                        System.out.println("What event do you wish to get Booking Schedule for?");
+                        runBookingSchedule(server, getCustomerID());
+                        break;
+                    case 6:
+                        System.out.println("What event do you wish to cancel?");
+                        System.out.println("Enter Event Type of The Event to Cancel? (Available Options: A: CONFERENCE, B: TRADESHOW, C: SEMINAR)");
+                        String eventType = getEventType();
+                        System.out.println("Enter Event ID to Cancel: ");
+                        String eventID = enterEventID();
+                        String response = server.cancelEvent(getCustomerID(), eventID, eventType);
+                        System.out.println("Response from server: " + response);
+                        break;
                     default:
                         System.out.println("Invalid Choice !!!");
                         break;
@@ -259,6 +279,33 @@ public class Client {
             }
         }
         scanner.close();
+    }
+
+    private static boolean validateCustomerID(String id) {
+
+        if (id.length() == 8) {
+            String serverId = id.substring(0, 3).toUpperCase();
+            String clientType = id.substring(3, 4).toUpperCase();
+            String clientID = id.substring(4, 8).toUpperCase();
+            return clientType.equals(CUSTOMER_ClientType)
+                    && (serverId.equals(TORONTO) || serverId.equals(MONTREAL) || serverId.equals(OTTAWA))
+                    && (clientID.matches("[0-9]+"));
+        } else return false;
+    }
+
+    private static String getCustomerID() {
+        System.out.println("Enter Customer ID: ");
+        String customerID;
+        scanner.nextLine();
+        while (true) {
+            customerID = scanner.nextLine().trim().toUpperCase();
+            if (validateCustomerID(customerID)) {
+                break;
+            } else {
+                System.out.println("Enter correct Customer ID!");
+            }
+        }
+        return customerID;
     }
 
     private static String getEventType()
