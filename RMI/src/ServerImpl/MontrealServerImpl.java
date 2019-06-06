@@ -218,9 +218,9 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
             HashMap< String, String> event = databaseMontreal.get(eventType);
             if (event.containsKey(eventID))
             {
-                if (customerEventsMapping.containsKey(customerID))
+                if (customerEventsMapping.containsKey(customerID) && customerEventsMapping.get(customerID).containsKey(eventType))
                 {
-                    if (customerEventsMapping.get(customerID).containsKey(eventID))
+                    if (customerEventsMapping.get(customerID).get(eventType).containsKey(eventID))
                     {
                         logger.log(Level.INFO, "Operation Unsuccessful, Book Event Requested by {0} for Event Type {1} with Event ID {2} cannot be booked. Customer already booked for this event.", new Object[]
                         {
