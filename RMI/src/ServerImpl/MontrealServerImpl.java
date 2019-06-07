@@ -346,10 +346,10 @@ public class MontrealServerImpl extends UnicastRemoteObject implements ServerInt
         }
         if (returnMsg.trim().equals(""))
         {
-            logger.log(Level.INFO, "Records for {0} do not exist in Montreal.", customerID);
+            logger.log(Level.INFO, "Records for {0} do not exist.", customerID);
             if ((customerID.substring(0, 3).equals(MONTREAL) && managerID == null)||(managerID != null && managerID.substring(0, 3).equals(MONTREAL)))
             {
-                returnMsg += "\nRecords for " + customerID + " do not exist in Montreal.";
+                returnMsg += "\nRecords for " + customerID + " do not exist.";
             }
         }
 

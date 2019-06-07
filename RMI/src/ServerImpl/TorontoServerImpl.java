@@ -368,10 +368,10 @@ public class TorontoServerImpl extends UnicastRemoteObject implements ServerInte
         }
         if (returnMsg.trim().equals(""))
         {
-            logger.log(Level.INFO, "Records for {0} do not exist in Toronto.", customerID);
+            logger.log(Level.INFO, "Records for {0} do not exist.", customerID);
             if ((customerID.substring(0, 3).equals(TORONTO) && managerID == null)||(managerID != null && managerID.substring(0, 3).equals(TORONTO)))
             {
-                returnMsg += "\nRecords for " + customerID + " do not exist in Toronto.";
+                returnMsg += "\nRecords for " + customerID + " do not exist.";
             }
         }
         return returnMsg;
